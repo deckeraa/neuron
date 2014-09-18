@@ -37,7 +37,11 @@
 
 ** Project Schedule
 *** Introduction Paper due 9/25/2014
-*** Demonstration of the Equivalence of Various Perceptrons Networks done 2014-09-23
+*** Demonstration of the Equivalence of Various Perceptrons Networks due 2014-09-23
+*** Statement and Proof of Perceptron Training algorithm due 2014-09-30
+*** Turing Equivalence 2014-09-30
+*** Universality Theorem 2014-10-07
+*** Statement and Proof of Backpropogation algo? 2014-10-14
 
 ** Overview of Neural Networks
 A neural network is a system in which many similar functions, called /neurons/, are composed together in order to classify inputs, perform some computation,
@@ -53,7 +57,8 @@ on the sum of the products of the weights and inputs. For the sake of brevity we
 A neuron could be also thought of as a partial application of $\phi$ and $\vec{w}$ over the factory function $F( \phi, \vec{w}, \vec{x} )$.
 
 There are two popular activation functions, the perceptron and the sigmoid function.
-#+latex: The perceptron can be defined as the function $\phi_P(x) = \left\{ \begin{array}{lr} 0 & : x + b \leq 0 \\ 1 & : x + b > 0 \end{array} \right.$,
+The perceptron can be defined as the function
+\[\phi_P(x) = \left\{ \begin{array}{lr} 0 & : x + b \leq 0 \\ 1 & : x + b > 0 \end{array} \right.\]
 where $b$ is a bias that is specific to the neuron.
 
 The sigmoid function can be defined as $\sigma(x) = \frac{1}{1 + e^{-x}}$.
