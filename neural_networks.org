@@ -16,6 +16,7 @@
 #+LATEX: \newcommand{\naturals}{\mathbb{N}}
 #+LATEX: \newcommand{\rats}{\mathbb{Q}}
 #+LATEX: \newcommand{\cees}{\mathbb{C}}
+#+LATEX: \newcommand{\ncol}[1]{\left(\begin{smallmatrix}#1\end{smallmatrix}\right) }
 
 #+LATEX: \widowpenalty=300
 #+LATEX: \clubpenalty=300
@@ -66,6 +67,32 @@ Though bearing some resemblance to the perceptron, the sigmoid function has the 
 These properties make training a neural network much easier.
 
 ** Demonstration of the Equivalence of Various Perceptron Networks to Certain Boolean Logic Functions
+
+Consider the following network consisting of one perceptron-type neuron, with inputs $\ncol{x_1 \\ x_2}$. \\
+Let $\vec{w} = \ncol{1 \\ 1}$ and $b=-1$.
+Compare the behavior of the network to that of the AND function: \\
+| $x_1$ | $x_2$ | $\vec{x}\odot\vec{w}$ | $\vec{x}\odot\vec{w} + b$ | Output | $x_1$ AND $x_2$ |
+|     / |     > |                       |                           | >      |                 |
+|-------+-------+-----------------------+---------------------------+--------+-----------------|
+|     0 |     0 |                     0 |                        -1 |      0 |               0 |
+|     0 |     1 |                     1 |                         0 |      0 |               0 |
+|     1 |     0 |                     1 |                         0 |      0 |               0 |
+|     1 |     1 |                     2 |                         1 |      1 |               1 |
+Note how the network is equivalent to the AND function over the inputs for which AND is defined.
+
+Now let $\vec{w} = \ncol{1 \\ 1}$ and $b=0$.
+Compare the behavior of the network to that of the AND function: \\
+| $x_1$ | $x_2$ | $\vec{x}\odot\vec{w}$ | $\vec{x}\odot\vec{w} + b$ | Output | $x_1$ OR  $x_2$ |
+|     / |     > |                       |                           |  >     |                 |
+|-------+-------+-----------------------+---------------------------+--------+-----------------|
+|     0 |     0 |                     0 |                         0 |      0 |               0 |
+|     0 |     1 |                     1 |                         1 |      1 |               1 |
+|     1 |     0 |                     1 |                         1 |      1 |               1 |
+|     1 |     1 |                     2 |                         2 |      1 |               1 |
+Now, simply by changing the weights, the network output becomes equivalent to the OR function over the domain of OR.
+
+TODO: expand this section to include NAND (since all logic functions can be expressed with NAND?) and XOR (I read that there were difficulties
+in creating this network back in the 70's before backpropogation).
 
 ** Statement and Proof of Correctness for a Training Algorithm for a Perceptron
 
