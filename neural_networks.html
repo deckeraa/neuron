@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title></title>
-<!-- 2014-09-18 Thu 01:18 -->
+<!-- 2014-09-23 Tue 02:16 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <style type="text/css">
@@ -186,30 +186,8 @@ for the JavaScript code in this tag.
 </div>
 
 <div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Project Schedule</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Overview of Neural Networks</h3>
 <div class="outline-text-3" id="text-1-1">
-</div><div id="outline-container-sec-1-1-1" class="outline-4">
-<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Introduction Paper due 9/25/2014</h4>
-</div>
-<div id="outline-container-sec-1-1-2" class="outline-4">
-<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Demonstration of the Equivalence of Various Perceptrons Networks due 2014-09-23</h4>
-</div>
-<div id="outline-container-sec-1-1-3" class="outline-4">
-<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> Statement and Proof of Perceptron Training algorithm due 2014-09-30</h4>
-</div>
-<div id="outline-container-sec-1-1-4" class="outline-4">
-<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> Turing Equivalence 2014-09-30</h4>
-</div>
-<div id="outline-container-sec-1-1-5" class="outline-4">
-<h4 id="sec-1-1-5"><span class="section-number-4">1.1.5</span> Universality Theorem 2014-10-07</h4>
-</div>
-<div id="outline-container-sec-1-1-6" class="outline-4">
-<h4 id="sec-1-1-6"><span class="section-number-4">1.1.6</span> Statement and Proof of Backpropogation algo? 2014-10-14</h4>
-</div>
-</div>
-<div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Overview of Neural Networks</h3>
-<div class="outline-text-3" id="text-1-2">
 <p>
 A neural network is a system in which many similar functions, called <i>neurons</i>, are composed together in order to classify inputs, perform some computation,
 or approximate some function.
@@ -217,9 +195,9 @@ Neural networks are used today in various machine-learning applications such as 
 </p>
 </div>
 
-<div id="outline-container-sec-1-2-1" class="outline-4">
-<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Definition of a Neuron</h4>
-<div class="outline-text-4" id="text-1-2-1">
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Definition of a Neuron</h4>
+<div class="outline-text-4" id="text-1-1-1">
 <p>
 A neuron is a function \(f(x_1, x_2, \ldots, x_n) = \phi( \Sigma_{i=1}^n w_ix_i )\), where \(\{w_1, w_2, \ldots\, w_n\}\) is a set of weights,
 with each weight \(w_i\) corresponding to an input \(x_i\), and where \(\phi\) is the activation function that determines the output of the neuron based
@@ -245,12 +223,21 @@ These properties make training a neural network much easier.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Demonstration of the Equivalence of Various Perceptron Networks to Certain Boolean Logic Functions</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Demonstration of the Equivalence of Various Perceptron Networks to Certain Boolean Logic Functions</h3>
+<div class="outline-text-3" id="text-1-2">
 <p>
-Consider the following network consisting of one perceptron-type neuron, with inputs \(\ncol{x_1 \\ x_2}\). <br  />
-Let \(\vec{w} = \ncol{1 \\ 1}\) and \(b=-1\).
+One attribute of neural networks, specifically perceptron networks, is the ability to compute boolean logic functions.
+In this section the construction of various logic gates from perceptron networks will be demonstrated.
+Since modern computers are constructed from various logic gates, predominantly NAND gates, it stands to reason that by composing neural networks
+that compute the same as the logic gates that a modern computer could be implemented using neural networks\footnote{It should be noted, however, that most implementations of neural networks do just the opposite: neurons are simulated in software. This is due to the ease of construction of digital circuitry i.e. transistors over something that requires analog signals like a sigmoid neuron.};
+intuitively this leads to the hypothesis that recurrent neural networks are Turing-complete.
+This will be proved in the next section.
+</p>
+
+<p>
+Consider the following network consisting of one perceptron-type neuron, with inputs \(\left(\begin{smallmatrix}x_1 \\ x_2 \end{smallmatrix}\right)\). <br  />
+Let \(\vec{w} = \left(\begin{smallmatrix} 1 \\ 1 \end{smallmatrix}\right)\) and \(b=-1\).
 Compare the behavior of the network to that of the AND function: <br  />
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -277,8 +264,8 @@ Compare the behavior of the network to that of the AND function: <br  />
 <tr>
 <th scope="col" class="right">\(x_1\)</th>
 <th scope="col" class="right">\(x_2\)</th>
-<th scope="col" class="right">\(\vec{x}\odot\vec{w}\)</th>
-<th scope="col" class="right">\(\vec{x}\odot\vec{w} + b\)</th>
+<th scope="col" class="right">\(\vec{x}\cdot\vec{w}\)</th>
+<th scope="col" class="right">\(\vec{x}\cdot\vec{w} + b\)</th>
 <th scope="col" class="right">Output</th>
 <th scope="col" class="right">\(x_1\) AND \(x_2\)</th>
 </tr>
@@ -326,7 +313,7 @@ Note how the network is equivalent to the AND function over the inputs for which
 </p>
 
 <p>
-Now let \(\vec{w} = \ncol{1 \\ 1}\) and \(b=0\).
+Now let \(\vec{w} = \left(\begin{smallmatrix}1 \\ 1\end{smallmatrix}\right)\) and \(b=0\).
 Compare the behavior of the network to that of the AND function: <br  />
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -353,8 +340,8 @@ Compare the behavior of the network to that of the AND function: <br  />
 <tr>
 <th scope="col" class="right">\(x_1\)</th>
 <th scope="col" class="right">\(x_2\)</th>
-<th scope="col" class="right">\(\vec{x}\odot\vec{w}\)</th>
-<th scope="col" class="right">\(\vec{x}\odot\vec{w} + b\)</th>
+<th scope="col" class="right">\(\vec{x}\cdot\vec{w}\)</th>
+<th scope="col" class="right">\(\vec{x}\cdot\vec{w} + b\)</th>
 <th scope="col" class="right">Output</th>
 <th scope="col" class="right">\(x_1\) OR  \(x_2\)</th>
 </tr>
@@ -402,26 +389,127 @@ Now, simply by changing the weights, the network output becomes equivalent to th
 </p>
 
 <p>
-TODO: expand this section to include NAND (since all logic functions can be expressed with NAND?) and XOR (I read that there were difficulties
-in creating this network back in the 70's before backpropogation).
+Let's also consider NAND.
+NAND is important because it is functionally complete, meaning that all boolean expressions can be expressed by an equivalent combination of NAND.
+A proof by exhaustion is available in Appendix A.
+</p>
+<p>
+Now let \(\vec{w} = \left(\begin{smallmatrix} -1 \\ -1 \end{smallmatrix}\right)\) and \(b=2\).
+Compare the behavior of the network to that of the NAND function: <br  />
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="right" />
+</colgroup>
+
+<colgroup>
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+</colgroup>
+
+<colgroup>
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">\(x_1\)</th>
+<th scope="col" class="right">\(x_2\)</th>
+<th scope="col" class="right">\(\vec{x}\cdot\vec{w}\)</th>
+<th scope="col" class="right">\(\vec{x}\cdot\vec{w} + b\)</th>
+<th scope="col" class="right">Output</th>
+<th scope="col" class="right">\(x_1\) NAND  \(x_2\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">0</td>
+<td class="right">0</td>
+<td class="right">0</td>
+<td class="right">2</td>
+<td class="right">1</td>
+<td class="right">1</td>
+</tr>
+
+<tr>
+<td class="right">0</td>
+<td class="right">1</td>
+<td class="right">-1</td>
+<td class="right">1</td>
+<td class="right">1</td>
+<td class="right">1</td>
+</tr>
+
+<tr>
+<td class="right">1</td>
+<td class="right">0</td>
+<td class="right">-1</td>
+<td class="right">1</td>
+<td class="right">1</td>
+<td class="right">1</td>
+</tr>
+
+<tr>
+<td class="right">1</td>
+<td class="right">1</td>
+<td class="right">-2</td>
+<td class="right">0</td>
+<td class="right">0</td>
+<td class="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>
+Thus a single two-input perceptron can compute NAND.
+</p>
+
+<p>
+Computer scientists met with some difficulty when attempting to weight a single perceptron to compute the exclusive-or (XOR) function.
+In fact, it is impossible to weight a single perceptron to do so (proof left as an exercise to the reader).
+</p>
+<p>
+However, a multilayer perceptron network can be designed to compute XOR.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Statement and Proof of the Turing-completeness of Neural Networks</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+As was alluded to before, a recurrent neural networks are Turing-complete.
+The Turing machine is a conceptual machine proposed in 1948 by Alan Turing that can be programmed to compute any possible computer algorithm.
+Let \(C\) be a system of computing.
+\(C\) is said to be Turing-complete if computers of type \(C\) are capable of simulating any single-taped Turing machine.
+Closely related is the idea of Turing equivalence, that a Turing machine can simulate any computer of type \(C\).
+Then, by the transitive property, if follows that all Turing-equivalent computers can simulate each other.
 </p>
 </div>
 </div>
 <div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Statement and Proof of Correctness for a Training Algorithm for a Perceptron</h3>
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Statement and Proof of the Universality Theorem</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+In the previous section it was shown that recurrent neural networks can compute any function that can be computed by an algorithm.
+More impressively, it is also true that a neural setwork with only a single hidden layer can compute any continuous function to an arbitrary degree
+of precision. This is known as the Universality Theorem.
+</p>
 </div>
-
+</div>
 <div id="outline-container-sec-1-5" class="outline-3">
-<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Statement and Proof of the Turing-completeness of Neural Networks</h3>
-</div>
-
-<div id="outline-container-sec-1-6" class="outline-3">
-<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Statement and Proof of the Universality Theorem</h3>
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Statement and Proof of Correctness for a Training Algorithm for a Perceptron</h3>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Created: 2014-09-18 Thu 01:18</p>
+<p class="date">Created: 2014-09-23 Tue 02:16</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.0)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

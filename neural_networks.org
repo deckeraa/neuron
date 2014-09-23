@@ -75,8 +75,8 @@ that compute the same as the logic gates that a modern computer could be impleme
 intuitively this leads to the hypothesis that recurrent neural networks are Turing-complete.
 This will be proved in the next section.
 
-Consider the following network consisting of one perceptron-type neuron, with inputs $\ncol{x_1 \\ x_2}$. \\
-Let $\vec{w} = \ncol{1 \\ 1}$ and $b=-1$.
+Consider the following network consisting of one perceptron-type neuron, with inputs $\left(\begin{smallmatrix}x_1 \\ x_2 \end{smallmatrix}\right)$. \\
+Let $\vec{w} = \left(\begin{smallmatrix} 1 \\ 1 \end{smallmatrix}\right)$ and $b=-1$.
 Compare the behavior of the network to that of the AND function: \\
 | $x_1$ | $x_2$ | $\vec{x}\cdot\vec{w}$ | $\vec{x}\cdot\vec{w} + b$ | Output | $x_1$ AND $x_2$ |
 |     / |     > |                       |                           | >      |                 |
@@ -87,7 +87,7 @@ Compare the behavior of the network to that of the AND function: \\
 |     1 |     1 |                     2 |                         1 |      1 |               1 |
 Note how the network is equivalent to the AND function over the inputs for which AND is defined.
 
-Now let $\vec{w} = \ncol{1 \\ 1}$ and $b=0$.
+Now let $\vec{w} = \left(\begin{smallmatrix}1 \\ 1\end{smallmatrix}\right)$ and $b=0$.
 Compare the behavior of the network to that of the AND function: \\
 | $x_1$ | $x_2$ | $\vec{x}\cdot\vec{w}$ | $\vec{x}\cdot\vec{w} + b$ | Output | $x_1$ OR  $x_2$ |
 |     / |     > |                       |                           |  >     |                 |
@@ -102,7 +102,7 @@ Let's also consider NAND.
 NAND is important because it is functionally complete, meaning that all boolean expressions can be expressed by an equivalent combination of NAND.
 A proof by exhaustion is available in Appendix A.
 # TODO: actually do this proof, and link Appendix A into the document
-Now let $\vec{w} = \ncol{-1 \\ -1}$ and $b=2$.
+Now let $\vec{w} = \left(\begin{smallmatrix} -1 \\ -1 \end{smallmatrix}\right)$ and $b=2$.
 Compare the behavior of the network to that of the NAND function: \\
 | $x_1$ | $x_2$ | $\vec{x}\cdot\vec{w}$ | $\vec{x}\cdot\vec{w} + b$ | Output | $x_1$ NAND  $x_2$ |
 |     / |     > |                      |                          |      > |                   |
