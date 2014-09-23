@@ -78,7 +78,7 @@ This will be proved in the next section.
 Consider the following network consisting of one perceptron-type neuron, with inputs $\ncol{x_1 \\ x_2}$. \\
 Let $\vec{w} = \ncol{1 \\ 1}$ and $b=-1$.
 Compare the behavior of the network to that of the AND function: \\
-| $x_1$ | $x_2$ | $\vec{x}\dot\vec{w}$  | $\vec{x}\dot\vec{w} + b$  | Output | $x_1$ AND $x_2$ |
+| $x_1$ | $x_2$ | $\vec{x}\cdot\vec{w}$ | $\vec{x}\cdot\vec{w} + b$ | Output | $x_1$ AND $x_2$ |
 |     / |     > |                       |                           | >      |                 |
 |-------+-------+-----------------------+---------------------------+--------+-----------------|
 |     0 |     0 |                     0 |                        -1 |      0 |               0 |
@@ -89,7 +89,7 @@ Note how the network is equivalent to the AND function over the inputs for which
 
 Now let $\vec{w} = \ncol{1 \\ 1}$ and $b=0$.
 Compare the behavior of the network to that of the AND function: \\
-| $x_1$ | $x_2$ | $\vec{x}\dot\vec{w}$  | $\vec{x}\dot\vec{w} + b$  | Output | $x_1$ OR  $x_2$ |
+| $x_1$ | $x_2$ | $\vec{x}\cdot\vec{w}$ | $\vec{x}\cdot\vec{w} + b$ | Output | $x_1$ OR  $x_2$ |
 |     / |     > |                       |                           |  >     |                 |
 |-------+-------+-----------------------+---------------------------+--------+-----------------|
 |     0 |     0 |                     0 |                         0 |      0 |               0 |
@@ -104,7 +104,7 @@ A proof by exhaustion is available in Appendix A.
 # TODO: actually do this proof, and link Appendix A into the document
 Now let $\vec{w} = \ncol{-1 \\ -1}$ and $b=2$.
 Compare the behavior of the network to that of the NAND function: \\
-| $x_1$ | $x_2$ | $\vec{x}\dot\vec{w}$ | $\vec{x}\dot\vec{w} + b$ | Output | $x_1$ NAND  $x_2$ |
+| $x_1$ | $x_2$ | $\vec{x}\cdot\vec{w}$ | $\vec{x}\cdot\vec{w} + b$ | Output | $x_1$ NAND  $x_2$ |
 |     / |     > |                      |                          |      > |                   |
 |-------+-------+----------------------+--------------------------+--------+-------------------|
 |     0 |     0 |                    0 |                        2 |      1 |                 1 |
