@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title></title>
-<!-- 2014-09-23 Tue 02:16 -->
+<!-- 2014-09-24 Wed 02:59 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <style type="text/css">
@@ -199,26 +199,39 @@ Neural networks are used today in various machine-learning applications such as 
 <h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Definition of a Neuron</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
-A neuron is a function \(f(x_1, x_2, \ldots, x_n) = \phi( \Sigma_{i=1}^n w_ix_i )\), where \(\{w_1, w_2, \ldots\, w_n\}\) is a set of weights,
+The idea for neural networks is borrowed from the field of biology; the human brain uses cells called neurons for cognition.
+Neurons are joined with one another via connections called synapses.
+Neurons create voltages based upon the voltages on certain synapses that act as inputs.
+Thus when the collective voltage on the input synapses exceeds a certain level the neuron becomes excited and produces a higher voltage on the output synapses.
+</p>
+
+<p>
+A neuron is modelled mathematically as a function \(f(x_1, x_2, \ldots, x_n) = \phi( \Sigma_{i=1}^n w_ix_i )\), where \(\{w_1, w_2, \ldots\, w_n\}\) is a set of weights,
 with each weight \(w_i\) corresponding to an input \(x_i\), and where \(\phi\) is the activation function that determines the output of the neuron based
 on the sum of the products of the weights and inputs. For the sake of brevity we will also notate the weight and input vectors as \(\vec{w}\) and \(\vec{x}\), respectively.
+\(\Sigma_{i=1}^n w_ix_i\) calculates the collective weighted input; this total is then passed to the activation function \(\phi\) which uses the collective weighted input to generate an output.
 </p>
 
 <p>
-A neuron could be also thought of as a partial application of \(\phi\) and \(\vec{w}\) over the factory function \(F( \phi, \vec{w}, \vec{x} )\).
+A neuron could be also thought of more generally as a partial application of \(\phi\) and \(\vec{w}\) over the function \(F( \phi, \vec{w}, \vec{x} )\).
+Such a definition may be useful for implementation of a neural network in software.
 </p>
 
 <p>
-There are two popular activation functions, the perceptron and the sigmoid function.
+There are two popular activation functions, the perceptron and the sigmoid.
+</p>
+
+<p>
+Having been invented in 1957 by Frank Rosenblatt, the perceptron was among the first activation functions to be implemented.
+It can be used as a standalone classifier on linearly seperable data.
 The perceptron can be defined as the function
 \[\phi_P(x) = \left\{ \begin{array}{lr} 0 & : x + b \leq 0 \\ 1 & : x + b > 0 \end{array} \right.\]
 where \(b\) is a bias that is specific to the neuron.
 </p>
-
 <p>
 The sigmoid function can be defined as \(\sigma(x) = \frac{1}{1 + e^{-x}}\).
 Though bearing some resemblance to the perceptron, the sigmoid function has the advantage of being both smooth and differentiable.
-These properties make training a neural network much easier.
+These properties make training a neural network composed of sigmoid neurons much easier then a similar network composed of perceptron neurons.
 </p>
 </div>
 </div>
@@ -227,12 +240,12 @@ These properties make training a neural network much easier.
 <h3 id="sec-1-2"><span class="section-number-3">1.2</span> Demonstration of the Equivalence of Various Perceptron Networks to Certain Boolean Logic Functions</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
-One attribute of neural networks, specifically perceptron networks, is the ability to compute boolean logic functions.
-In this section the construction of various logic gates from perceptron networks will be demonstrated.
-Since modern computers are constructed from various logic gates, predominantly NAND gates, it stands to reason that by composing neural networks
-that compute the same as the logic gates that a modern computer could be implemented using neural networks\footnote{It should be noted, however, that most implementations of neural networks do just the opposite: neurons are simulated in software. This is due to the ease of construction of digital circuitry i.e. transistors over something that requires analog signals like a sigmoid neuron.};
+Neural networks can be used to compute boolean logic functions.
+In this section the construction of various logic gates (devices that compute logical functions) from perceptron networks will be demonstrated.
+Since traditional computers are constructed from logic gates, predominantly NAND gates, it stands to reason that a neural network could be constructed
+to simulate a traditional computer;\footnote{It should be noted, however, that most implementations of neural networks do just the opposite: neurons are simulated in software. This is due to the ease of construction of digital circuitry i.e. transistors over something that requires analog signals like a sigmoid neuron.}
 intuitively this leads to the hypothesis that recurrent neural networks are Turing-complete.
-This will be proved in the next section.
+This will be proved in the section following the current one.
 </p>
 
 <p>
@@ -314,7 +327,7 @@ Note how the network is equivalent to the AND function over the inputs for which
 
 <p>
 Now let \(\vec{w} = \left(\begin{smallmatrix}1 \\ 1\end{smallmatrix}\right)\) and \(b=0\).
-Compare the behavior of the network to that of the AND function: <br  />
+Compare the behavior of the network to that of the OR function: <br  />
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -390,7 +403,7 @@ Now, simply by changing the weights, the network output becomes equivalent to th
 
 <p>
 Let's also consider NAND.
-NAND is important because it is functionally complete, meaning that all boolean expressions can be expressed by an equivalent combination of NAND.
+NAND is important because it is functionally complete, meaning that all boolean expressions can be expressed by an equivalent combination of NANDs.
 A proof by exhaustion is available in Appendix A.
 </p>
 <p>
@@ -484,12 +497,12 @@ However, a multilayer perceptron network can be designed to compute XOR.
 <h3 id="sec-1-3"><span class="section-number-3">1.3</span> Statement and Proof of the Turing-completeness of Neural Networks</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
-As was alluded to before, a recurrent neural networks are Turing-complete.
+As was alluded to before, recurrent neural networks are Turing-complete.
 The Turing machine is a conceptual machine proposed in 1948 by Alan Turing that can be programmed to compute any possible computer algorithm.
 Let \(C\) be a system of computing.
 \(C\) is said to be Turing-complete if computers of type \(C\) are capable of simulating any single-taped Turing machine.
 Closely related is the idea of Turing equivalence, that a Turing machine can simulate any computer of type \(C\).
-Then, by the transitive property, if follows that all Turing-equivalent computers can simulate each other.
+Then, by the transitive property, it follows that all Turing-equivalent computers can simulate each other.
 </p>
 </div>
 </div>
@@ -505,11 +518,20 @@ of precision. This is known as the Universality Theorem.
 </div>
 <div id="outline-container-sec-1-5" class="outline-3">
 <h3 id="sec-1-5"><span class="section-number-3">1.5</span> Statement and Proof of Correctness for a Training Algorithm for a Perceptron</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+The power and versatility of neural networks in general was shown in the previous sections;
+however, what are the capabilities of a single neuron?
+A perceptron neuron can be used to classify linearly seperable data.
+In this section a network design and a training algorithm will be stated,
+and the ability of the network to correctly classify all data in the training set, provided the training set is linearly seperable, will be proven.
+</p>
+</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Created: 2014-09-23 Tue 02:16</p>
+<p class="date">Created: 2014-09-24 Wed 02:59</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.0)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
