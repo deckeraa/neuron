@@ -80,12 +80,13 @@ These properties make training a neural network composed of sigmoid neurons much
 
 ** Demonstration of the Equivalence of Various Perceptron Networks to Certain Boolean Logic Functions
 
-One attribute of neural networks, specifically perceptron networks, is the ability to compute boolean logic functions.
-In this section the construction of various logic gates from perceptron networks will be demonstrated.
-Since modern computers are constructed from various logic gates, predominantly NAND gates, it stands to reason that by composing neural networks
-that compute the same as the logic gates that a modern computer could be implemented using neural networks\footnote{It should be noted, however, that most implementations of neural networks do just the opposite: neurons are simulated in software. This is due to the ease of construction of digital circuitry i.e. transistors over something that requires analog signals like a sigmoid neuron.};
+# One attribute of neural networks, specifically perceptron networks, is the ability to compute boolean logic functions.
+Neural networks can be used to compute boolean logic functions.
+In this section the construction of various logic gates (devices that compute logical functions) from perceptron networks will be demonstrated.
+Since traditional computers are constructed from logic gates, predominantly NAND gates, it stands to reason that a neural network could be constructed
+to simulate a traditional computer;\footnote{It should be noted, however, that most implementations of neural networks do just the opposite: neurons are simulated in software. This is due to the ease of construction of digital circuitry i.e. transistors over something that requires analog signals like a sigmoid neuron.}
 intuitively this leads to the hypothesis that recurrent neural networks are Turing-complete.
-This will be proved in the next section.
+This will be proved in the section following the current one.
 
 Consider the following network consisting of one perceptron-type neuron, with inputs $\left(\begin{smallmatrix}x_1 \\ x_2 \end{smallmatrix}\right)$. \\
 Let $\vec{w} = \left(\begin{smallmatrix} 1 \\ 1 \end{smallmatrix}\right)$ and $b=-1$.
@@ -100,7 +101,7 @@ Compare the behavior of the network to that of the AND function: \\
 Note how the network is equivalent to the AND function over the inputs for which AND is defined.
 
 Now let $\vec{w} = \left(\begin{smallmatrix}1 \\ 1\end{smallmatrix}\right)$ and $b=0$.
-Compare the behavior of the network to that of the AND function: \\
+Compare the behavior of the network to that of the OR function: \\
 | $x_1$ | $x_2$ | $\vec{x}\cdot\vec{w}$ | $\vec{x}\cdot\vec{w} + b$ | Output | $x_1$ OR  $x_2$ |
 |     / |     > |                       |                           |  >     |                 |
 |-------+-------+-----------------------+---------------------------+--------+-----------------|
@@ -111,7 +112,7 @@ Compare the behavior of the network to that of the AND function: \\
 Now, simply by changing the weights, the network output becomes equivalent to the OR function over the domain of OR.
 
 Let's also consider NAND.
-NAND is important because it is functionally complete, meaning that all boolean expressions can be expressed by an equivalent combination of NAND.
+NAND is important because it is functionally complete, meaning that all boolean expressions can be expressed by an equivalent combination of NANDs.
 A proof by exhaustion is available in Appendix A.
 # TODO: actually do this proof, and link Appendix A into the document
 Now let $\vec{w} = \left(\begin{smallmatrix} -1 \\ -1 \end{smallmatrix}\right)$ and $b=2$.
@@ -135,12 +136,13 @@ However, a multilayer perceptron network can be designed to compute XOR.
 
 ** Statement and Proof of the Turing-completeness of Neural Networks
 # TODO ensure that recurrent is defined in the introduction
-As was alluded to before, a recurrent neural networks are Turing-complete.
+# TODO create a better definition of a Turing machine
+As was alluded to before, recurrent neural networks are Turing-complete.
 The Turing machine is a conceptual machine proposed in 1948 by Alan Turing that can be programmed to compute any possible computer algorithm.
 Let $C$ be a system of computing.
 $C$ is said to be Turing-complete if computers of type $C$ are capable of simulating any single-taped Turing machine.
 Closely related is the idea of Turing equivalence, that a Turing machine can simulate any computer of type $C$.
-Then, by the transitive property, if follows that all Turing-equivalent computers can simulate each other.
+Then, by the transitive property, it follows that all Turing-equivalent computers can simulate each other.
 
 # TODO prove Turing-completeness
 
@@ -150,3 +152,8 @@ More impressively, it is also true that a neural setwork with only a single hidd
 of precision. This is known as the Universality Theorem.
 
 ** Statement and Proof of Correctness for a Training Algorithm for a Perceptron
+The power and versatility of neural networks in general was shown in the previous sections;
+however, what are the capabilities of a single neuron?
+A perceptron neuron can be used to classify linearly seperable data.
+In this section a network design and a training algorithm will be stated,
+and the ability of the network to correctly classify all data in the training set, provided the training set is linearly seperable, will be proven.
