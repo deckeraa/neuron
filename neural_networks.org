@@ -48,23 +48,35 @@
 A neural network is a system in which many similar functions, called /neurons/, are composed together in order to classify inputs, perform some computation,
 or approximate some function.
 Neural networks are used today in various machine-learning applications such as handwriting- or speech-recognition, and have several interesting mathematical properties.
+# Applications include handwriting- and speech- recognitio
 
 *** Definition of a Neuron
 # See Figure 1.4, page 8, of "Neural Networks A Comprehensive Foundation" by Simon Haykin.
-A neuron is a function $f(x_1, x_2, \ldots, x_n) = \phi( \Sigma_{i=1}^n w_ix_i )$, where $\{w_1, w_2, \ldots\, w_n\}$ is a set of weights,
+The idea for neural networks is borrowed from the field of biology; the human brain uses cells called neurons for cognition.
+Neurons are joined with one another via connections called synapses.
+Neurons create voltages based upon the voltages on certain synapses that act as inputs.
+Thus when the collective voltage on the input synapses exceeds a certain level the neuron becomes excited and produces a higher voltage on the output synapses.
+
+A neuron is modelled mathematically as a function $f(x_1, x_2, \ldots, x_n) = \phi( \Sigma_{i=1}^n w_ix_i )$, where $\{w_1, w_2, \ldots\, w_n\}$ is a set of weights,
 with each weight $w_i$ corresponding to an input $x_i$, and where $\phi$ is the activation function that determines the output of the neuron based
 on the sum of the products of the weights and inputs. For the sake of brevity we will also notate the weight and input vectors as $\vec{w}$ and $\vec{x}$, respectively.
+$\Sigma_{i=1}^n w_ix_i$ calculates the collective weighted input; this total is then passed to the activation function $\phi$ which uses the collective weighted input to generate an output.
 
-A neuron could be also thought of as a partial application of $\phi$ and $\vec{w}$ over the factory function $F( \phi, \vec{w}, \vec{x} )$.
+A neuron could be also thought of more generally as a partial application of $\phi$ and $\vec{w}$ over the function $F( \phi, \vec{w}, \vec{x} )$.
+Such a definition may be useful for implementation of a neural network in software.
 
-There are two popular activation functions, the perceptron and the sigmoid function.
+There are two popular activation functions, the perceptron and the sigmoid.
+
+Having been invented in 1957 by Frank Rosenblatt, the perceptron was among the first activation functions to be implemented.
+It can be used as a standalone classifier on linearly seperable data.
 The perceptron can be defined as the function
 \[\phi_P(x) = \left\{ \begin{array}{lr} 0 & : x + b \leq 0 \\ 1 & : x + b > 0 \end{array} \right.\]
 where $b$ is a bias that is specific to the neuron.
+# TODO add diagrams of the neurons
 
 The sigmoid function can be defined as $\sigma(x) = \frac{1}{1 + e^{-x}}$.
 Though bearing some resemblance to the perceptron, the sigmoid function has the advantage of being both smooth and differentiable.
-These properties make training a neural network much easier.
+These properties make training a neural network composed of sigmoid neurons much easier then a similar network composed of perceptron neurons.
 
 ** Demonstration of the Equivalence of Various Perceptron Networks to Certain Boolean Logic Functions
 
