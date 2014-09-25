@@ -75,7 +75,7 @@ where $b$ is a bias that is specific to the neuron.
 # TODO add diagrams of the neurons
 
 The sigmoid function can be defined as $\sigma(x) = \frac{1}{1 + e^{-x}}$.
-Though bearing some resemblance to the perceptron, the sigmoid function has the advantage of being both smooth and differentiable.
+Though bearing some resemblance to the perceptron, the sigmoid function has the advantage of being smooth and thus differentiable.
 These properties make training a neural network composed of sigmoid neurons much easier then a similar network composed of perceptron neurons.
 
 ** Demonstration of the Equivalence of Various Perceptron Networks to Certain Boolean Logic Functions
@@ -83,7 +83,7 @@ These properties make training a neural network composed of sigmoid neurons much
 # One attribute of neural networks, specifically perceptron networks, is the ability to compute boolean logic functions.
 Neural networks can be used to compute boolean logic functions.
 In this section the construction of various logic gates (devices that compute logical functions) from perceptron networks will be demonstrated.
-Since traditional computers are constructed from logic gates, predominantly NAND gates, it stands to reason that a neural network could be constructed
+Since traditional computers are constructed from logic gates, predominantly NAND\footnote{NAND is the composition of NOT and AND.} gates, it stands to reason that a neural network could be constructed
 to simulate a traditional computer;\footnote{It should be noted, however, that most implementations of neural networks do just the opposite: neurons are simulated in software. This is due to the ease of construction of digital circuitry i.e. transistors over something that requires analog signals like a sigmoid neuron.}
 intuitively this leads to the hypothesis that recurrent neural networks are Turing-complete.
 This will be proved in the section following the current one.
