@@ -122,9 +122,6 @@ Compare the behavior of the network to that of the OR function: \\
 Now, simply by changing the weights, the network output becomes equivalent to the OR function over the domain of OR.
 
 Let's also consider NAND.
-NAND is important because it is functionally complete, meaning that all boolean expressions can be expressed by an equivalent combination of NANDs.
-A proof by exhaustion is available in Appendix A.
-# TODO: actually do this proof, and link Appendix A into the document
 Now let $\vec{w} = \left(\begin{smallmatrix} -1 \\ -1 \end{smallmatrix}\right)$ and $b=2$.
 Compare the behavior of the network to that of the NAND function: \\
 | $x_1$ | $x_2$ | $\vec{x}\cdot\vec{w}$ | $\vec{x}\cdot\vec{w} + b$ | Output | $x_1$ NAND  $x_2$ |
@@ -180,8 +177,28 @@ However, a multilayer perceptron network can be designed to compute XOR.
 One way to demonstrate this is by constructing a network of perceptrons weighted to compute NAND.
 Then XOR can be computed because NAND is functionally complete; that is, all boolean functions can be expressed as
 a composition of NAND. The following proof borrows heavily from ProofWiki\cite{proofwiki_nand}.
+# TODO: finish the proof
+
 \begin{proof}
+Let $\{0,1\}$ be the set of truth values, with 0 signifying a false value and 1 signifying a true value.
+Consider the following truth table of binary boolean functions. On the left side are the two inputs $x_1$ and $x_2$.
+Because there are two inputs, each of which can assume two values, there are four possible inputs, yielding $2^4 = 16$ possible outputs.
+Thus the listing on the right side of the table of binary functions is exhaustive.
+
+\begin{center}
+\begin{tabular}{rr|rrrrrrrrrrrrrrrr}
+$x_1$ & $x_2$ & $f_F$ & \land & (\not \implies) & \textrm{pr}_1  \\
+\hline
+1) & 0 & 0 & 0\\
+2) & 0 & 1 & 1\\
+3) & 1 & 0 & 1\\
+4) & 1 & 1 & 0\\
+\end{tabular}
+\end{center}
+
 \end{proof}
+NOTE: This proof is not yet complete.
+
 # TODO show the design of the network that does XOR
 
 ** Statement and Proof of the Turing-completeness of Neural Networks
