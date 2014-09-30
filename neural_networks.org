@@ -58,7 +58,7 @@ Neurons are joined with one another via connections called synapses.
 Neurons create voltages based upon the voltages on certain synapses that act as inputs.
 Thus when the collective voltage on the input synapses exceeds a certain level the neuron becomes excited and produces a higher voltage on the output synapses.
 
-A neuron is modelled mathematically as a function $f(x_1, x_2, \ldots, x_n) = \phi( \Sigma_{i=1}^n w_ix_i )$, where $\{w_1, w_2, \ldots\, w_n\}$ is a set of weights,
+A neuron is modeled mathematically as a function $f(x_1, x_2, \ldots, x_n) = \phi( \Sigma_{i=1}^n w_ix_i )$, where $\{w_1, w_2, \ldots\, w_n\}$ is a set of weights,
 with each weight $w_i$ corresponding to an input $x_i$, and where $\phi$ is the activation function that determines the output of the neuron based
 on the sum of the products of the weights and inputs. For the sake of brevity we will also notate the weight and input vectors as $\vec{w}$ and $\vec{x}$, respectively.
 $\Sigma_{i=1}^n w_ix_i$ calculates the collective weighted input; this total is then passed to the activation function $\phi$ which uses the collective weighted input to generate an output.
@@ -69,7 +69,7 @@ Such a definition may be useful for implementation of a neural network in softwa
 There are two popular activation functions, the perceptron and the sigmoid.
 
 Having been invented in 1957 by Frank Rosenblatt, the perceptron was among the first activation functions to be implemented.
-It can be used as a standalone classifier on linearly seperable data.
+It can be used as a standalone classifier on linearly separable data.
 The perceptron can be defined as the function
 \[\phi_P(x) = \left\{ \begin{array}{lr} 0 & : x + b \leq 0 \\ 1 & : x + b > 0 \end{array} \right.\]
 where $b$ is a bias that is specific to the neuron.
@@ -79,6 +79,15 @@ The sigmoid function can be defined as $\sigma(x) = \frac{1}{1 + e^{-x}}$.
 Though bearing some resemblance to the perceptron, the sigmoid function has the advantage of being smooth and thus differentiable.
 These properties make training a neural network composed of sigmoid neurons much easier then a similar network composed of perceptron neurons.
 
+
+** Construction of Neural Networks
+\begin{figure}
+\includegraphics{neural_network_diagram.png}
+\caption{A four-layer neural network of sigmoid neurons.}
+\label{fig:hidden-layer-diagram}
+\end{figure}
+
+#+LATEX: See Figure~\ref{fig:hidden-layer-diagram}.
 ** Demonstration of the Equivalence of Various Perceptron Networks to Certain Boolean Logic Functions
 
 # One attribute of neural networks, specifically perceptron networks, is the ability to compute boolean logic functions.
@@ -166,7 +175,13 @@ This contradicts line (1). \\
 Therefore the assumption is false and no perceptron can compute XOR. \\
 
 \end{proof}
+
 However, a multilayer perceptron network can be designed to compute XOR.
+One way to demonstrate this is by constructing a network of perceptrons weighted to compute NAND.
+Then XOR can be computed because NAND is functionally complete; that is, all boolean functions can be expressed as
+a composition of NAND. The following proof borrows heavily from ProofWiki\cite{proofwiki_nand}.
+\begin{proof}
+\end{proof}
 # TODO show the design of the network that does XOR
 
 ** Statement and Proof of the Turing-completeness of Neural Networks
@@ -183,12 +198,29 @@ Then, by the transitive property, it follows that all Turing-equivalent computer
 
 ** Statement and Proof of the Universality Theorem
 In the previous section it was shown that recurrent neural networks can compute any function that can be computed by an algorithm.
-More impressively, it is also true that a neural setwork with only a single hidden layer can compute any continuous function to an arbitrary degree
+More impressively, it is also true that a neural network with only a single hidden layer can compute any continuous function to an arbitrary degree
 of precision. This is known as the Universality Theorem.
 
 ** Statement and Proof of Correctness for a Training Algorithm for a Perceptron
 The power and versatility of neural networks in general was shown in the previous sections;
 however, what are the capabilities of a single neuron?
-A perceptron neuron can be used to classify linearly seperable data.
+A perceptron neuron can be used to classify linearly separable data.
 In this section a network design and a training algorithm will be stated,
-and the ability of the network to correctly classify all data in the training set, provided the training set is linearly seperable, will be proven.
+and the ability of the network to correctly classify all data in the training set, provided the training set is linearly separable, will be proven.
+
+\begin{thebibliography}{9}
+\bibitem{DeepLearning}
+Michael A. Nielsen, "Neural Networks and
+Deep Learning", Determination Press, 2014
+
+\bibitem{proofwiki_nand}
+\url{https://proofwiki.org/wiki/Definition:Logical_NAND}
+
+\bibitem{comp_foundation}
+Simon Haykin, "Neural Networks: A Comprehensive Foundation", Maxwell Macmillan International, 1994
+
+\bibitem{turing_machines_are}
+Heikki Hyötyniemi, "Turing Machines are Recurrent Neural Networks", Publications of the Finnish Artificial Intelligence Society, pp. 13-24,
+\url{http://lipas.uwasa.fi/stes/step96/step96/hyotyniemi1/}
+
+\end{thebibliography}
