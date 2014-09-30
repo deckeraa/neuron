@@ -153,13 +153,17 @@ This implies the following behavior:
 \end{center}
 Then the following must be true: \\
 Line (1) implies that $b \leq 0$. \\
-Line (2) implies that $w_2 x_2 > b$. \\
-Line (3) implies that $w_1 x_1 > b$. \\
-Line (4) implies that $w_1 x_1 + w_2 x_2 < b$. \\
+Line (2) implies that $w_2 + b > 0$. \\
+Line (3) implies that $w_1 + b > 0$. \\
+Line (4) implies that $w_1 + w_2 + b \leq 0$. \\
 
-Adding lines (2) and (3) yields $w_1 x_1 + w_2 x_2 > 2b$. \\
-$b>0 \implies 2b > b > 0$. \\
-Thus (4) is contradicted and $P$ therefore cannot exist.
+Lines (2) and (3) imply that $w_1 > -b$ and $w_2 > -b$. \\
+Then $w_1 + w_2 + b > (-b) + (-b) + b = -b \geq 0$. \\
+Combining this with line (4) implies that $w_1 + w_2 + b = 0$. \\
+Adding lines (2) and (3) yield $w_1 + b + w_2 + b = w_1 + w_2 + b + b > 0$. \\
+Then the previous result implies that $w_1 + w_2 + b + b = 0 + b > 0$. \\
+This contradicts line (1). \\
+Therefore the assumption is false and no perceptron can compute XOR. \\
 
 \end{proof}
 However, a multilayer perceptron network can be designed to compute XOR.
