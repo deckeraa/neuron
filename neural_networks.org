@@ -1,6 +1,7 @@
 #+TITLE:
 #+LATEX_HEADER: \usepackage{fancyhdr}
-#+LATEX_HEADER: \usepackage{amsmath}
+# #+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{amsthm}
 # #+LATEX_HEADER: \usepackage{indentfirst}
 #+OPTIONS: toc:nil
 #+BIND: org-export-latex-title-command ""
@@ -127,12 +128,42 @@ Compare the behavior of the network to that of the NAND function: \\
 Thus a single two-input perceptron can compute NAND.
 
 Computer scientists met with some difficulty when attempting to weight a single perceptron to compute the exclusive-or (XOR) function.
-In fact, it is impossible to weight a single perceptron to do so (proof left as an exercise to the reader).
-# TODO actually prove this
+In fact, it is impossible to weight a single perceptron to do so.
+
+# |    | $x_1$ | $x_2$ | output |
+# |----+-------+-------+--------|
+# | 1) | 0     | 0     | 0      |
+# | 2) | 0     | 1     | 1      |
+# | 3) | 1     | 0     | 1      |
+# | 4) | 1     | 1     | 0      |
+
+\begin{proof}
+Let $P$ be a perceptron with two inputs $x_1$ and $x_2$, with associated weights $w_1$ and $w_2$, respectively, and a bias $b$.
+Assume for the sake of contradiction that $P$ properly computes the XOR function.
+This implies the following behavior:
+\begin{center}
+\begin{tabular}{r|rr|l}
+ & $x_1$ & $x_2$ & Output \left\{ \begin{array}{lr} 0 & : w_1x_1 + w_2x_2 + b \leq 0 \\ 1 & : w_1x_1 + w_2x_2 + b > 0 \end{array} \right. \\
+\hline
+1) & 0 & 0 & 0\\
+2) & 0 & 1 & 1\\
+3) & 1 & 0 & 1\\
+4) & 1 & 1 & 0\\
+\end{tabular}
+\end{center}
+Then the following must be true: \\
+Line (1) implies that $b \leq 0$. \\
+Line (2) implies that $w_2 x_2 > b$. \\
+Line (3) implies that $w_1 x_1 > b$. \\
+Line (4) implies that $w_1 x_1 + w_2 x_2 < b$. \\
+
+Adding lines (2) and (3) yields $w_1 x_1 + w_2 x_2 > 2b$. \\
+$b>0 \implies 2b > b > 0$. \\
+Thus (4) is contradicted and $P$ therefore cannot exist.
+
+\end{proof}
 However, a multilayer perceptron network can be designed to compute XOR.
 # TODO show the design of the network that does XOR
-
-
 
 ** Statement and Proof of the Turing-completeness of Neural Networks
 # TODO ensure that recurrent is defined in the introduction
