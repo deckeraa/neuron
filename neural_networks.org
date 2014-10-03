@@ -23,6 +23,8 @@
 #+LATEX: \clubpenalty=300
 #+LATEX: \setlength{\parskip}{3ex plus 2ex minus 2ex}
 
+# #+LATEX: \newtheorem*{example}{Example}
+
 # Setting up SLIME:
 # Open up the org file.
 # M-x slime-mode
@@ -44,6 +46,8 @@
 # *** Turing Equivalence 2014-09-30
 # *** Universality Theorem 2014-10-07
 # *** Statement and Proof of Backpropogation algo? 2014-10-14
+
+# a nice paper on lambda calculus is at http://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/geuvers.pdf
 
 ** Overview of Neural Networks
 A neural network is a system in which many similar functions, called /neurons/, are composed together in order to classify inputs, perform some computation,
@@ -71,7 +75,9 @@ There are two popular activation functions, the perceptron and the sigmoid.
 Having been invented in 1957 by Frank Rosenblatt, the perceptron was among the first activation functions to be implemented.
 It can be used as a standalone classifier on linearly separable data.
 The perceptron can be defined as the function
-\[\phi_P(x) = \left\{ \begin{array}{lr} 0 & : x + b \leq 0 \\ 1 & : x + b > 0 \end{array} \right.\]
+\begin{equation}
+\label{eqn:perceptron}\phi_P(x) = \left\{ \begin{array}{lr} 0 & : x + b \leq 0 \\ 1 & : x + b > 0 \end{array} \right.
+\end{equation}
 where $b$ is a bias that is specific to the neuron.
 # TODO add diagrams of the neurons
 
@@ -79,6 +85,19 @@ The sigmoid function can be defined as $\sigma(x) = \frac{1}{1 + e^{-x}}$.
 Though bearing some resemblance to the perceptron, the sigmoid function has the advantage of being smooth and thus differentiable.
 These properties make training a neural network composed of sigmoid neurons much easier then a similar network composed of perceptron neurons.
 
+\begin{figure}
+\includegraphics{example_neurons.png}
+\caption{Example perceptron and sigmoid neurons}
+\label{fig:example_neurons}
+\end{figure}
+
+#+LATEX: Consider the neurons in Figure~\ref{fig:example_neurons}.
+Let $x_1 = 3, x_2 = 2, x_3 = -0.5$.
+Both of the neurons will have the same aggregate input passed to their activation functions.
+To determine the aggregate input, multiply the inputs by their respective weights and then sum the products:
+$w_1*x_1 + w_2*x_2 + w_3*x_3 = 3*3 + -1*2 + 1*-0.5 = 6.5$
+#+LATEX: The perceptron will output $1$ since $\phi(6.5) = 1$ (see Equation \ref{eqn:perceptron}).
+The sigmoid will then output $\sigma(6.5) = \frac{1}{1 + e^{-6.5}} \approx 0.9985$.
 
 ** Construction of Neural Networks
 \begin{figure}
