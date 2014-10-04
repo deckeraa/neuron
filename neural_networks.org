@@ -53,6 +53,7 @@
 A neural network is a system in which many similar functions, called /neurons/, are composed together in order to classify inputs, perform some computation,
 or approximate some function.
 Neural networks are used today in various machine-learning applications such as handwriting- or speech-recognition, and have several interesting mathematical properties.
+This paper will introduce the basic workings of neural networks and then examine their theoretical capabilities.
 # Applications include handwriting- and speech- recognitio
 
 *** Definition of a Neuron
@@ -79,9 +80,13 @@ The perceptron can be defined as the function
 \label{eqn:perceptron}\phi_P(x) = \left\{ \begin{array}{lr} 0 & : x + b \leq 0 \\ 1 & : x + b > 0 \end{array} \right.
 \end{equation}
 where $b$ is a bias that is specific to the neuron.
+Notice that the bias $b$ of the perceptron is sometimes denoted by a number written inside neuron if displayed in an image.
 # TODO add diagrams of the neurons
 
-The sigmoid function can be defined as $\sigma(x) = \frac{1}{1 + e^{-x}}$.
+The sigmoid function can be defined as
+\begin{equation}
+\label{eqn:sigmoid} \phi_S(x) = \sigma(x) = \frac{1}{1 + e^{-x}}
+\end{equation}
 Though bearing some resemblance to the perceptron, the sigmoid function has the advantage of being smooth and thus differentiable.
 These properties make training a neural network composed of sigmoid neurons much easier then a similar network composed of perceptron neurons.
 
@@ -93,6 +98,7 @@ These properties make training a neural network composed of sigmoid neurons much
 
 \begin{example}
 Consider the neurons in Figure~\ref{fig:example_neurons}.
+Note that
 Let $x_1 = 3, x_2 = 2, x_3 = -0.5$.
 Both of the neurons will have the same aggregate input passed to their activation functions.
 To determine the aggregate input, multiply the inputs by their respective weights and then sum the products:
@@ -102,6 +108,7 @@ The sigmoid will then output $\sigma(6.5) = \frac{1}{1 + e^{-6.5}} \approx 0.998
 \end{example}
 
 ** Construction of Neural Networks
+
 \begin{figure}
 \includegraphics{neural_network_diagram.png}
 \caption{A four-layer neural network of sigmoid neurons.}
