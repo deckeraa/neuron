@@ -24,6 +24,8 @@
 #+LATEX: \setlength{\parskip}{3ex plus 2ex minus 2ex}
 
 #+LATEX: \newtheorem*{example}{Example}
+#+LATEX: \theoremstyle{definition}
+#+LATEX: \newtheorem{defn}{Definition}
 
 # Setting up SLIME:
 # Open up the org file.
@@ -215,9 +217,13 @@ Therefore the assumption is false and no perceptron can compute XOR. \\
 
 However, a multilayer perceptron network can be designed to compute XOR.
 One way to demonstrate this is by constructing a network of perceptrons weighted to compute NAND.
-Then XOR can be computed because NAND is functionally complete; that is, all boolean functions can be expressed as
-a composition of NAND. The following proof borrows heavily from ProofWiki\cite{proofwiki_nand}.
-# TODO: finish the proof
+Then XOR can be computed because $\{NAND\}$ is functionally complete; that is, all boolean functions can be expressed as
+a composition of NAND.
+\begin{defn}
+Let $S$ be a set of truth functions. Then S is functionally complete iff all possible truth functions are definable from $S$\cite{proofwiki_nand}.
+\end{defn}
+
+The following proof borrows heavily from ProofWiki\cite{proofwiki_nand}.
 
 \begin{proof}
 Let $\{0,1\}$ be the set of truth values, with 0 signifying a false value and 1 signifying a true value.
@@ -242,7 +248,32 @@ $x_1$ & $x_2$ & NOR & \Leftrightarrow & (\lnot \textrm{pr}_2) & \Leftarrow & (\l
 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1\\
 1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1\\
 \end{tabular}
+\end{center}
 
+The following table will demonstrate that the set $S_1 = \{\lnot, \Rightarrow, \textrm{AND}, \textrm{OR}\}$ is functionally complete.
+Each possible binary boolean function not in $S_1$ is listed down the first column.
+An equivalent expression for each is function is written in the second column.
+The third column contains the set of boolean functions that have been used so far in the chart without having an equivalent expression given for them.
+
+\begin{center}
+\begin{tabular}{r|l|l}
+Function & Equivalent Expression & Functions Used So Far \\ \hline
+$f_T$ & $x_1 \Leftrightarrow x_2$ & $\{\Leftrightarrow\}$ \\
+$f_F$ & $x_1 \textrm{XOR} x_2$    & $\{\Leftrightarrow, \textrm{XOR}\}$ \\
+XOR   & $\lnot( x_1 \Leftrightarrow x_2 )$ & $\{\Leftrightarrow, \lnot\}$ \\
+$\Leftrightarrow & $(x_1 \Rightarrow x_2) \textrm{AND} (x_1 \Leftarrow x_2)$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
+$(\lnot \textrm{pr}_1)$ & $\lnot \textrm{pr}_1$ & $\{\lnot, \Rightarrow, \Leftarrow, \textrm{pr}_1\}$ \\
+$(\lnot \textrm{pr}_2)$ & $\lnot \textrm{pr}_2$ & $\{\lnot, \Rightarrow, \Leftarrow, \textrm{pr}_1, \textrm{pr}_2\}$ \\
+$\textrm{pr}_1$ & $x_1 \textrm{AND} x_2$ & $\{\lnot, \Rightarrow, \Leftarrow, \textrm{pr}_2\}$ \\
+$\textrm{pr}_1$ & $x_2 \textrm{AND} x_2$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
+NAND & $\lnot( x_1 \textrm{AND} x_2 )$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
+NOR  & $\lnot( x_1 \textrm{OR}  x_2 )$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
+$(\lnot \Rightarrow)$ & $\lnot \Rightarrow$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
+$(\lnot  \Leftarrow)$ & $\lnot  \Leftarrow$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
+
+
+
+\end{tabular}
 \end{center}
 
 \end{proof}
