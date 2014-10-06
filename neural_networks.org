@@ -225,6 +225,8 @@ Let $S$ be a set of truth functions. Then S is functionally complete iff all pos
 
 The following proof borrows heavily from ProofWiki\cite{proofwiki_nand}.
 
+NOTE: This proof is not yet complete.
+
 \begin{proof}
 Let $\{0,1\}$ be the set of truth values, with 0 signifying a false value and 1 signifying a true value.
 Consider the following truth table of binary boolean functions. On the left side are the two inputs $x_1$ and $x_2$.
@@ -261,15 +263,15 @@ Function & Equivalent Expression & Functions Used So Far \\ \hline
 $f_T$ & $x_1 \Leftrightarrow x_2$ & $\{\Leftrightarrow\}$ \\
 $f_F$ & $x_1 \textrm{XOR} x_2$    & $\{\Leftrightarrow, \textrm{XOR}\}$ \\
 XOR   & $\lnot( x_1 \Leftrightarrow x_2 )$ & $\{\Leftrightarrow, \lnot\}$ \\
-$\Leftrightarrow & $(x_1 \Rightarrow x_2) \textrm{AND} (x_1 \Leftarrow x_2)$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
-$(\lnot \textrm{pr}_1)$ & $\lnot \textrm{pr}_1$ & $\{\lnot, \Rightarrow, \Leftarrow, \textrm{pr}_1\}$ \\
-$(\lnot \textrm{pr}_2)$ & $\lnot \textrm{pr}_2$ & $\{\lnot, \Rightarrow, \Leftarrow, \textrm{pr}_1, \textrm{pr}_2\}$ \\
-$\textrm{pr}_1$ & $x_1 \textrm{AND} x_2$ & $\{\lnot, \Rightarrow, \Leftarrow, \textrm{pr}_2\}$ \\
-$\textrm{pr}_1$ & $x_2 \textrm{AND} x_2$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
-NAND & $\lnot( x_1 \textrm{AND} x_2 )$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
-NOR  & $\lnot( x_1 \textrm{OR}  x_2 )$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
-$(\lnot \Rightarrow)$ & $\lnot \Rightarrow$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
-$(\lnot  \Leftarrow)$ & $\lnot  \Leftarrow$ & $\{\lnot, \Rightarrow, \Leftarrow\}$ \\
+$\Leftrightarrow & $(x_1 \Rightarrow x_2) \textrm{AND} (x_1 \Leftarrow x_2)$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
+$(\lnot \textrm{pr}_1)$ & $\lnot \textrm{pr}_1$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_1\}$ \\
+$(\lnot \textrm{pr}_2)$ & $\lnot \textrm{pr}_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_1, \textrm{pr}_2\}$ \\
+$\textrm{pr}_1$ & $x_1 \textrm{AND} x_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_2\}$ \\
+$\textrm{pr}_1$ & $x_2 \textrm{AND} x_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
+NAND & $\lnot( x_1 \textrm{AND} x_2 )$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
+NOR  & $\lnot( x_1 \textrm{OR}  x_2 )$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
+$(\lnot \Rightarrow)$ & $\lnot \Rightarrow$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
+$(\lnot  \Leftarrow)$ & $\lnot  \Leftarrow$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
 
 
 
@@ -278,7 +280,7 @@ $(\lnot  \Leftarrow)$ & $\lnot  \Leftarrow$ & $\{\lnot, \Rightarrow, \Leftarrow\
 
 \end{proof}
 
-NOTE: This proof is not yet complete.
+
 
 # TODO show the design of a network that does XOR
 
