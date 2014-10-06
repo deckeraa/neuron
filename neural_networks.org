@@ -224,29 +224,29 @@ Let $\{0,1\}$ be the set of truth values, with 0 signifying a false value and 1 
 Consider the following truth table of binary boolean functions. On the left side are the two inputs $x_1$ and $x_2$.
 Because there are two inputs, each of which can assume two values, there are four possible inputs, yielding $2^4 = 16$ possible outputs.
 Thus the listing on the right side of the table of binary functions is exhaustive.
+
 For purposes of readability the table has been broken horizontally into two halves.
 
 \begin{center}
 \begin{tabular}{rr|rrrrrrrrrrrrrrrr}
-$x_1$ & $x_2$ & $f_F$ & \land & (\lnot \Rightarrow) & \textrm{pr}_1 & (\lnot \Leftarrow) & \textrm{pr}_2 & \textrm{XOR} & \textrm{OR} \\
+$x_1$ & $x_2$ & $f_F$ & AND & (\lnot \Rightarrow) & \textrm{pr}_1 & (\lnot \Leftarrow) & \textrm{pr}_2 & XOR & OR \\
 \hline
-0 & 0 & 0 & 0\\
-0 & 1 & 1 & 1\\
-1 & 0 & 0 & 1\\
-1 & 1 & 1 & 0\\
-\end{tabular}
-\begin{tabular}{rr|rrrrrrrrrrrrrrrr}
-$x_1$ & $x_2$ & \textrm{NOR} & \Leftrightarrow & (\lnot \textrm{pr}_2) & \Leftarrow & (\lnot \textrm{pr}_1) & \Rightarrow & \textrm{NAND} & f_T \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\
+1 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1\\
+1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1\\ \\
+$x_1$ & $x_2$ & NOR & \Leftrightarrow & (\lnot \textrm{pr}_2) & \Leftarrow & (\lnot \textrm{pr}_1) & \Rightarrow & NAND & $f_T$ \\
 \hline
-0 & 0 & 0 & 0\\
-0 & 1 & 1 & 1\\
-1 & 0 & 0 & 1\\
-1 & 1 & 1 & 0\\
+0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+0 & 1 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\
+1 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1\\
+1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1\\
 \end{tabular}
 
 \end{center}
 
 \end{proof}
+
 NOTE: This proof is not yet complete.
 
 # TODO show the design of a network that does XOR
