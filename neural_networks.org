@@ -225,8 +225,6 @@ Let $S$ be a set of truth functions. Then S is functionally complete iff all pos
 
 The following proof borrows heavily from ProofWiki\cite{proofwiki_four_functionally_complete}.
 
-NOTE: This proof is not yet complete.
-
 \begin{proof}
 Let $\{0,1\}$ be the set of truth values, with 0 signifying a false value and 1 signifying a true value.
 Consider the following truth table of binary boolean functions. On the left side are the two inputs $x_1$ and $x_2$.
@@ -294,9 +292,17 @@ Since $S_1$ is functionally complete this implies that $S_2$ is functionally com
 
 \end{proof}
 
-
-
 # TODO show the design of a network that does XOR
+\begin{figure}[h]
+\begin{center}
+\includegraphics{xor_network.png}
+\caption{A neural network that computes XOR.}
+\label{fig:xor_network}
+\end{center}
+\end{figure}
+#+LATEX: See Figure~\ref{fig:xor_network} for the design of a neural network that computes XOR.
+# Below is a truth table for that network.
+# TODO: insert the truth table here.
 
 ** Statement and Proof of the Turing-completeness of Neural Networks
 # TODO ensure that recurrent is defined in the introduction
