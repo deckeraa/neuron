@@ -223,7 +223,7 @@ a composition of NAND.
 Let $S$ be a set of truth functions. Then S is functionally complete iff all possible truth functions are definable from $S$\cite{proofwiki_nand}.
 \end{defn}
 
-The following proof borrows heavily from ProofWiki\cite{proofwiki_nand}.
+The following proof borrows heavily from ProofWiki\cite{proofwiki_four_functionally_complete}.
 
 NOTE: This proof is not yet complete.
 
@@ -269,14 +269,28 @@ $(\lnot \textrm{pr}_2)$ & $\lnot \textrm{pr}_2$ & $\{\lnot, \textrm{AND}, \Right
 $\textrm{pr}_1$ & $x_1 \textrm{AND} x_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_2\}$ \\
 $\textrm{pr}_1$ & $x_2 \textrm{AND} x_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
 NAND & $\lnot( x_1 \textrm{AND} x_2 )$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
-NOR  & $\lnot( x_1 \textrm{OR}  x_2 )$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
-$(\lnot \Rightarrow)$ & $\lnot \Rightarrow$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
-$(\lnot  \Leftarrow)$ & $\lnot  \Leftarrow$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
-
-
-
+NOR  & $\lnot( x_1 \textrm{OR}  x_2 )$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{OR}\}$ \\
+$(\lnot \Rightarrow)$ & $\lnot \Rightarrow$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{OR}\}$ \\
+$(\lnot  \Leftarrow)$ & $\lnot  \Leftarrow$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{OR}\}$ \\
+$\Leftarrow$ & $x_2 \Rightarrow x_1$ & $\{\lnot, \textrm{AND}, \Rightarrow, \textrm{OR}\}$ \\
 \end{tabular}
 \end{center}
+
+Thus $S_1$ is functionally complete.
+
+Now consider another table similar to the one above; however, in this table $S_1$ is shown to be definable from $S_2 = \{\textrm{NAND}\}$.
+\begin{center}
+\begin{tabular}{r|l|l}
+Function & Equivalent Expression & Functions Used So Far \\ \hline
+$\Rightarrow$ & $\lnot( x_1 \textrm{AND} x_2)$ & \{ \lnot, \textrm{AND} \} \\
+OR & $\lnot( \lnot x_1 \textrm{AND} \lnot x_2)$ & \{ \lnot, \textrm{AND} \} \\
+\lnot & $x_1 \textrm{NAND} x_2$ & $\{ \textrm{AND}, \textrm{NAND} \}$ \\
+AND & $(x_1 \textrm{NAND} x_2) \textrm{NAND} (x_1 \textrm{NAND} x_2)$ & $\{ \textrm{NAND} \}$ \\
+\end{tabular}
+\end{center}
+
+Therefore $S_1$ can be expressed from $S_2$.
+Since $S_1$ is functionally complete this implies that $S_2$ is functionally complete.
 
 \end{proof}
 
@@ -315,6 +329,9 @@ Deep Learning", Determination Press, 2014
 
 \bibitem{proofwiki_nand}
 \url{https://proofwiki.org/wiki/Definition:Logical_NAND}
+
+\bibitem{proofwiki_four_functionally_complete}
+\url{https://proofwiki.org/wiki/Functionally_Complete_Logical_Connectives/Negation,_Conjunction,_Disjunction_and_Implication}
 
 \bibitem{comp_foundation}
 Simon Haykin, "Neural Networks: A Comprehensive Foundation", Maxwell Macmillan International, 1994
