@@ -349,7 +349,7 @@ This is due to the following activation function used for the purposes of this p
 \end{equation}
 
 To elucidate the proof an example will be interspersed throughout the proof.
-The following program \texttt{example_program} in $\mathbb{L}$ will be implemented using a neural network:
+The following program \texttt{example} in $\mathbb{L}$ will be implemented using a neural network:
 #+begin_src L
 0: dec V0
 1: inc V1
