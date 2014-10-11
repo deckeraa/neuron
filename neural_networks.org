@@ -98,7 +98,7 @@ Though bearing some resemblance to the perceptron, the sigmoid function has the 
 These properties make training a neural network composed of sigmoid neurons much easier then a similar network composed of perceptron neurons.
 
 \begin{figure}
-\includegraphics{example_neurons.png}
+\includegraphics[width=4.5in]{example_neurons.png}
 \caption{Example perceptron and sigmoid neurons}
 \label{fig:example_neurons}
 \end{figure}
@@ -196,7 +196,7 @@ Assume for the sake of contradiction that $P$ properly computes the XOR function
 This implies the following behavior:
 \begin{center}
 \begin{tabular}{r|rr|l}
- & $x_1$ & $x_2$ & Output \left\{ \begin{array}{lr} 0 & : w_1x_1 + w_2x_2 + b \leq 0 \\ 1 & : w_1x_1 + w_2x_2 + b > 0 \end{array} \right. \\
+ & $x_1$ & $x_2$ & Output $\left\{ \begin{array}{lr} 0 & : w_1x_1 + w_2x_2 + b \leq 0 \\ 1 & : w_1x_1 + w_2x_2 + b > 0 \end{array} \right.$ \\
 \hline
 1) & 0 & 0 & 0\\
 2) & 0 & 1 & 1\\
@@ -240,13 +240,13 @@ For purposes of readability the table has been broken horizontally into two halv
 
 \begin{center}
 \begin{tabular}{rr|rrrrrrrrrrrrrrrr}
-$x_1$ & $x_2$ & $f_F$ & AND & (\lnot \Rightarrow) & \textrm{pr}_1 & (\lnot \Leftarrow) & \textrm{pr}_2 & XOR & OR \\
+$x_1$ & $x_2$ & $f_F$ & AND & $(\lnot \Rightarrow)$ & $\textrm{pr}_1$ & $(\lnot \Leftarrow)$ & $\textrm{pr}_2$ & XOR & OR \\
 \hline
 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
 0 & 1 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\
 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1\\
 1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1\\ \\
-$x_1$ & $x_2$ & NOR & \Leftrightarrow & (\lnot \textrm{pr}_2) & \Leftarrow & (\lnot \textrm{pr}_1) & \Rightarrow & NAND & $f_T$ \\
+$x_1$ & $x_2$ & NOR & $\Leftrightarrow$ & $(\lnot \textrm{pr}_2)$ & $\Leftarrow$ & $(\lnot \textrm{pr}_1)$ & $\Rightarrow$ & NAND & $f_T$ \\
 \hline
 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
 0 & 1 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\
@@ -266,7 +266,7 @@ Function & Equivalent Expression & Functions Used So Far \\ \hline
 $f_T$ & $x_1 \Leftrightarrow x_2$ & $\{\Leftrightarrow\}$ \\
 $f_F$ & $x_1 \textrm{XOR} x_2$    & $\{\Leftrightarrow, \textrm{XOR}\}$ \\
 XOR   & $\lnot( x_1 \Leftrightarrow x_2 )$ & $\{\Leftrightarrow, \lnot\}$ \\
-$\Leftrightarrow & $(x_1 \Rightarrow x_2) \textrm{AND} (x_1 \Leftarrow x_2)$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
+$\Leftrightarrow$ & $(x_1 \Rightarrow x_2) \textrm{AND} (x_1 \Leftarrow x_2)$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
 $(\lnot \textrm{pr}_1)$ & $\lnot \textrm{pr}_1$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_1\}$ \\
 $(\lnot \textrm{pr}_2)$ & $\lnot \textrm{pr}_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_1, \textrm{pr}_2\}$ \\
 $\textrm{pr}_1$ & $x_1 \textrm{AND} x_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_2\}$ \\
@@ -285,9 +285,9 @@ Now consider another table similar to the one above; however, in this table $S_1
 \begin{center}
 \begin{tabular}{r|l|l}
 Function & Equivalent Expression & Functions Used So Far \\ \hline
-$\Rightarrow$ & $\lnot( x_1 \textrm{AND} x_2)$ & \{ \lnot, \textrm{AND} \} \\
-OR & $\lnot( \lnot x_1 \textrm{AND} \lnot x_2)$ & \{ \lnot, \textrm{AND} \} \\
-\lnot & $x_1 \textrm{NAND} x_2$ & $\{ \textrm{AND}, \textrm{NAND} \}$ \\
+$\Rightarrow$ & $\lnot( x_1 \textrm{AND} x_2)$ & $\{ \lnot, \textrm{AND} \}$ \\
+OR & $\lnot( \lnot x_1 \textrm{AND} \lnot x_2)$ & $\{ \lnot, \textrm{AND} \}$ \\
+$\lnot$ & $x_1 \textrm{NAND} x_2$ & $\{ \textrm{AND}, \textrm{NAND} \}$ \\
 AND & $(x_1 \textrm{NAND} x_2) \textrm{NAND} (x_1 \textrm{NAND} x_2)$ & $\{ \textrm{NAND} \}$ \\
 \end{tabular}
 \end{center}
