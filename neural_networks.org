@@ -34,7 +34,7 @@
 # M-x slime
 # Use C-x C-e to eval, as Org takes most of the keybindings
 
-* Neural Networks
+* Neural Networks and Their Theoretical Capabilities
 #+LATEX: \pagestyle{fancy}
 #+LATEX: \fancyhead{}
 #+LATEX: \rhead{\textit{Aaron Decker, \today}}
@@ -55,8 +55,13 @@
 A neural network is a system in which many similar functions, called /neurons/, are composed together in order to classify inputs, perform some computation,
 or approximate some function.
 Neural networks are used today in various machine-learning applications such as handwriting- or speech-recognition, and have several interesting mathematical properties.
-This paper will introduce the basic workings of neural networks and then examine their theoretical capabilities.
-# Applications include handwriting- and speech- recognitio
+
+This paper will introduce two mathematical models of neurons, the basic workings of neural networks,
+and then will proceed to examine their theoretical capabilities.
+First, the ability of certain neurons to compute various boolean functions will be demonstrated.
+This leads to the intuition that recurrent neural networks, are Turing-complete, which will then be proved.
+The proof will then be extended by outlining changes to the network that could be made to make a Turing-complete version using the
+more popular perceptron neuron.
 
 *** Definition of a Neuron
 # See Figure 1.4, page 8, of "Neural Networks A Comprehensive Foundation" by Simon Haykin.
@@ -308,27 +313,87 @@ Since $S_1$ is functionally complete this implies that $S_2$ is functionally com
 # TODO ensure that recurrent is defined in the introduction
 # TODO create a better definition of a Turing machine
 As was alluded to before, recurrent neural networks are Turing-complete.
-The Turing machine is a conceptual machine proposed in 1948 by Alan Turing that can be programmed to compute any possible computer algorithm.
-Let $C$ be a system of computing.
-$C$ is said to be Turing-complete if computers of type $C$ are capable of simulating any single-taped Turing machine.
-Closely related is the idea of Turing equivalence, that a Turing machine can simulate any computer of type $C$.
-Then, by the transitive property, it follows that all Turing-equivalent computers can simulate each other.
+
+The Turing machine is a conceptual machine proposed by Alan Turing to provide a definition for the idea of computability.
+The following definition and concepts are based upon Turing's 1936 paper\cite{Turing1936}.
+
+# \begin{defn}
+
+# A real number is defined (by Turing) to be computable if its expression as a decimal is calculable by finite means.
+# \end{defn}
+
+# TODO should I just quote Turing here?
+The Turing machine has a finite number of conditions that it can be in.
+
+In lieu of expressing m-configurations and such in terms of neural networks we shall instead utilize a common strategy
+for proving Turing-completeness: implementing a language which has already been shown to be Turing-complete.
+If a language is Turing-complete, then it can express any algorithm since the Turing machine is universal.
+If we can implement the language using a neural network then it follows by transitivity that our network is also Turing-complete.
+
+The following proof is largely based on a 1996 paper by Heikki Hyötyniemi\cite{turing_machines_are}.
+
+Consider the following language $\mathbb{L}$, which consists of the following four instructions:
+| name | operation                      | description        |
+|------+--------------------------------+--------------------|
+| inc  | $V' \leftarrow V + 1$          | increment          |
+| dec  | $V' \leftarrow max(0, V - 1)$  | decrement          |
+| nop  | $V' \leftarrow V$              | no operation       |
+| goto | if $V \neq 0$ goto $j$         | conditional branch |
+where $V, j \in \zplus$.
+
+It is known that $\mathbb{L}$ is Turing-complete.
+Also note that the decrement operator precludes the possibility of negative variable values.
+This is due to the following activation function used for the purposes of this proof:
+\begin{equation}
+\label{eqn:proof_neuron}\phi(x) = \left\{ \begin{array}{lr} x & : x > 0 \\ 0 & : x = 0 \end{array} \right.
+\end{equation}
+
+To elucidate the proof an example will be interspersed throughout the proof.
+The following program \texttt{example_program} in $\mathbb{L}$ will be implemented using a neural network:
+#+begin_src L
+0: dec V0
+1: inc V1
+2: if V0 != 0 goto 0
+#+end_src
+The program has two variables, \texttt{V0} and \texttt{V1}.
+While $\texttt{V0} \neq 0$ the program loops.
+
+Given an input program $P$, create the following neurons: \\
+For each variable $i$ in $P$, create a variable neuron $V_i$. \\
+For each line $j$ in $P$, create a instruction neuron $N_j$. \\
+For each \texttt{goto} in $P$, create two transition neurons $N_j'$ and $N_j''$, given that $j$ nis the line number of the \texttt{goto}.
+
+Then connect the neurons as follows:
+   - Create a connections with a weight of 1 between each variable neuron $V_i$ and $V_i$.
+   This feedback loop keeps the value of $V_i$ consistent between iterations unless otherwise modified.
+   - Create a connection with a weight of  1 between each \texttt{inc} instruction neuron $N_j$ and the variable $V$ that is being incremented.
+   - Create a connection with a weight of -1 between each \texttt{dec} instruction neuron $N_j$ and the variable $V$ that is being incremented.
+# TODO I plan to extend Hyötyniemi's proof by demonstrating how to achieve similar results with a more traditional perceptron definition.
+
+# that can be programmed to compute any possible computer algorithm.
+# Let $C$ be a system of computing.
+# $C$ is said to be Turing-complete if computers of type $C$ are capable of simulating any single-taped Turing machine.
+# Closely related is the idea of Turing equivalence, that a Turing machine can simulate any computer of type $C$.
+# Then, by the transitive property, it follows that all Turing-equivalent computers can simulate each other.
 
 # TODO prove Turing-completeness
 
-** Statement and Proof of the Universality Theorem
-In the previous section it was shown that recurrent neural networks can compute any function that can be computed by an algorithm.
-More impressively, it is also true that a neural network with only a single hidden layer can compute any continuous function to an arbitrary degree
-of precision. This is known as the Universality Theorem.
+# ** Statement and Proof of the Universality Theorem
+# In the previous section it was shown that recurrent neural networks can compute any function that can be computed by an algorithm.
+# More impressively, it is also true that a neural network with only a single hidden layer can compute any continuous function to an arbitrary degree
+# of precision. This is known as the Universality Theorem.
 
-** Statement and Proof of Correctness for a Training Algorithm for a Perceptron
-The power and versatility of neural networks in general was shown in the previous sections;
-however, what are the capabilities of a single neuron?
-A perceptron neuron can be used to classify linearly separable data.
-In this section a network design and a training algorithm will be stated,
-and the ability of the network to correctly classify all data in the training set, provided the training set is linearly separable, will be proven.
+# ** Statement and Proof of Correctness for a Training Algorithm for a Perceptron
+# The power and versatility of neural networks in general was shown in the previous sections;
+# however, what are the capabilities of a single neuron?
+# A perceptron neuron can be used to classify linearly separable data.
+# In this section a network design and a training algorithm will be stated,
+# and the ability of the network to correctly classify all data in the training set, provided the training set is linearly separable, will be proven.
 
 \begin{thebibliography}{9}
+\bibitem{Turing1936}
+Alan M. Turing, "On Computable Numbers, With An Application To The Entscheidungsproblem", Princeton University, 1936
+
 \bibitem{DeepLearning}
 Michael A. Nielsen, "Neural Networks and
 Deep Learning", Determination Press, 2014
