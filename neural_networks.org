@@ -333,13 +333,13 @@ If we can implement the language using a neural network then it follows by trans
 The following proof is largely based on a 1996 paper by Heikki Hyötyniemi\cite{turing_machines_are}.
 
 Consider the following language $\mathbb{L}$, which consists of the following four instructions:
-| name | operation                      | description        |
-|------+--------------------------------+--------------------|
-| inc  | $V' \leftarrow V + 1$          | increment          |
-| dec  | $V' \leftarrow max(0, V - 1)$  | decrement          |
-| nop  | $V' \leftarrow V$              | no operation       |
-| goto | if $V \neq 0$ goto $j$         | conditional branch |
-where $V, j \in \zplus$.
+#+LATEX: \begin{tabular}{lll}
+#+LATEX: name & operation                      & description        \\ \hline
+#+LATEX: inc  & $V' \leftarrow V + 1$          & increment          \\
+#+LATEX: dec  & $V' \leftarrow max(0, V - 1)$  & decrement          \\
+#+LATEX: nop  & $V' \leftarrow V$              & no operation       \\
+#+LATEX: goto & if $V \neq 0$ goto $j$         & conditional branch \\
+#+LATEX:\end{tabular} \linebreak where $V, j \in \zplus$.
 
 It is known that $\mathbb{L}$ is Turing-complete.
 Also note that the decrement operator precludes the possibility of negative variable values.
