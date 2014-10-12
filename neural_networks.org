@@ -349,7 +349,7 @@ This is due to the following activation function used for the purposes of this p
 \end{equation}
 
 To elucidate the proof an example will be interspersed throughout the proof.
-The following program \texttt{example} in $\mathbb{L}$ will be implemented using a neural network:
+The following program \texttt{example-prog} in $\mathbb{L}$ will be implemented using a neural network:
 #+begin_src L
 0: dec V0
 1: inc V1
@@ -361,11 +361,11 @@ While $\texttt{V0} \neq 0$ the program loops.
 Given an input program $P$, create the following neurons: \\
 For each variable $i$ in $P$, create a variable neuron $V_i$. \\
 For each line $j$ in $P$, create a instruction neuron $N_j$. \\
-For each \texttt{goto} in $P$, create two transition neurons $N_j'$ and $N_j''$, given that $j$ nis the line number of the \texttt{goto}.
+For each \texttt{goto} in $P$, create two transition neurons $N_j'$ and $N_j''$, given that $j$ is the line number of the \texttt{goto}.
 
 Then connect the neurons as follows:
    - Create a connections with a weight of 1 between each variable neuron $V_i$ and $V_i$.
-   This feedback loop keeps the value of $V_i$ consistent between iterations unless otherwise modified.
+     This feedback loop keeps the value of $V_i$ consistent between iterations unless otherwise modified.
    - Create a connection with a weight of  1 between each \texttt{inc} instruction neuron $N_j$ and the variable $V$ that is being incremented.
    - Create a connection with a weight of -1 between each \texttt{dec} instruction neuron $N_j$ and the variable $V$ that is being incremented.
 # TODO I plan to extend Hyötyniemi's proof by demonstrating how to achieve similar results with a more traditional perceptron definition.
