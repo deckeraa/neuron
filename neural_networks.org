@@ -368,7 +368,44 @@ Then connect the neurons as follows:
      This feedback loop keeps the value of $V_i$ consistent between iterations unless otherwise modified.
    - Create a connection with a weight of  1 between each \texttt{inc} instruction neuron $N_j$ and the variable $V$ that is being incremented.
    - Create a connection with a weight of -1 between each \texttt{dec} instruction neuron $N_j$ and the variable $V$ that is being incremented.
+
+# TODO finish defining the connections.
 # TODO I plan to extend Hyötyniemi's proof by demonstrating how to achieve similar results with a more traditional perceptron definition.
+
+
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3.5in]{turing_example.png}
+\caption{The neural network for \texttt{example-prog}.}
+\label{fig:turing-example}
+\end{center}
+\end{figure}
+
+#+LATEX: A realization of \texttt{example-prog} is given in Figure~\ref{fig:turing-example}.
+The output of the network is run to the bus on the right side of the diagram, through the unit delay, and fed back in to
+the network on the left side. For example, the output of $N_0$ runs to position $0$ on the bus, which is connected to $N_1$.
+The network is said to /iterate/ each time the network output is run through the unit delay.
+The table below gives the value each position at each iteration.
+Note that the $0^{th}$ iteration contains the initial settings of the network.
+Also note that the box labeled "Initial State" outputs 1 during the first iteration and outputs 0 afterward.
+
+|                 | Iteration |   |   |   |   |   |   |   |   |   |
+|               / |         < |   |   |   |   |   |   |   |   |   |
+| Position on bus |         0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|-----------------+-----------+---+---+---+---+---+---+---+---+---|
+|               0 |         0 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+|               1 |         2 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
+|               2 |         0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
+|               3 |         0 | 0 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 |
+|               4 |         0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 | 0 |
+|               5 |         0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 |
+|               6 |         0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
+
+
+
+
 
 # that can be programmed to compute any possible computer algorithm.
 # Let $C$ be a system of computing.
