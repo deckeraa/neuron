@@ -431,6 +431,8 @@ A neural network's state is \textit{legal} provided that the following condition
 - All transition nodes $N_{j'}$ and $N_{j''}$ have an output of 0. \\
 \end{defn}
 
+The network is in the \textit{final} state provided that all transition and instruction nodes have an output of 0.
+
 We assume that the network is initalized so that the first iteration is a legal state, after which we will induct on the current instruction
 neuron to snow that after each instruction execution the network is either in a legal or finite state and that the instruction was carried out and that
 therefore the network properly implements the program.
@@ -457,13 +459,19 @@ $\left\{ \begin{array}{l} V(k+1) = max(0, V_i - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+
 Let $m$ be the line referenced by the \texttt{goto} (i.e. \texttt{if V0 != 0 goto m}). \\
 $\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\  N_{j'}(k) = 0 \\ N_{j''}(k) = 0 \\ N_m(k) = 0 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and \\
 $\left\{ \begin{array}{l} V(k+1) = v \\ N_j(k+1) = 0 \\  N_{j'}(k+1) = 1 \\ N_{j''}(k+1) = max(0, 1-v) \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ by Equations~\ref{eqn:transition-one}~and~\ref{eqn:transition-two} and \\
-$\left\{ \begin{array}{l} V(k+2) = v \\ N_j(k+2) = 0 \\  N_{j'}(k+2) = 0 \\ N_{j''}(k+2) = 0 \\ N_m(k+2) = max(0, 1- max(0,1-v)) = \left\{ \begin{array}{rl} 1 &: v > 0 \\ 0 &: v = 0 \end{array}\right. \\ N_{j+1}(k+2) = max(0,1-v) = \left\{ \begin{array}{rl} 0 &: v > 0 \\ 1 &: v = 0\end{array}\right. \end{array} \right.$ by Equation~\ref{eqn:transition-one} and the network is back in a legal state at iteration $k+2$.\\
+$\left\{ \begin{array}{l} V(k+2) = v \\ N_j(k+2) = 0 \\  N_{j'}(k+2) = 0 \\ N_{j''}(k+2) = 0 \\ N_m(k+2) = max(0, 1- max(0,1-v)) = \left\{ \begin{array}{rl} 1 &: v > 0 \\ 0 &: v = 0 \end{array}\right. \\ N_{j+1}(k+2) = max(0,1-v) = \left\{ \begin{array}{rl} 0 &: v > 0 \\ 1 &: v = 0\end{array}\right. \end{array} \right.$ by Equation~\ref{eqn:transition-one} and the network is back in a legal state (or final state, if $N_{j+1}$ does not exist) at iteration $k+2$.\\
 
-
+Thus all instructions are carried out and maintain a legal state throughout the duration of the program execution.
+Since the network can then implement any program in $\mathbb{L}$, it follows that recurrent neural networks are Turing-complete.
 \end{proof}
 
+** Conclusion
 
-
+In this paper the theoretical capabilities of neural networks were explored.
+Not only can a neural network compute the boolean functions, but recurrent neural networks are Turing-complete.
+The Turing-completeness is promising for the future of neural networks;
+however, to utilize this potential new learning algorithms and network designs will need to be developed in order to train
+recurrent networks as efficiently as the algorithm currently used to train feed-forward networks.
 
 # that can be programmed to compute any possible computer algorithm.
 # Let $C$ be a system of computing.
