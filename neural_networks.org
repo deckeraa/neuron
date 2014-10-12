@@ -374,9 +374,26 @@ Then connect the neurons as follows:
    - Create a connection with a weight of  1 between each $N_{j'}$  transition neuron and the variable neuron referenced by the $N_j$ \texttt{goto}.
    - Create a connection with a weight of -1 between each $N_{j''}$ transition neuron and the variable neuron referenced by the $N_j$ \texttt{goto}.
 
-Thus the input to each neuron is as follows:
-   - $V_i$ has an aggregate input of $V_i + \Sigma_{j \in x} N_j - \Sigma_{j \in y} N_j + \Sigma_{j \in y} N_{j'} - \Sigma_{j \in y} N_{j''}$
+Thus the aggregate input to each neuron is as follows:
+   - $V_i$ has an aggregate input of
+   \begin{equation}
+   \label{eqn:variable} V_i + \Sigma_{j \in x} N_j - \Sigma_{j \in y} N_j + \Sigma_{j \in z} N_{j'} - \Sigma_{j \in z} N_{j''}
+   \end{equation}
      where $x$ is the set of \texttt{inc} neurons referencing that variable, $y$ is the set of \texttt{dec} neurons referencing that variable, and $z$ is the set of \texttt{goto} neurons refrencing that variable.
+   - $N_i$ has an aggregate input of
+     \begin{equation}
+     \label{eqn:instruction} N_{i-} + \Sigma_{j \in z} N_{j'} - N{j''}
+     \end{equation}
+     where $z$ is the set of \texttt{goto} neurons refrencing that instruction neuron.
+   - $N_{i'}$ has an aggregate input of
+     \begin{equation}
+     \label{eqn:transition-one} N_i
+     \end{equation}
+   - $N_{i''}$ has an aggregate input of
+     \begin{equation}
+     \label{eqn:transition-two} N_i - V
+     \end{equation}
+     where $V$ is the variable referenced by the \texttt{goto}.
 # TODO finish defining the connections.
 # TODO I plan to extend Hyötyniemi's proof by demonstrating how to achieve similar results with a more traditional perceptron definition.
 
