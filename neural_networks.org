@@ -436,13 +436,26 @@ neuron to snow that after each iteration the network is either in a legal or fin
 therefore the network properly implements the program.
 
 \begin{proof}
-Let the network constructed according to the directions above be in a legal state, where $k$ is the iteration and $j$ such that the activated instruction is $N_j$.
+Let the network constructed according to the directions above be in a legal
+state at the $k^{th}$ iteration and have $j$ such that the activated instruction neuron is $N_j$.
+Let $V_i$ be any variable referenced by the instruction at line $j$.
 The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
 
 Consider the following exhaustive list of cases for the instruction associated with $N_j$:
 
 \texttt{nop}: \\
-Then $\left\{ \begin{array}{l} N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and
+$\left\{ \begin{array}{l} N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and \\
+$\left\{ \begin{array}{l} N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ by Equation~\ref{eqn:instruction}.
+
+\texttt{dec}: \\
+$\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ for $v \in \zplus$ by the definition of a legal state and \\
+$\left\{ \begin{array}{l} V(k+1) = max(0, V_i - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ by Equation~\ref{eqn:variable}.
+
+\texttt{inc}: This is similar to \texttt{dec}.
+
+\texttt{goto}: \\
+Let $m$ be the line referenced by the \texttt{goto} (i.e. \texttt{if V0 != 0 goto m}). \\
+$\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\  N_{j'}(k) = 0 \\ N_{j''}(k) = 0 \\ N_m(k) = 0 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and \\
 
 \end{proof}
 
