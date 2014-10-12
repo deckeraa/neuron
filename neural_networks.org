@@ -325,10 +325,10 @@ The following definition and concepts are based upon Turing's 1936 paper\cite{Tu
 # TODO should I just quote Turing here?
 The Turing machine has a finite number of conditions that it can be in.
 
-In lieu of expressing m-configurations and such in terms of neural networks we shall instead utilize a common strategy
+In lieu of expressing m-configurations and such in terms of neural networks we shall utilize a common strategy
 for proving Turing-completeness: implementing a language which has already been shown to be Turing-complete.
 If a language is Turing-complete, then it can express any algorithm since the Turing machine is universal.
-If we can implement the language using a neural network then it follows by transitivity that our network is also Turing-complete.
+If we can implement the language using a recurrent neural network then it follows by transitivity that our network is also Turing-complete.
 
 The following proof is largely based on a 1996 paper by Heikki Hyötyniemi\cite{turing_machines_are}.
 
@@ -358,6 +358,7 @@ The following program \texttt{example-prog} in $\mathbb{L}$ will be implemented 
 The program has two variables, \texttt{V0} and \texttt{V1}.
 While $\texttt{V0} \neq 0$ the program loops.
 
+*** Procedure for Creating Network
 Given an input program $P$, create the following neurons: \\
 For each variable $i$ in $P$, create a variable neuron $V_i$. \\
 For each line $j$ in $P$, create a instruction neuron $N_j$. \\
@@ -367,8 +368,15 @@ Then connect the neurons as follows:
    - Create a connections with a weight of 1 between each variable neuron $V_i$ and $V_i$.
      This feedback loop keeps the value of $V_i$ consistent between iterations unless otherwise modified.
    - Create a connection with a weight of  1 between each \texttt{inc} instruction neuron $N_j$ and the variable $V$ that is being incremented.
-   - Create a connection with a weight of -1 between each \texttt{dec} instruction neuron $N_j$ and the variable $V$ that is being incremented.
+   - Create a connection with a weight of -1 between each \texttt{dec} instruction neuron $N_j$ and the variable $V$ that is being decremented.
+   - Create a connection with a weight of  1 between each non-\texttt{goto} instruction neuron $N_j$ and $N_{j+1}$.
+   - Create a connection with a weight of  1 between each \texttt{goto} instruction neuron $N_j$ and the transition neurons $N_{j'}$ and $N_{j''}$.
+   - Create a connection with a weight of  1 between each $N_{j'}$  transition neuron and the variable neuron referenced by the $N_j$ \texttt{goto}.
+   - Create a connection with a weight of -1 between each $N_{j''}$ transition neuron and the variable neuron referenced by the $N_j$ \texttt{goto}.
 
+Thus the input to each neuron is as follows:
+   - $V_i$ has an aggregate input of $V_i + \Sigma_{j \in x} N_j - \Sigma_{j \in y} N_j + \Sigma_{j \in y} N_{j'} - \Sigma_{j \in y} N_{j''}$
+     where $x$ is the set of \texttt{inc} neurons referencing that variable, $y$ is the set of \texttt{dec} neurons referencing that variable, and $z$ is the set of \texttt{goto} neurons refrencing that variable.
 # TODO finish defining the connections.
 # TODO I plan to extend Hyötyniemi's proof by demonstrating how to achieve similar results with a more traditional perceptron definition.
 
@@ -403,6 +411,23 @@ Also note that the box labeled "Initial State" outputs 1 during the first iterat
 |               5 |         0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 |
 |               6 |         0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 
+Note that all the iterations but the $0^{th}$ and $9^{th}$ share some common properties which make them /legal states/.
+
+\begin{defn}
+A neural network's state is \textit{legal} provided that the following conditions hold: \\
+- At most one
+\end{defn}
+
+\begin{proof}
+Let the network constructed according to the directions above be in a legal state, where $k$ is the iteration and $i$ such that the activated instruction is $N_i$.
+The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
+
+Consider the following exhaustive list of cases for the instruction associated with $N_i$:
+
+nop: \\
+Then $\left\{ \begin{array}{l} N_i(k) = 1 \\ N_{i+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and
+
+\end{proof}
 
 
 
