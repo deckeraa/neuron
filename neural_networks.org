@@ -60,8 +60,8 @@ This paper will introduce two mathematical models of neurons, the basic workings
 and then will proceed to examine their theoretical capabilities.
 First, the ability of certain neurons to compute various boolean functions will be demonstrated.
 This leads to the intuition that recurrent neural networks, are Turing-complete, which will then be proved.
-The proof will then be extended by outlining changes to the network that could be made to make a Turing-complete version using the
-more popular perceptron neuron.
+# The proof will then be extended by outlining changes to the network that could be made to make a Turing-complete version using the
+# more popular perceptron neuron.
 
 *** Definition of a Neuron
 # See Figure 1.4, page 8, of "Neural Networks A Comprehensive Foundation" by Simon Haykin.
@@ -128,6 +128,9 @@ The output layer contains the neurons whose output is interpreted as the output 
 In the figure shown the output layer only contains one output neuron.
 It is possible to have more than one output from a neural network;
 for example, a binary number could be encoded in the outputs.
+
+If no neuron takes as input an output that the neuron affected (i.e. there are no cycles in the graph) then the network is called a /feed-forward/ network.
+If loops do exist then the network is referred to as /recurrent/.
 
 \begin{figure}
 \includegraphics{neural_network_diagram.png}
