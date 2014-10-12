@@ -372,22 +372,23 @@ Then connect the neurons as follows:
 
 Thus the aggregate input to each neuron is as follows:
    - $V_i$ has an aggregate input of
-   \begin{equation}
-   \label{eqn:variable} V_i + \Sigma_{j \in x} N_j - \Sigma_{j \in y} N_j + \Sigma_{j \in z} N_{j'} - \Sigma_{j \in z} N_{j''}
-   \end{equation}
-     where $x$ is the set of \texttt{inc} neurons referencing that variable, $y$ is the set of \texttt{dec} neurons referencing that variable, and $z$ is the set of \texttt{goto} neurons refrencing that variable.
-   - $N_i$ has an aggregate input of
      \begin{equation}
-     \label{eqn:instruction} N_{i-} + \Sigma_{j \in z} N_{j'} - N{j''}
+     \label{eqn:variable} V_i + \Sigma_{j \in x} N_j - \Sigma_{j \in y} N_j + \Sigma_{j \in z} N_{j'} - \Sigma_{j \in z} N_{j''}
+     \end{equation}
+     where $x$ is the set of \texttt{inc} neurons referencing that variable, $y$ is the set of \texttt{dec} neurons referencing that variable, and $z$ is the set of \texttt{goto} neurons refrencing that variable.
+   - $N_j$ has an aggregate input of
+     \begin{equation}
+     \label{eqn:instruction} N_{j-1} + \Sigma_{j \in z} N_{j'} - N{j''}
      \end{equation}
      where $z$ is the set of \texttt{goto} neurons refrencing that instruction neuron.
-   - $N_{i'}$ has an aggregate input of
+     If $N_{j-1}$ does not exist then that term is omitted.
+   - $N_{j'}$ has an aggregate input of
      \begin{equation}
-     \label{eqn:transition-one} N_i
+     \label{eqn:transition-one} N_j
      \end{equation}
-   - $N_{i''}$ has an aggregate input of
+   - $N_{j''}$ has an aggregate input of
      \begin{equation}
-     \label{eqn:transition-two} N_i - V
+     \label{eqn:transition-two} N_j - V
      \end{equation}
      where $V$ is the variable referenced by the \texttt{goto}.
 
@@ -406,9 +407,9 @@ Thus the aggregate input to each neuron is as follows:
 The output of the network is run to the bus on the right side of the diagram, through the unit delay, and fed back in to
 the network on the left side. For example, the output of $N_0$ runs to position $0$ on the bus, which is connected to $N_1$.
 The network is said to /iterate/ each time the network output is run through the unit delay.
-The table below gives the value each position at each iteration.
+The table below gives the value of each position at each iteration.
 Note that the $0^{th}$ iteration contains the initial settings of the network.
-Also note that the box labeled "Initial State" outputs 1 during the first iteration and outputs 0 afterward.
+Also note that the box labeled "Initial State" outputs 1 during the calculation of the first iteration and outputs 0 afterward.
 
 |                 | Iteration |   |   |   |   |   |   |   |   |   |
 |               / |         < |   |   |   |   |   |   |   |   |   |
@@ -426,18 +427,22 @@ Note that all the iterations but the $0^{th}$ and $9^{th}$ share some common pro
 
 \begin{defn}
 A neural network's state is \textit{legal} provided that the following conditions hold: \\
-- At most one instruction node $N_i$ has an output of 1, the others output 0. \\
-- All transition nodes $N_{i'}$ and $N_{i''}$ have an output of 0. \\
+- At most one instruction node $N_j$ has an output of 1, the others output 0. \\
+- All transition nodes $N_{j'}$ and $N_{j''}$ have an output of 0. \\
 \end{defn}
 
+We assume that the network is initalized so that the first iteration is a legal state, after which we will induct on the current instruction
+neuron to snow that after each iteration the network is either in a legal or finite state and that the instruction was carried out and that
+therefore the network properly implements the program.
+
 \begin{proof}
-Let the network constructed according to the directions above be in a legal state, where $k$ is the iteration and $i$ such that the activated instruction is $N_i$.
+Let the network constructed according to the directions above be in a legal state, where $k$ is the iteration and $j$ such that the activated instruction is $N_j$.
 The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
 
-Consider the following exhaustive list of cases for the instruction associated with $N_i$:
+Consider the following exhaustive list of cases for the instruction associated with $N_j$:
 
 \texttt{nop}: \\
-Then $\left\{ \begin{array}{l} N_i(k) = 1 \\ N_{i+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and
+Then $\left\{ \begin{array}{l} N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and
 
 \end{proof}
 
