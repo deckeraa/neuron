@@ -309,21 +309,17 @@ Since $S_1$ is functionally complete this implies that $S_2$ is functionally com
 # Below is a truth table for that network.
 # TODO: insert the truth table here.
 
-** Statement and Proof of the Turing-completeness of Neural Networks
+** Statement and Proof of the Turing-completeness of Certain Recurrent Neural Networks
 # TODO ensure that recurrent is defined in the introduction
-# TODO create a better definition of a Turing machine
 As was alluded to before, recurrent neural networks are Turing-complete.
 
 The Turing machine is a conceptual machine proposed by Alan Turing to provide a definition for the idea of computability.
-The following definition and concepts are based upon Turing's 1936 paper\cite{Turing1936}.
+The description of a Turing machince is based on Turing's 1936 paper\cite{Turing1936}.
 
-# \begin{defn}
-
-# A real number is defined (by Turing) to be computable if its expression as a decimal is calculable by finite means.
-# \end{defn}
-
-# TODO should I just quote Turing here?
-The Turing machine has a finite number of conditions that it can be in.
+The Turing machine has a finite number of conditions called m-configurations that it can be in.
+It has a "tape" of infinite length which is divided into "squares" containing "symbols" which can be read one at a time by a "reader".
+The machine can read and write symbols onto the square of the tape directly under the reader and can move the tape back and forth underneath the
+reader. In this manner the Turing machine can perform any computation; for a more detailed description and proof see Turing's paper\cite{Turing1936}.
 
 In lieu of expressing m-configurations and such in terms of neural networks we shall utilize a common strategy
 for proving Turing-completeness: implementing a language which has already been shown to be Turing-complete.
@@ -341,7 +337,7 @@ Consider the following language $\mathbb{L}$, which consists of the following fo
 #+LATEX: goto & if $V \neq 0$ goto $j$         & conditional branch \\
 #+LATEX:\end{tabular} \linebreak where $V, j \in \zplus$.
 
-It is known that $\mathbb{L}$ is Turing-complete.
+It is known that $\mathbb{L}$ is Turing-complete\cite{turing_machines_are}.
 Also note that the decrement operator precludes the possibility of negative variable values.
 This is due to the following activation function used for the purposes of this proof:
 \begin{equation}
@@ -394,11 +390,9 @@ Thus the aggregate input to each neuron is as follows:
      \label{eqn:transition-two} N_i - V
      \end{equation}
      where $V$ is the variable referenced by the \texttt{goto}.
-# TODO finish defining the connections.
+
+
 # TODO I plan to extend Hyötyniemi's proof by demonstrating how to achieve similar results with a more traditional perceptron definition.
-
-
-
 
 \begin{figure}
 \begin{center}
@@ -432,7 +426,8 @@ Note that all the iterations but the $0^{th}$ and $9^{th}$ share some common pro
 
 \begin{defn}
 A neural network's state is \textit{legal} provided that the following conditions hold: \\
-- At most one
+- At most one instruction node $N_i$ has an output of 1, the others output 0. \\
+- All transition nodes $N_{i'}$ and $N_{i''}$ have an output of 0. \\
 \end{defn}
 
 \begin{proof}
@@ -441,7 +436,7 @@ The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
 
 Consider the following exhaustive list of cases for the instruction associated with $N_i$:
 
-nop: \\
+\texttt{nop}: \\
 Then $\left\{ \begin{array}{l} N_i(k) = 1 \\ N_{i+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and
 
 \end{proof}
