@@ -381,10 +381,12 @@ Thus the aggregate input to each neuron is as follows:
      where $x$ is the set of \texttt{inc} neurons referencing that variable, $y$ is the set of \texttt{dec} neurons referencing that variable, and $z$ is the set of \texttt{goto} neurons refrencing that variable.
    - $N_j$ has an aggregate input of
      \begin{equation}
-     \label{eqn:instruction} N_{j-1} + \Sigma_{l \in z} N_{l'} - N{l''}
+     \label{eqn:instruction} \Sigma_{r \in w} N_r + \Sigma_{s \in z} (N_{s'} - N_{s''})
      \end{equation}
-     where $z$ is the set of \texttt{goto} neurons referencing that instruction neuron.
-     If $N_{j-1}$ does not exist then that term is zero.
+     where $w$ is $\{ N_{j-1} \}$ if both $j-1 \geq 0$ and $N_{j-1}$ corresponds to a \texttt{inc}, \texttt{dec}, or \texttt{nop} instruction. \\
+     $w$ is $\{\}$ otherwise. \\
+     $z$ is the set of \texttt{goto} neurons referencing that instruction neuron. \\
+#     If $N_{j-1}$ does not exist then that term is zero.
    - $N_{j'}$ has an aggregate input of
      \begin{equation}
      \label{eqn:transition-one} N_j
