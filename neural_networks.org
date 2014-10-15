@@ -26,6 +26,7 @@
 #+LATEX: \newtheorem*{example}{Example}
 #+LATEX: \theoremstyle{definition}
 #+LATEX: \newtheorem{defn}{Definition}
+#+LATEX: \newtheorem{theorem}{Theorem}
 
 # Setting up SLIME:
 # Open up the org file.
@@ -416,17 +417,35 @@ The table below gives the value of each position at each iteration.
 Note that the $0^{th}$ iteration contains the initial settings of the network.
 Also note that the box labeled "Initial State" outputs 1 during the calculation of the first iteration and outputs 0 afterward.
 
-|                 | Iteration |   |   |   |   |   |   |   |   |   |
-|               / |         < |   |   |   |   |   |   |   |   |   |
-| Position on bus |         0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
-|-----------------+-----------+---+---+---+---+---+---+---+---+---|
-|               0 |         0 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-|               1 |         2 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
-|               2 |         0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
-|               3 |         0 | 0 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 |
-|               4 |         0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 | 0 |
-|               5 |         0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 |
-|               6 |         0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
+\begin{figure}
+\begin{center}
+\begin{tabular}{r|rrrrrrrrrr}
+ & Iteration &  &  &  &  &  &  &  &  & \\
+Position on bus & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
+\hline
+0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+1 & 2 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0\\
+2 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+3 & 0 & 0 & 1 & 1 & 1 & 1 & 2 & 2 & 2 & 2\\
+4 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0\\
+5 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+6 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+\end{tabular}
+\end{center}
+\caption{Value of each position on bus at each iteration.}
+\label{table:example-prog-iteration-table}
+\end{figure}
+# |                 | Iteration |   |   |   |   |   |   |   |   |   |
+# |               / |         < |   |   |   |   |   |   |   |   |   |
+# | Position on bus |         0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+# |-----------------+-----------+---+---+---+---+---+---+---+---+---|
+# |               0 |         0 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+# |               1 |         2 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
+# |               2 |         0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
+# |               3 |         0 | 0 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 |
+# |               4 |         0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 | 0 |
+# |               5 |         0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 |
+# |               6 |         0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 
 Note that all the iterations but the $0^{th}$ and $9^{th}$ share some common properties which make them /legal states/.
 
@@ -441,6 +460,11 @@ The network is in the \textit{final} state provided that all transition and inst
 We assume that the network is initialized so that the first iteration is a legal state, after which we will induct on the current instruction
 neuron to show that after each instruction execution the network is either in a legal or final state and that the instruction was carried out and that
 therefore the network properly implements the program.
+
+\begin{theorem}
+Using the procedure above a neural network can be constructed to implement any program in $\mathbb{L}$.
+Consequently recurrent neural networks are Turing-complete.
+\end{theorem}
 
 \begin{proof}
 Let the network constructed according to the directions above be in a legal
