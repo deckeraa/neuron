@@ -121,7 +121,7 @@ This is how the human brain is constructed.
 #+LATEX: An example of a neural network is shown in Figure~\ref{fig:hidden-layer-diagram}.
 The network pictured is considered a four-layer sigmoid network because each layer besides the input layer consists of sigmoid neurons as denoted by
 the sigmoid shape inscribed in the representation of each neuron.
-The input layer does not contains actual neurons but rather is drawn by convention to show the inputs being fed to the second layer.
+The input layer does not contain actual neurons but rather is drawn by convention to show the inputs being fed to the second layer.
 The hidden layers encompass all of the neurons between the input layer and the output layer.
 
 The output layer contains the neurons whose output is interpreted as the output of the network.
@@ -267,13 +267,13 @@ The third column contains the set of boolean functions that have been used so fa
 \begin{tabular}{r|l|l}
 Function & Equivalent Expression & Functions Used So Far \\ \hline
 $f_T$ & $x_1 \Leftrightarrow x_2$ & $\{\Leftrightarrow\}$ \\
-$f_F$ & $x_1 \textrm{XOR} x_2$    & $\{\Leftrightarrow, \textrm{XOR}\}$ \\
+$f_F$ & $x_1 \textrm{XOR} x_1$    & $\{\Leftrightarrow, \textrm{XOR}\}$ \\
 XOR   & $\lnot( x_1 \Leftrightarrow x_2 )$ & $\{\Leftrightarrow, \lnot\}$ \\
 $\Leftrightarrow$ & $(x_1 \Rightarrow x_2) \textrm{AND} (x_1 \Leftarrow x_2)$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
 $(\lnot \textrm{pr}_1)$ & $\lnot \textrm{pr}_1$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_1\}$ \\
 $(\lnot \textrm{pr}_2)$ & $\lnot \textrm{pr}_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_1, \textrm{pr}_2\}$ \\
-$\textrm{pr}_1$ & $x_1 \textrm{AND} x_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_2\}$ \\
-$\textrm{pr}_1$ & $x_2 \textrm{AND} x_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
+$\textrm{pr}_1$ & $x_1 \textrm{AND} x_1$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{pr}_2\}$ \\
+$\textrm{pr}_2$ & $x_2 \textrm{AND} x_2$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
 NAND & $\lnot( x_1 \textrm{AND} x_2 )$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
 NOR  & $\lnot( x_1 \textrm{OR}  x_2 )$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{OR}\}$ \\
 $(\lnot \Rightarrow)$ & $\lnot \Rightarrow$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow, \textrm{OR}\}$ \\
@@ -288,9 +288,9 @@ Now consider another table similar to the one above; however, in this table $S_1
 \begin{center}
 \begin{tabular}{r|l|l}
 Function & Equivalent Expression & Functions Used So Far \\ \hline
-$\Rightarrow$ & $\lnot( x_1 \textrm{AND} x_2)$ & $\{ \lnot, \textrm{AND} \}$ \\
+$\Rightarrow$ & $\lnot( x_1 \textrm{AND} \lnot x_2)$ & $\{ \lnot, \textrm{AND} \}$ \\
 OR & $\lnot( \lnot x_1 \textrm{AND} \lnot x_2)$ & $\{ \lnot, \textrm{AND} \}$ \\
-$\lnot$ & $x_1 \textrm{NAND} x_2$ & $\{ \textrm{AND}, \textrm{NAND} \}$ \\
+$\lnot$ & $x_1 \textrm{NAND} x_1$ & $\{ \textrm{AND}, \textrm{NAND} \}$ \\
 AND & $(x_1 \textrm{NAND} x_2) \textrm{NAND} (x_1 \textrm{NAND} x_2)$ & $\{ \textrm{NAND} \}$ \\
 \end{tabular}
 \end{center}
@@ -322,7 +322,7 @@ The description of a Turing machince is based on Turing's 1936 paper\cite{Turing
 The Turing machine has a finite number of conditions called m-configurations that it can be in.
 It has a "tape" of infinite length which is divided into "squares" containing "symbols" which can be read one at a time by a "reader".
 The machine can read and write symbols onto the square of the tape directly under the reader and can move the tape back and forth underneath the
-reader. In this manner the Turing machine can perform any computation; for a more detailed description and proof see Turing's paper\cite{Turing1936}.
+reader. In this manner the Turing machine can perform any computation; for a more detailed description and discussion see Turing's paper\cite{Turing1936}.
 
 In lieu of expressing m-configurations and such in terms of neural networks we shall utilize a common strategy
 for proving Turing-completeness: implementing a language which has already been shown to be Turing-complete.
@@ -335,7 +335,7 @@ Consider the following language $\mathbb{L}$, which consists of the following fo
 #+LATEX: \begin{tabular}{lll}
 #+LATEX: name & operation                      & description        \\ \hline
 #+LATEX: inc  & $V' \leftarrow V + 1$          & increment          \\
-#+LATEX: dec  & $V' \leftarrow max(0, V - 1)$  & decrement          \\
+#+LATEX: dec  & $V' \leftarrow \textrm{max}(0, V - 1)$  & decrement          \\
 #+LATEX: nop  & $V' \leftarrow V$              & no operation       \\
 #+LATEX: goto & if $V \neq 0$ goto $j$         & conditional branch \\
 #+LATEX:\end{tabular} \linebreak where $V, j \in \zplus$.
@@ -364,10 +364,10 @@ For each line $j$ in $P$, create a instruction neuron $N_j$. \\
 For each \texttt{goto} in $P$, create two transition neurons $N_j'$ and $N_j''$, given that $j$ is the line number of the \texttt{goto}.
 
 Then connect the neurons as follows:
-   - Create a connections with a weight of 1 between each variable neuron $V_i$ and $V_i$.
+   - Create a connection with a weight of 1 between each variable neuron $V_i$ and $V_i$.
      This feedback loop keeps the value of $V_i$ consistent between iterations unless otherwise modified.
-   - Create a connection with a weight of  1 between each \texttt{inc} instruction neuron $N_j$ and the variable $V$ that is being incremented.
-   - Create a connection with a weight of -1 between each \texttt{dec} instruction neuron $N_j$ and the variable $V$ that is being decremented.
+   - Create a connection with a weight of  1 between each \texttt{inc} instruction neuron $N_j$ and the variable $V_i$ that is being incremented.
+   - Create a connection with a weight of -1 between each \texttt{dec} instruction neuron $N_j$ and the variable $V_i$ that is being decremented.
    - Create a connection with a weight of  1 between each non-\texttt{goto} instruction neuron $N_j$ and $N_{j+1}$.
    - Create a connection with a weight of  1 between each \texttt{goto} instruction neuron $N_j$ and the transition neurons $N_{j'}$ and $N_{j''}$.
    - Create a connection with a weight of  1 between each $N_{j'}$  transition neuron and the variable neuron referenced by the $N_j$ \texttt{goto}.
@@ -381,10 +381,10 @@ Thus the aggregate input to each neuron is as follows:
      where $x$ is the set of \texttt{inc} neurons referencing that variable, $y$ is the set of \texttt{dec} neurons referencing that variable, and $z$ is the set of \texttt{goto} neurons refrencing that variable.
    - $N_j$ has an aggregate input of
      \begin{equation}
-     \label{eqn:instruction} N_{j-1} + \Sigma_{j \in z} N_{j'} - N{j''}
+     \label{eqn:instruction} N_{j-1} + \Sigma_{l \in z} N_{l'} - N{l''}
      \end{equation}
-     where $z$ is the set of \texttt{goto} neurons refrencing that instruction neuron.
-     If $N_{j-1}$ does not exist then that term is omitted.
+     where $z$ is the set of \texttt{goto} neurons referencing that instruction neuron.
+     If $N_{j-1}$ does not exist then that term is zero.
    - $N_{j'}$ has an aggregate input of
      \begin{equation}
      \label{eqn:transition-one} N_j
@@ -407,7 +407,7 @@ Thus the aggregate input to each neuron is as follows:
 \end{figure}
 
 #+LATEX: A realization of \texttt{example-prog} is given in Figure~\ref{fig:turing-example}.
-The output of the network is run to the bus on the right side of the diagram, through the unit delay, and fed back in to
+The output of the network is run to the bus on the right side of the diagram, through the unit delay, and fed back into
 the network on the left side. For example, the output of $N_0$ runs to position $0$ on the bus, which is connected to $N_1$.
 The network is said to /iterate/ each time the network output is run through the unit delay.
 The table below gives the value of each position at each iteration.
@@ -430,14 +430,14 @@ Note that all the iterations but the $0^{th}$ and $9^{th}$ share some common pro
 
 \begin{defn}
 A neural network's state is \textit{legal} provided that the following conditions hold: \\
-- At most one instruction node $N_j$ has an output of 1, the others output 0. \\
-- All transition nodes $N_{j'}$ and $N_{j''}$ have an output of 0. \\
+- At most one instruction neuron $N_j$ has an output of 1, the others output 0. \\
+- All transition neuron $N_{j'}$ and $N_{j''}$ have an output of 0. \\
 \end{defn}
 
 The network is in the \textit{final} state provided that all transition and instruction nodes have an output of 0.
 
-We assume that the network is initalized so that the first iteration is a legal state, after which we will induct on the current instruction
-neuron to snow that after each instruction execution the network is either in a legal or finite state and that the instruction was carried out and that
+We assume that the network is initialized so that the first iteration is a legal state, after which we will induct on the current instruction
+neuron to show that after each instruction execution the network is either in a legal or final state and that the instruction was carried out and that
 therefore the network properly implements the program.
 
 \begin{proof}
