@@ -60,7 +60,7 @@ Neural networks are used today in various machine-learning applications such as 
 This paper will introduce two mathematical models of neurons, the basic workings of neural networks,
 and then will proceed to examine their theoretical capabilities.
 First, the ability of certain neurons to compute various boolean functions will be demonstrated.
-This leads to the intuition that recurrent neural networks, are Turing-complete, which will then be proved.
+This leads to the intuition that recurrent neural networks are Turing-complete, which will then be proved.
 # The proof will then be extended by outlining changes to the network that could be made to make a Turing-complete version using the
 # more popular perceptron neuron.
 
@@ -75,6 +75,7 @@ A neuron is modeled mathematically as a function $f(x_1, x_2, \ldots, x_n) = \ph
 with each weight $w_i$ corresponding to an input $x_i$, and where $\phi$ is the activation function that determines the output of the neuron based
 on the sum of the products of the weights and inputs. For the sake of brevity we will also notate the weight and input vectors as $\vec{w}$ and $\vec{x}$, respectively.
 $\Sigma_{i=1}^n w_ix_i$ calculates the collective weighted input; this total is then passed to the activation function $\phi$ which uses the collective weighted input to generate an output.
+Note that the neuron is stateless; that is, output is determined wholly by the input.
 
 A neuron could be also thought of more generally as a partial application of $\phi$ and $\vec{w}$ over the function $F( \phi, \vec{w}, \vec{x} )$.
 Such a definition may be useful for implementation of a neural network in software.
@@ -339,7 +340,7 @@ Consider the following language $\mathbb{L}$, which consists of the following fo
 #+LATEX: dec  & $V' \leftarrow \textrm{max}(0, V - 1)$  & decrement          \\
 #+LATEX: nop  & $V' \leftarrow V$              & no operation       \\
 #+LATEX: goto & if $V \neq 0$ goto $j$         & conditional branch \\
-#+LATEX:\end{tabular} \linebreak where $V, j \in \zplus$.
+#+LATEX:\end{tabular} \linebreak where $V, j \in \reals$ such that $V,j \geq 0$.
 
 It is known that $\mathbb{L}$ is Turing-complete\cite{turing_machines_are}.
 Also note that the decrement operator precludes the possibility of negative variable values.
@@ -369,7 +370,7 @@ Then connect the neurons as follows:
      This feedback loop keeps the value of $V_i$ consistent between iterations unless otherwise modified.
    - Create a connection with a weight of  1 between each \texttt{inc} instruction neuron $N_j$ and the variable $V_i$ that is being incremented.
    - Create a connection with a weight of -1 between each \texttt{dec} instruction neuron $N_j$ and the variable $V_i$ that is being decremented.
-   - Create a connection with a weight of  1 between each non-\texttt{goto} instruction neuron $N_j$ and $N_{j+1}$.
+   - Create a connection with a weight of  1 between each \texttt{inc}, \texttt{dec}, or \texttt{nop} instruction neuron $N_j$ and $N_{j+1}$.
    - Create a connection with a weight of  1 between each \texttt{goto} instruction neuron $N_j$ and the transition neurons $N'_j$ and $N''_j$.
    - Create a connection with a weight of  1 between each $N'_j$  transition neuron and the variable neuron referenced by the $N_j$ \texttt{goto}.
    - Create a connection with a weight of -1 between each $N''_j$ transition neuron and the variable neuron referenced by the $N_j$ \texttt{goto}.
@@ -457,6 +458,11 @@ A neural network's state is \textit{legal} provided that the following condition
 
 The network is in the \textit{final} state provided that all transition and instruction nodes have an output of 0.
 
+To initialize the network, all instruction and transition neurons must have an output of 0.
+The first instruction is then given an input of $1$ on the $0^{th}$ iteration.
+#+ALTEX: This is pictured by the "Initial State" box on Figure~\ref{fig:turing-example}.
+The "Initial State" box outputs 1 on the $0^{th}$ iteration and outputs 0 afterward.
+
 We assume that the network is initialized so that the first iteration is a legal state, after which we will induct on the current instruction
 neuron to show that after each instruction execution the network is either in a legal or final state and that the instruction was carried out and that
 therefore the network properly implements the program.
@@ -472,23 +478,37 @@ state at the $k^{th}$ iteration and have $j$ such that the activated instruction
 Let $V_i$ be any variable referenced by the instruction at line $j$.
 The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
 
+Note that values for iteration $k+1$ are calculated from the values in iteration $k$.
+
+
 Consider the following exhaustive list of cases for the instruction associated with $N_j$:
 
 \texttt{nop}: \\
-$\left\{ \begin{array}{l} N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and \\
-$\left\{ \begin{array}{l} N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ by Equation~\ref{eqn:instruction}.
+$\left\{ \begin{array}{l} N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state. \\
+$\left\{ \begin{array}{l} N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ by Equation~\ref{eqn:instruction}. \\
+All other instruction neurons will output 0 at iteration $k+1$ by Equation~\ref{eqn:instruction}. \\
+All variable neurons will retain their respective values at iteration $k+1$ by Equation~\ref{eqn:variable}. \\
+All transition neurons will output 0 at iteration $k+1$ by Equations~\ref{eqn:transition-one}~and~Equation~\ref{eqn:transition-two}. \\
 
 \texttt{dec}: \\
-$\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ for $v \in \zplus$ by the definition of a legal state and \\
-$\left\{ \begin{array}{l} V(k+1) = max(0, V_i - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ by Equation~\ref{eqn:variable}.
+$\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ for $v \in \zplus$ by the definition of a legal state. \\
+$\left\{ \begin{array}{l} V(k+1) = \textrm{max}(0, V_i - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ by Equation~\ref{eqn:variable}. \\
+All other instruction neurons will output 0 at iteration $k+1$ by Equation~\ref{eqn:instruction}. \\
+All other variable neurons will retain their respective values at iteration $k+1$ by Equation~\ref{eqn:variable}. \\
+All transition neurons will output 0 at iteration $k+1$ by Equations~\ref{eqn:transition-one}~and~Equation~\ref{eqn:transition-two}. \\
 
-\texttt{inc}: This is similar to \texttt{dec}.
+\texttt{inc}: This is similar to \texttt{dec} except $V(k+1) = V_i + 1$ instead of $\textrm{max}(0, V_i - 1)$.
 
 \texttt{goto}: \\
 Let $m$ be the line referenced by the \texttt{goto} (i.e. \texttt{if V0 != 0 goto m}). \\
 $\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\  N'_j(k) = 0 \\ N''_j(k) = 0 \\ N_m(k) = 0 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and \\
-$\left\{ \begin{array}{l} V(k+1) = v \\ N_j(k+1) = 0 \\  N'_j(k+1) = 1 \\ N''_j(k+1) = max(0, 1-v) \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ by Equations~\ref{eqn:transition-one}~and~\ref{eqn:transition-two} and \\
-$\left\{ \begin{array}{l} V(k+2) = v \\ N_j(k+2) = 0 \\  N'_j(k+2) = 0 \\ N''_j(k+2) = 0 \\ N_m(k+2) = max(0, 1- max(0,1-v)) = \left\{ \begin{array}{rl} 1 &: v > 0 \\ 0 &: v = 0 \end{array}\right. \\ N_{j+1}(k+2) = max(0,1-v) = \left\{ \begin{array}{rl} 0 &: v > 0 \\ 1 &: v = 0\end{array}\right. \end{array} \right.$ by Equation~\ref{eqn:transition-one} and the network is back in a legal state (or final state, if $N_{j+1}$ does not exist) at iteration $k+2$.\\
+$\left\{ \begin{array}{l} V(k+1) = v \\ N_j(k+1) = 0 \\  N'_j(k+1) = 1 \\ N''_j(k+1) = \textrm{max}(0, 1-v) \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ by Equations~\ref{eqn:transition-one}~and~\ref{eqn:transition-two} and \\
+$\left\{ \begin{array}{l} V(k+2) = v \\ N_j(k+2) = 0 \\  N'_j(k+2) = 0 \\ N''_j(k+2) = 0 \\ N_m(k+2) = \textrm{max}(0, 1- \textrm{max}(0,1-v)) = \left\{ \begin{array}{rl} 1 &: v > 0 \\ 0 &: v = 0 \end{array}\right. \\ N_{j+1}(k+2) = \textrm{max}(0,1-v) = \left\{ \begin{array}{rl} 0 &: v > 0 \\ 1 &: v = 0\end{array}\right. \end{array} \right.$ by Equation~\ref{eqn:transition-one}. \\
+
+All other instruction neurons will output 0 at iterations $k+1$ and $k+2$ by Equation~\ref{eqn:instruction}. \\
+All other variable neurons will retain their respective values at iterations $k+1$ and $k+2$ by Equation~\ref{eqn:variable}. \\
+The network is back in a legal state (or final state, if $N_{j+1}$ does not exist) at iteration $k+2$.\\
+
 
 Thus all instructions are carried out and maintain a legal state throughout the duration of the program execution.
 Since the network can then implement any program in $\mathbb{L}$, it follows that recurrent neural networks are Turing-complete.
