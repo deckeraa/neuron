@@ -363,7 +363,9 @@ While $\texttt{V0} \neq 0$ the program loops.
 Given an input program $P$, create the following neurons: \\
 For each variable $i$ in $P$, create a variable neuron $V_i$. \\
 For each line $j$ in $P$, create a instruction neuron $N_j$. \\
-For each \texttt{goto} in $P$, create two transition neurons $N'_j$ and $N''_j$, given that $j$ is the line number of the \texttt{goto}.
+For each \texttt{goto} in $P$, create two transition neurons $N'_j$ and $N''_j$, given that $j$ is the line number of the \texttt{goto}. \\
+Replace any \texttt{goto} instruction neurons $N_j$ that references line $j+1$ with a \texttt{nop} instruction neuron.\footnote{This is valid because the execution will branch to the next instruction in both cases of the referenced variable $V > 0$ and $V=0$.}
+# \\ \texttt{ 0: if V0 != 0 goto 1 \\ 1: nop} and \\ \texttt{0: nop \\ 1: nop} \\ are equivalent. Such a \texttt{goto} will always branch to the next line.}
 
 Then connect the neurons as follows:
    - Create a connection with a weight of 1 between each variable neuron $V_i$ and $V_i$.
@@ -501,6 +503,7 @@ All transition neurons will output 0 at iteration $k+1$ by Equations~\ref{eqn:tr
 
 \texttt{goto}: \\
 Let $m$ be the line referenced by the \texttt{goto} (i.e. \texttt{if V0 != 0 goto m}). \\
+Note that $m \neq j+1$ because such an instruction was replaced with a \texttt{nop} in the network creation procedure. \\
 $\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\  N'_j(k) = 0 \\ N''_j(k) = 0 \\ N_m(k) = 0 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and \\
 $\left\{ \begin{array}{l} V(k+1) = v \\ N_j(k+1) = 0 \\  N'_j(k+1) = 1 \\ N''_j(k+1) = \textrm{max}(0, 1-v) \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ by Equations~\ref{eqn:transition-one}~and~\ref{eqn:transition-two} and \\
 $\left\{ \begin{array}{l} V(k+2) = v \\ N_j(k+2) = 0 \\  N'_j(k+2) = 0 \\ N''_j(k+2) = 0 \\ N_m(k+2) = \textrm{max}(0, 1- \textrm{max}(0,1-v)) = \left\{ \begin{array}{rl} 1 &: v > 0 \\ 0 &: v = 0 \end{array}\right. \\ N_{j+1}(k+2) = \textrm{max}(0,1-v) = \left\{ \begin{array}{rl} 0 &: v > 0 \\ 1 &: v = 0\end{array}\right. \end{array} \right.$ by Equation~\ref{eqn:transition-one}. \\
