@@ -107,7 +107,6 @@ These properties make training a neural network composed of sigmoid neurons much
 
 \begin{example}
 Consider the neurons in Figure~\ref{fig:example_neurons}.
-Note that
 Let $x_1 = 3, x_2 = 2, x_3 = -0.5$.
 Both of the neurons will have the same aggregate input passed to their activation functions.
 To determine the aggregate input, multiply the inputs by their respective weights and then sum the products:
