@@ -216,10 +216,7 @@ Line (4) implies that $w_1 + w_2 + b \leq 0$. \\
 
 Lines (2) and (3) imply that $w_1 > -b$ and $w_2 > -b$. \\
 Then $w_1 + w_2 + b > (-b) + (-b) + b = -b \geq 0$. \\
-Combining this with line (4) implies that $w_1 + w_2 + b = 0$. \\
-Adding lines (2) and (3) yield $w_1 + b + w_2 + b = w_1 + w_2 + b + b > 0$. \\
-Then the previous result implies that $w_1 + w_2 + b + b = 0 + b > 0$. \\
-This contradicts line (1). \\
+So $w_1 + w_2 + b > 0$, which contradicts line (4). \\
 Therefore the assumption is false and no perceptron can compute XOR. \\
 
 \end{proof}
