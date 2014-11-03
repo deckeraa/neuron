@@ -223,7 +223,7 @@ Therefore the assumption is false and no perceptron can compute XOR. \\
 
 However, a multilayer perceptron network can be designed to compute XOR.
 One way to demonstrate this is by constructing a network of perceptrons weighted to compute NAND.
-Then XOR can be computed because $\{NAND\}$ is functionally complete; that is, all boolean functions can be expressed as
+Then XOR can be computed because $\{\textrm{NAND}\}$ is functionally complete; that is, all boolean functions can be expressed as
 a composition of NAND.
 \begin{defn}
 Let $S$ be a set of truth functions. Then S is functionally complete iff all possible truth functions are definable from $S$\cite{proofwiki_nand}.
