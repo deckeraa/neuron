@@ -336,7 +336,7 @@ Consider the following language $\mathbb{L}$, which consists of the following fo
 #+LATEX: dec  & $V' \leftarrow \textrm{max}(0, V - 1)$  & decrement          \\
 #+LATEX: nop  & $V' \leftarrow V$              & no operation       \\
 #+LATEX: goto & if $V \neq 0$ goto $j$         & conditional branch \\
-#+LATEX:\end{tabular} \linebreak where $V, j \in \reals$ such that $V,j \geq 0$.
+#+LATEX:\end{tabular} \linebreak where $V, j \in \mathbb{Z}$ such that $V,j \geq 0$.
 
 It is known that $\mathbb{L}$ is Turing-complete\cite{turing_machines_are}.
 Also note that the decrement operator precludes the possibility of negative variable values.
