@@ -351,6 +351,7 @@ The following program \texttt{example-prog} in $\mathbb{L}$ will be implemented 
 0: dec V0
 1: inc V1
 2: if V0 != 0 goto 0
+3: nop
 #+end_src
 The program has two variables, \texttt{V0} and \texttt{V1}.
 While $\texttt{V0} \neq 0$ the program loops.
