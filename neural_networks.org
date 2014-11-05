@@ -389,31 +389,45 @@ The network is said to /iterate/ each time the network output is run through the
 Note that the $0^{th}$ iteration contains the initial values on the bus.
 These will be set according to the rules for creating an /initial state/, detailed below.
 
+The inputs to a neuron at iteration $k, k \geq 1$ can be written as equations, which are given below.
+Let $N(k)$ be the output of the neuron $N$ at iteration $k$.
+
+     - $V_i$ has an input of
+       V_i(k-1) + \Sigma_{a \in \textrm{inc}} N_a(k) - \Sigma_{b \in \textrm{dec}} N_b(k)
+       at iteration $k$ where \textrm{inc} is the set of \texttt{inc} instructions referencing $V_i$ and \textrm{dec} is the set of \texttt{dec} instructions referencing $V_i$.
+     - $N_j$ has an input at iteration $k$ of 
+       - $I(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if $j=0$, 
+       - $N_{j-1}(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is an \texttt{inc}, \texttt{dec}, or \texttt{nop}
+       - $N''_{j-1}(k-1)+ \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is a \texttt{goto}.
+       \textrm{goto} is the set of lines that are \texttt{goto}s referencing that neuron.
+     - $N'_j$ has an input of $N_j(k-1)$ at iteration $k$.
+     - $N''_j$ has an input of $N_j(k-1) - V(k-1)$ at iteration $k$ where $V$ is the variable referenced in the \texttt{goto} statement.
+     - $I$ has an input of $-I(k-1)$ at iteration $k$.
 # Also note that the box labeled "Initial State" outputs 1 during the calculation of the first iteration and outputs 0 afterward.
 
-Thus the aggregate input to each neuron is as follows:
-   - $V_i$ has an aggregate input of
-     \begin{equation}
-     \label{eqn:variable} V_i + \Sigma_{j \in x} N_j - \Sigma_{j \in y} N_j + \Sigma_{j \in z} N'_j - \Sigma_{j \in z} N''_j
-     \end{equation}
-     where $x$ is the set of \texttt{inc} neurons referencing that variable, $y$ is the set of \texttt{dec} neurons referencing that variable, and $z$ is the set of \texttt{goto} neurons refrencing that variable.
-   - $N_j$ has an aggregate input of
-     \begin{equation}
-     \label{eqn:instruction} \Sigma_{r \in w} N_r + \Sigma_{s \in z} (N'_s - N''_s)
-     \end{equation}
-     where $w$ is $\{ N_{j-1} \}$ if both $j-1 \geq 0$ and $N_{j-1}$ corresponds to a \texttt{inc}, \texttt{dec}, or \texttt{nop} instruction. \\
-     $w$ is $\{\}$ otherwise. \\
-     $z$ is the set of \texttt{goto} neurons referencing that instruction neuron. \\
-#     If $N_{j-1}$ does not exist then that term is zero.
-   - $N'_j$ has an aggregate input of
-     \begin{equation}
-     \label{eqn:transition-one} N_j
-     \end{equation}
-   - $N''_j$ has an aggregate input of
-     \begin{equation}
-     \label{eqn:transition-two} N_j - V
-     \end{equation}
-     where $V$ is the variable referenced by the \texttt{goto}.
+# Thus the aggregate input to each neuron is as follows:
+#    - $V_i$ has an aggregate input of
+#      \begin{equation}
+#      \label{eqn:variable} V_i + \Sigma_{j \in x} N_j - \Sigma_{j \in y} N_j + \Sigma_{j \in z} N'_j - \Sigma_{j \in z} N''_j
+#      \end{equation}
+#      where $x$ is the set of \texttt{inc} neurons referencing that variable, $y$ is the set of \texttt{dec} neurons referencing that variable, and $z$ is the set of \texttt{goto} neurons refrencing that variable.
+#    - $N_j$ has an aggregate input of
+#      \begin{equation}
+#      \label{eqn:instruction} \Sigma_{r \in w} N_r + \Sigma_{s \in z} (N'_s - N''_s)
+#      \end{equation}
+#      where $w$ is $\{ N_{j-1} \}$ if both $j-1 \geq 0$ and $N_{j-1}$ corresponds to a \texttt{inc}, \texttt{dec}, or \texttt{nop} instruction. \\
+#      $w$ is $\{\}$ otherwise. \\
+#      $z$ is the set of \texttt{goto} neurons referencing that instruction neuron. \\
+# #     If $N_{j-1}$ does not exist then that term is zero.
+#    - $N'_j$ has an aggregate input of
+#      \begin{equation}
+#      \label{eqn:transition-one} N_j
+#      \end{equation}
+#    - $N''_j$ has an aggregate input of
+#      \begin{equation}
+#      \label{eqn:transition-two} N_j - V
+#      \end{equation}
+#      where $V$ is the variable referenced by the \texttt{goto}.
 
 
 # TODO I plan to extend Hyötyniemi's proof by demonstrating how to achieve similar results with a more traditional perceptron definition.
@@ -502,15 +516,15 @@ Consider the following exhaustive list of cases for the instruction associated w
 
 \texttt{nop}: \\
 $\left\{ \begin{array}{l} N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state. \\
-$\left\{ \begin{array}{l} N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ by Equation~\ref{eqn:instruction}. \\
-All other instruction neurons will output 0 at iteration $k+1$ by Equation~\ref{eqn:instruction}. \\
+$\left\{ \begin{array}{l} N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ \\
+All other instruction neurons will output 0 at iteration $k+1$ \\
 All variable neurons will retain their respective values at iteration $k+1$ by Equation~\ref{eqn:variable}. \\
 All transition neurons will output 0 at iteration $k+1$ by Equations~\ref{eqn:transition-one}~and~Equation~\ref{eqn:transition-two}. \\
 
 \texttt{dec}: \\
 $\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ for $v \in \zplus$ by the definition of a legal state. \\
 $\left\{ \begin{array}{l} V(k+1) = \textrm{max}(0, V_i - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ by Equation~\ref{eqn:variable}. \\
-All other instruction neurons will output 0 at iteration $k+1$ by Equation~\ref{eqn:instruction}. \\
+All other instruction neurons will output 0 at iteration $k+1$ \\
 All other variable neurons will retain their respective values at iteration $k+1$ by Equation~\ref{eqn:variable}. \\
 All transition neurons will output 0 at iteration $k+1$ by Equations~\ref{eqn:transition-one}~and~Equation~\ref{eqn:transition-two}. \\
 
@@ -523,7 +537,7 @@ $\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\  N'_j(k) = 0 \\ N''_j(k) = 0
 $\left\{ \begin{array}{l} V(k+1) = v \\ N_j(k+1) = 0 \\  N'_j(k+1) = 1 \\ N''_j(k+1) = \textrm{max}(0, 1-v) \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ by Equations~\ref{eqn:transition-one}~and~\ref{eqn:transition-two} and \\
 $\left\{ \begin{array}{l} V(k+2) = v \\ N_j(k+2) = 0 \\  N'_j(k+2) = 0 \\ N''_j(k+2) = 0 \\ N_m(k+2) = \textrm{max}(0, 1- \textrm{max}(0,1-v)) = \left\{ \begin{array}{rl} 1 &: v > 0 \\ 0 &: v = 0 \end{array}\right. \\ N_{j+1}(k+2) = \textrm{max}(0,1-v) = \left\{ \begin{array}{rl} 0 &: v > 0 \\ 1 &: v = 0\end{array}\right. \end{array} \right.$ by Equation~\ref{eqn:transition-one}. \\
 
-All other instruction neurons will output 0 at iterations $k+1$ and $k+2$ by Equation~\ref{eqn:instruction}. \\
+All other instruction neurons will output 0 at iterations $k+1$ and $k+2$. \\
 All other variable neurons will retain their respective values at iterations $k+1$ and $k+2$ by Equation~\ref{eqn:variable}. \\
 The network is back in a legal state (or final state, if $N_{j+1}$ does not exist) at iteration $k+2$.\\
 
