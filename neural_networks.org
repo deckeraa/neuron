@@ -358,6 +358,7 @@ While $\texttt{V0} \neq 0$ the program loops.
 
 *** Procedure for Creating Network
 Given an input program $P$, create the following neurons: \\
+Create a neuron called $I$ which will be used to fire the first instruction neuron when computation starts. \\
 For each variable $i$ in $P$, create a variable neuron $V_i$. \\
 For each line $j$ in $P$, create a instruction neuron $N_j$. \\
 For each \texttt{goto} in $P$, create two transition neurons $N'_j$ and $N''_j$, given that $j$ is the line number of the \texttt{goto}. \\
@@ -365,6 +366,8 @@ Replace any \texttt{goto} instruction neurons $N_j$ that references line $j+1$ w
 # \\ \texttt{ 0: if V0 != 0 goto 1 \\ 1: nop} and \\ \texttt{0: nop \\ 1: nop} \\ are equivalent. Such a \texttt{goto} will always branch to the next line.}
 
 Then connect the neurons as follows:
+   - Create a connection with a weight of  1 between $I$ and $N_0$.
+   - Create a connection with a weight of -1 between $I$ and itself.
    - Create a connection with a weight of 1 between each variable neuron $V_i$ and $V_i$.
      This feedback loop keeps the value of $V_i$ consistent between iterations unless otherwise modified.
    - Create a connection with a weight of  1 between each \texttt{inc} instruction neuron $N_j$ and the variable $V_i$ that is being incremented.
@@ -373,6 +376,20 @@ Then connect the neurons as follows:
    - Create a connection with a weight of  1 between each \texttt{goto} instruction neuron $N_j$ and the transition neurons $N'_j$ and $N''_j$.
    - Create a connection with a weight of  1 between each $N'_j$  transition neuron and the variable neuron referenced by the $N_j$ \texttt{goto}.
    - Create a connection with a weight of -1 between each $N''_j$ transition neuron and the variable neuron referenced by the $N_j$ \texttt{goto}.
+
+#+LATEX: A realization of \texttt{example-prog} is given in Figure~\ref{fig:turing-example}.
+# The output of the network is run to the bus on the right side of the diagram, through the unit delay, and fed back into
+# the network on the left side.
+To ease readability of the diagram, the outputs have been drawn as a bus.
+The outputs are run into the bus on the right side of the diagram, go through the unit delay (to distinguish between iterations), 
+and come back out on the left side as inputs.
+For example, the output of $N_0$ runs to position $1$ on the bus, which is then connected to $N_1$.
+The network is said to /iterate/ each time the network output is run through the unit delay.
+#+LATEX: Table~\ref{table:example-prog-iteration-table} below gives the value of each position at each iteration.
+Note that the $0^{th}$ iteration contains the initial values on the bus.
+These will be set according to the rules for creating an /initial state/, detailed below.
+
+# Also note that the box labeled "Initial State" outputs 1 during the calculation of the first iteration and outputs 0 afterward.
 
 Thus the aggregate input to each neuron is as follows:
    - $V_i$ has an aggregate input of
@@ -409,13 +426,7 @@ Thus the aggregate input to each neuron is as follows:
 \end{center}
 \end{figure}
 
-#+LATEX: A realization of \texttt{example-prog} is given in Figure~\ref{fig:turing-example}.
-The output of the network is run to the bus on the right side of the diagram, through the unit delay, and fed back into
-the network on the left side. For example, the output of $N_0$ runs to position $0$ on the bus, which is connected to $N_1$.
-The network is said to /iterate/ each time the network output is run through the unit delay.
-The table below gives the value of each position at each iteration.
-Note that the $0^{th}$ iteration contains the initial settings of the network.
-Also note that the box labeled "Initial State" outputs 1 during the calculation of the first iteration and outputs 0 afterward.
+
 
 \begin{figure}
 \begin{center}
@@ -446,6 +457,13 @@ Position on bus & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
 # |               4 |         0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 | 0 |
 # |               5 |         0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 0 |
 # |               6 |         0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
+
+
+# TODO fix section about states.
+The initial settings are set in accordance to the following rules:
+   - The output of $I$ is set to 1.
+   - The output of all variable neurons is set to their initial value as given in the program in $\mathbb{l}$.
+   - All other neurons have an output of 0.
 
 Note that all the iterations but the $0^{th}$ and $9^{th}$ share some common properties which make them /legal states/.
 
