@@ -391,6 +391,7 @@ Note that the $0^{th}$ iteration contains the initial values on the bus.
 These will be set according to the rules for creating an /initial state/, detailed below.
 
 The inputs to a neuron at iteration $k, k \geq 1$ can be written as equations, which are given below.
+These equations reflect the nature of a network constructed according to the above procedure.
 Let $N(k)$ be the output of the neuron $N$ at iteration $k$.
 
      - $V_i$ has an input of
@@ -475,28 +476,41 @@ Position on bus & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
 
 
 # TODO fix section about states.
-The initial settings are set in accordance to the following rules:
-   - The output of $I$ is set to 1.
-   - The output of all variable neurons is set to their initial value as given in the program in $\mathbb{L}$.
-   - All other neurons have an output of 0.
-
-Note that all the iterations but the $0^{th}$ and $9^{th}$ share some common properties which make them /legal states/.
 
 \begin{defn}
-A neural network's state is \textit{legal} provided that the following conditions hold: \\
+A neural network's state is \textit{initial} provided that: \\
+   - The output of $I$ is set to 1. \\
+   - The output of all variable neurons is set to their initial value as given in the program in $\mathbb{L}$. \\
+   - All other neurons have an output of 0.
+\end{defn}
+The values at the $0^{\textrm{th}}$ iteration must be set so that the network is in the /initial/ state.
+
+\begin{defn}
+A neural network's state is \textit{legal} provided that: \\
 - At most one instruction neuron $N_j$ has an output of 1, the others output 0. \\
-- All transition neuron $N'_j$ and $N''_j$ have an output of 0. \\
+- All transition neuron $N'_j$ and $N''_j$ have an output of 0.
 \end{defn}
 
-The network is in the \textit{final} state provided that all transition and instruction nodes have an output of 0.
+\begin{defn}
+A neural network's state is \textit{transitory} provided that: \\
+- All instruction neurons $N_j$ output 0. \\
+- There exists a unique $j$ such that at least one of the transition neurons $N'_j$ and $N''_j$ output 1. \\
+- All other transition neurons output zero.
+\end{defn}
 
-To initialize the network, all instruction and transition neurons must have an output of 0.
-The first instruction is then given an input of $1$ on the $0^{th}$ iteration.
-#+ALTEX: This is pictured by the "Initial State" box on Figure~\ref{fig:turing-example}.
-The "Initial State" box outputs 1 on the $0^{th}$ iteration and outputs 0 afterward.
+\begin{defn}
+A neural network's state is \textit{final} provided that: \\
+- All transition and instruction nodes have an output of 0.
+\end{defn}
+# The network is in the \textit{final} state provided that all transition and instruction nodes have an output of 0.
 
-We assume that the network is initialized so that the first iteration is a legal state, after which we will induct on the current instruction
-neuron to show that after each instruction execution the network is either in a legal or final state and that the instruction was carried out and that
+# To initialize the network, all instruction and transition neurons must have an output of 0.
+# The first instruction is then given an input of $1$ on the $0^{th}$ iteration.
+# #+ALTEX: This is pictured by the "Initial State" box on Figure~\ref{fig:turing-example}.
+# The "Initial State" box outputs 1 on the $0^{th}$ iteration and outputs 0 afterward.
+
+We will show that the network is initialized so that the first iteration is a legal state, after which we will induct on the iteration number
+to show that after a set number of iterations the network is either in a legal or final state and that the instruction was carried out and that
 therefore the network properly implements the program.
 
 \begin{theorem}
