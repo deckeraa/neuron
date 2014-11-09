@@ -403,7 +403,7 @@ Let $N(k)$ be the output of the neuron $N$ at iteration $k$.
        - $I(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if $j=0$, 
        - $N_{j-1}(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is an \texttt{inc}, \texttt{dec}, or \texttt{nop}
        - $N''_{j-1}(k-1)+ \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is a \texttt{goto}.
-       \textrm{goto} is the set of lines that are \texttt{goto}s referencing that neuron.
+       \textrm{goto} is the set of lines that are \texttt{goto}s referencing $N_j$.
      - $N'_j$ has an input of $N_j(k-1)$ at iteration $k$.
      - $N''_j$ has an input of $N_j(k-1) - V(k-1)$ at iteration $k$ where $V$ is the variable referenced in the \texttt{goto} statement.
      - $I$ has an input of $-I(k-1)$ at iteration $k$.
@@ -546,9 +546,10 @@ Thus the network is in a legal state. \\
 The values of all variables have stayed the same, and the current instruction number was incremented; therefore \texttt{nop} executed correctly.
 
 \texttt{dec}: \\
+Let $V$ be the variable neuron referenced by the \texttt{dec} instruction. \\
 $\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ for $v \in \zplus$ by the definition of a legal state. \\
 Therefore: \\
-$\left\{ \begin{array}{l} V(k+1) = \textrm{max}(0, V_i - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ \\
+$\left\{ \begin{array}{l} V(k+1) = \textrm{max}(0, V - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ \\
 $V(k+1) = \textrm{max}(0, V - 1)$ because the input to $V$ at iteration $k+1$ is $V - 1$ and the neurons as we have defined them cannot output negative values. \\
 All other instruction neurons will output 0 at iteration $k+1$ \\
 All other variable neurons will retain their respective values at iteration $k+1$. \\
@@ -556,22 +557,40 @@ All transition neurons will output 0 at iteration $k+1$. \\
 Thus the network is in a legal state. \\
 The values of all variables have stayed the same except for the variable referenced, which has decreased by one (or remained at zero), and the current instruction number was incremented; therefore \texttt{dec} executed correctly.
 
-\texttt{inc}: This is similar to \texttt{dec} except $V(k+1) = V + 1$ instead of $\textrm{max}(0, V_i - 1)$.
+\texttt{inc}: This is similar to \texttt{dec} except $V(k+1) = V + 1$ instead of $\textrm{max}(0, V - 1)$.
 
 \texttt{goto}: \\
 Let $m$ be the line referenced by the \texttt{goto} (i.e. \texttt{if V0 != 0 goto m}). \\
 Note that $m \neq j+1$ because such an instruction was replaced with a \texttt{nop} in the network creation procedure. \\
-$\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\  N'_j(k) = 0 \\ N''_j(k) = 0 \\ N_m(k) = 0 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state and \\
-$\left\{ \begin{array}{l} V(k+1) = v \\ N_j(k+1) = 0 \\  N'_j(k+1) = 1 \\ N''_j(k+1) = \textrm{max}(0, 1-v) \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ by Equations~\ref{eqn:transition-one}~and~\ref{eqn:transition-two} and \\
-$\left\{ \begin{array}{l} V(k+2) = v \\ N_j(k+2) = 0 \\  N'_j(k+2) = 0 \\ N''_j(k+2) = 0 \\ N_m(k+2) = \textrm{max}(0, 1- \textrm{max}(0,1-v)) = \left\{ \begin{array}{rl} 1 &: v > 0 \\ 0 &: v = 0 \end{array}\right. \\ N_{j+1}(k+2) = \textrm{max}(0,1-v) = \left\{ \begin{array}{rl} 0 &: v > 0 \\ 1 &: v = 0\end{array}\right. \end{array} \right.$ by Equation~\ref{eqn:transition-one}. \\
 
+Let $V$ be the variable neuron referenced by the \texttt{goto} instruction. \\
+
+First consider the case where $V(k) = 0$ \\
+$\left\{ \begin{array}{l} V(k) = 0 \\ N_j(k) = 1 \\  N'_j(k) = 0 \\ N''_j(k) = 0 \\ N_m(k) = 0 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state. \\
+Therefore: \\ 
+$\left\{ \begin{array}{l} V(k+1) = 0 \\ N_j(k+1) = 0 \\  N'_j(k+1) = 1 \\ N''_j(k+1) = 1 \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ \\
+Note that the network is now in a transition state.
+Then: \\
+$\left\{ \begin{array}{l} V(k+2) = 0 \\ N_j(k+2) = 0 \\  N'_j(k+2) = 0 \\ N''_j(k+2) = 0 \\ N_m(k+2) = 0 \\ N_{j+1}(k+2) = 1 \end{array} \right.$ \\
 All other instruction neurons will output 0 at iterations $k+1$ and $k+2$. \\
-All other variable neurons will retain their respective values at iterations $k+1$ and $k+2$ by Equation~\ref{eqn:variable}. \\
+All other variable neurons will retain their respective values at iterations $k+1$ and $k+2$. \\
 The network is back in a legal state (or final state, if $N_{j+1}$ does not exist) at iteration $k+2$.\\
+Since the instruction neuron that now outputs 1 is $N_{j+1}$ the \texttt{goto} was correctly executed. \\ 
 
+Next consider the case where $V(k) = v > 0$ (which implies that $v \geq 1$ becuase $V \in \mathbb{Z}$): \\
+$\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\  N'_j(k) = 0 \\ N''_j(k) = 0 \\ N_m(k) = 0 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state. \\
+Therefore: \\ 
+$\left\{ \begin{array}{l} V(k+1) = v \\ N_j(k+1) = 0 \\  N'_j(k+1) = 1 \\ N''_j(k+1) = 0 \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ \\
+Note that the network is now in a transition state.
+Then: \\
+$\left\{ \begin{array}{l} V(k+2) = v \\ N_j(k+2) = 0 \\  N'_j(k+2) = 0 \\ N''_j(k+2) = 0 \\ N_m(k+2) = 1 \\ N_{j+1}(k+2) = 0 \end{array} \right.$ \\
+All other instruction neurons will output 0 at iterations $k+1$ and $k+2$. \\
+All other variable neurons will retain their respective values at iterations $k+1$ and $k+2$. \\
+The network is back in a legal state (or final state, if $N_{j+1}$ does not exist) at iteration $k+2$.\\
+Since the instruction neuron that now outputs 1 is $N_{m}$ the \texttt{goto} was correctly executed. \\ 
 
-Thus all instructions are carried out and maintain a legal state throughout the duration of the program execution.
-Since the network can then implement any program in $\mathbb{L}$, it follows that recurrent neural networks are Turing-complete.
+Thus all instructions are carried out.
+Since the network can implement any program in $\mathbb{L}$, it follows that recurrent neural networks are Turing-complete.
 \end{proof}
 
 ** Conclusion
