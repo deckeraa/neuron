@@ -523,6 +523,15 @@ Consequently recurrent neural networks are Turing-complete.
 \end{theorem}
 
 \begin{proof}
+~\\\textit{Base Case:}\\
+Assume that the network is in the initial state at the $k^{th}$ iteration then: \\
+$\left\{ \begin{array}{l} I(0) = 1 \\ N_0(0) = 0 \end{array} \right.$ \\
+Therefore: \\
+$\left\{ \begin{array}{l} I(1) = 0 \\ N_0(1) = 1 \end{array} \right.$ \\
+All variable neurons are set to the correct values by the definition of the initial state.
+All other neurons are set to zero.
+The network is in a legal state and the first instruction neuron, $N_0$, outputs 1, which indicates that
+the program is starting execution at the correct line.
 
 ~\\\textit{Induction Step:}\\
 Let the network constructed according to the directions above be in a legal
