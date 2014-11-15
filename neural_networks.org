@@ -377,6 +377,8 @@ Then connect the neurons as follows:
    - Create a connection with a weight of  1 between each $N'_j$  transition neuron and the instruction neuron referenced by the $N_j$ \texttt{goto}.
    - Create a connection with a weight of -1 between each $N''_j$ transition neuron and the instruction neuron referenced by the $N_j$ \texttt{goto}.
    - Create a connection with a weight of  1 between each $N''_j$ transition neuron and the instruction neuron $N_{j+1}$.
+# TODO Create a connection with a weight of -1 between each $V_i$ variable neuron and the $N''_j$ transition neuron$.
+# TODO handle the j+1 is off of the program (sometimes it doesn't exist).
 
 #+LATEX: A realization of \texttt{example-prog} is given in Figure~\ref{fig:turing-example}.
 # The output of the network is run to the bus on the right side of the diagram, through the unit delay, and fed back into
@@ -395,15 +397,15 @@ These will be set according to the rules for creating an /initial state/, detail
 The inputs to a neuron at iteration $k, k \geq 1$ can be written as equations, which are given below.
 These equations reflect the nature of a network constructed according to the above procedure.
 Let $N(k)$ be the output of the neuron $N$ at iteration $k$.
-
+# TODO the seperators in the second nested spot look like minus signes
      - $V_i$ has an input of
        V_i(k-1) + \Sigma_{a \in \textrm{inc}} N_a(k) - \Sigma_{b \in \textrm{dec}} N_b(k)
        at iteration $k$ where \textrm{inc} is the set of \texttt{inc} instructions referencing $V_i$ and \textrm{dec} is the set of \texttt{dec} instructions referencing $V_i$.
      - $N_j$ has an input at iteration $k$ of 
        - $I(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if $j=0$, 
        - $N_{j-1}(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is an \texttt{inc}, \texttt{dec}, or \texttt{nop}
-       - $N''_{j-1}(k-1)+ \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is a \texttt{goto}.
-       \textrm{goto} is the set of lines that are \texttt{goto}s referencing $N_j$.
+       - $N''_{j-1}(k-1)+ \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is a \texttt{goto}. # TODO non-breaking line break
+       (\textrm{goto} is the set of lines that are \texttt{goto}s referencing $N_j$).
      - $N'_j$ has an input of $N_j(k-1)$ at iteration $k$.
      - $N''_j$ has an input of $N_j(k-1) - V(k-1)$ at iteration $k$ where $V$ is the variable referenced in the \texttt{goto} statement.
      - $I$ has an input of $-I(k-1)$ at iteration $k$.
@@ -536,10 +538,21 @@ The network is in a legal state and the first instruction neuron, $N_0$, outputs
 the program is starting execution at the correct line.
 
 ~\\\textit{Induction Step:}\\
-Let the network constructed according to the directions above be in a legal
-state at the $k^{th}$ iteration and have $j$ such that the activated instruction neuron is $N_j$.
-Let $V_i$ be any variable referenced by the instruction at line $j$.
-The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
+Let the network constructed according to the directions above be in a legal state at the $k^{th}$ iteration. 
+Then one of the following two cases is true by the definition of a legal state: \\
+~\\\textit{Case One:}\\
+No instruction neuron has an input of 1. In this case the network is in the final state and execution of the program has halted.
+~\\\textit{Case Two:}\\
+Instruction neuron $N_j$ has an input of 1.
+In the induction step it will be shown that after iterating (once for \texttt{inc}, \texttt{dec}, and \texttt{nop}, twice for \texttt{goto}):\\
+- 1) the instruction at line $j$ in the program will be executed. \\
+- 2) the network will be in a legal state. \\
+- 3) the instruction neuron with an input of 1 will correspond to the next instruction in the execution of the program.
+  If the last instruction has been exectuted then no instruction neuron will have an input of 1 and the network will be in the final state (see Case One).
+
+# and have $j$ such that the activated instruction neuron is $N_j$.
+# Let $V_i$ be any variable referenced by the instruction at line $j$.
+# The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
 
 Note that values for iteration $k+1$ are calculated from the values in iteration $k$.
 
@@ -558,7 +571,7 @@ The values of all variables have stayed the same, and the current instruction nu
 
 \texttt{dec}: \\
 Let $V$ be the variable neuron referenced by the \texttt{dec} instruction. \\
-$\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ for $v \in \zplus$ by the definition of a legal state. \\
+$\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ for $v \geq 0$ by the definition of a legal state. \\
 Therefore: \\
 $\left\{ \begin{array}{l} V(k+1) = \textrm{max}(0, V - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ \\
 $V(k+1) = \textrm{max}(0, V - 1)$ because the input to $V$ at iteration $k+1$ is $V - 1$ and the neurons as we have defined them cannot output negative values. \\
@@ -588,7 +601,7 @@ All other variable neurons will retain their respective values at iterations $k+
 The network is back in a legal state (or final state, if $N_{j+1}$ does not exist) at iteration $k+2$.\\
 Since the instruction neuron that now outputs 1 is $N_{j+1}$ the \texttt{goto} was correctly executed. \\ 
 
-Next consider the case where $V(k) = v > 0$ (which implies that $v \geq 1$ becuase $V \in \mathbb{Z}$): \\
+Next consider the case where $V(k) = v > 0$ (which implies that $v \geq 1$ because $V \in \mathbb{Z}$): \\
 $\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\  N'_j(k) = 0 \\ N''_j(k) = 0 \\ N_m(k) = 0 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state. \\
 Therefore: \\ 
 $\left\{ \begin{array}{l} V(k+1) = v \\ N_j(k+1) = 0 \\  N'_j(k+1) = 1 \\ N''_j(k+1) = 0 \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ \\
