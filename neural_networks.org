@@ -359,10 +359,10 @@ While $\texttt{V0} \neq 0$ the program loops.
 *** Procedure for Creating Network
 Given an input program $P$, create the following neurons: \\
 # Create a neuron called $I$ which will be used to fire the first instruction neuron when computation starts. \\
-For each variable $i$ in $P$, create a variable neuron $V_i$. \\
-For each line $j$ in $P$, create a instruction neuron $N_j$. \\
-Replace any \texttt{goto} instruction neuron $N_j$ that references line $j+1$ with a \texttt{nop} instruction neuron.\footnote{This is valid because the execution will branch to the next instruction in both cases of the referenced variable $V > 0$ and $V=0$.}
-For each \texttt{goto} in $P$, create two transition neurons $N'_j$ and $N''_j$, given that $j$ is the line number of the \texttt{goto}. \\
+    - For each variable $i$ in $P$, create a variable neuron $V_i$. \\
+    - For each line $j$ in $P$, create a instruction neuron $N_j$. \\
+    - Replace any \texttt{goto} instruction neuron $N_j$ that references line $j+1$ with a \texttt{nop} instruction neuron.\footnote{This is valid because the execution will branch to the next instruction in both cases of the referenced variable $V > 0$ and $V=0$.}
+    - For each \texttt{goto} in $P$, create two transition neurons $N'_j$ and $N''_j$, given that $j$ is the line number of the \texttt{goto}. \\
 # \\ \texttt{ 0: if V0 != 0 goto 1 \\ 1: nop} and \\ \texttt{0: nop \\ 1: nop} \\ are equivalent. Such a \texttt{goto} will always branch to the next line.}
 
 Then connect the neurons as follows:
@@ -517,6 +517,7 @@ If the network is in the final state then execution halts.
 
 We will show that the network is initialized so that the first iteration is a legal state, after which we will induct on the current instruction
 to show the instructions in the program are executed correctly and in order.
+
 # is either in a legal or final state and that the instruction was carried out and that
 # therefore the network properly implements the program.
 
@@ -528,19 +529,24 @@ Consequently recurrent neural networks are Turing-complete.
 \begin{proof}
 Let $P$ be a program in $\mathbb{L}$. Let the network be constructed to implement $P$ according to the above procedure.
 
-~\\\textit{Base Case:}\\
-By the definition of the initial state, the following are true: \\
-- 1) The network is in a legal state. \\
-- 2) The instruction neuron corresponding to the first instruction in the program, $N_0$, has an input of 1. \\
-Thus the initialized network meets the requirements for the induction step. \\
-
-~\\\textit{Induction Step:}\\
+Induction Hypothesis:
 Let the network be in a legal state at the $k^{th}$ iteration,
-with the activated instruction neuron $N_j$ having an input of 1.
+with the activated instruction neuron $N_j$ having an input of 1, with all instructions antecedent to instruction $j$ having been correctly executed.
 Then the following will be shown: \\
 - 1) The instruction at line $j$ in the program will be executed. \\
 - 2) The network will be in a legal state after execution of the instruction at line $j$. \\
 - 3) The instruction neuron corresponding to the next instruction in the execution of the program will have an input of 1, or the network will be in the final state in which case execution halts. \\
+
+~\\\textit{Base Case:}\\
+By the definition of the initial state, the following are true: \\
+- 1) The network is in a legal state. \\
+- 2) The instruction neuron corresponding to the first instruction in the program, $N_0$, has an input of 1. \\
+- 3) All instructions previous to $j=0$ have necessarily been executed correctly because there are no instructions previous to instruction 0 in the program. \\
+Thus the initialized network meets the requirements for the induction step. \\
+
+~\\\textit{Induction Step:}\\
+Let the network be in a legal state at the $k^{th}$ iteration,
+with the activated instruction neuron $N_j$ having an input of 1, with all instructions antecedent to instruction $j$ having been correctly executed.
 
 The input of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
 
