@@ -563,15 +563,15 @@ The values of all variables have stayed the same, and the current instruction nu
 Let $V$ be the variable neuron referenced by the \texttt{dec} instruction. \\
 $\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ for $v \geq 0$ by the definition of a legal state. \\
 Therefore: \\
-$\left\{ \begin{array}{l} V(k+1) = \textrm{max}(0, V - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ \\
-$V(k+1) = \textrm{max}(0, V - 1)$ because the input to $V$ at iteration $k+1$ is $V - 1$ and the neurons as we have defined them cannot output negative values. \\
-All other instruction neurons will output 0 at iteration $k+1$ \\
-All other variable neurons will retain their respective values at iteration $k+1$. \\
-All transition neurons will output 0 at iteration $k+1$. \\
+$\left\{ \begin{array}{l} V(k+1) = \textrm{max}(0, v - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ \\
+$V(k+1) = \textrm{max}(0, v - 1)$ because the input to $V$ at iteration $k+1$ is $v - 1$ and the neurons as we have defined them cannot output negative values. \\
+All other instruction neurons will have an input of 0 at iteration $k+1$ \\
+All other variable neurons will retain their respective inputs at iteration $k+1$. \\
+All transition neurons will have an input of 0 at iteration $k+1$. \\
 Thus the network is in a legal state. \\
 The values of all variables have stayed the same except for the variable referenced, which has decreased by one (or remained at zero), and the current instruction number was incremented; therefore \texttt{dec} executed correctly.
 
-\texttt{inc}: This is similar to \texttt{dec} except $V(k+1) = V + 1$ instead of $\textrm{max}(0, V - 1)$.
+\texttt{inc}: This is similar to \texttt{dec} except $V(k+1) = v + 1$ instead of $\textrm{max}(0, v - 1)$.
 
 \texttt{goto}: \\
 Let $m$ be the line referenced by the \texttt{goto} (i.e. \texttt{if V0 != 0 goto m}). \\
