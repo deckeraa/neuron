@@ -396,15 +396,14 @@ These will be set according to the rules for creating an /initial state/, detail
 
 The inputs to a neuron at iteration $k, k \geq 1$ can be written as equations, which are given below.
 These equations reflect the nature of a network constructed according to the above procedure.
-Let $N(k)$ be the output of the neuron $N$ at iteration $k$.
+Let $N(k)$ be the input of the neuron $N$ at iteration $k$.
 # TODO the seperators in the second nested spot look like minus signs
      - 1) $V_i$ has an input of
        V_i(k-1) + \Sigma_{a \in \textrm{inc}} N_a(k) - \Sigma_{b \in \textrm{dec}} N_b(k)
        at iteration $k$ where \textrm{inc} is the set of \texttt{inc} instructions referencing $V_i$ and \textrm{dec} is the set of \texttt{dec} instructions referencing $V_i$.
      - 2) $N_j$ has an input at iteration $k$ of 
-       - a) $I(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if $j=0$, 
-       - b) $N_{j-1}(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is an \texttt{inc}, \texttt{dec}, or \texttt{nop}
-       - c) $N''_{j-1}(k-1)+ \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is a \texttt{goto}, where \textrm{goto} is the set of lines that are \texttt{goto}s referencing $N_j$.
+       - a) $N_{j-1}(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is an \texttt{inc}, \texttt{dec}, or \texttt{nop}
+       - b) $N''_{j-1}(k-1)+ \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is a \texttt{goto}, where \textrm{goto} is the set of lines that are \texttt{goto}s referencing $N_j$.
      - 3) $N'_j$ has an input of $N_j(k-1)$ at iteration $k$.
      - 4) $N''_j$ has an input of $N_j(k-1) - V(k-1)$ at iteration $k$ where $V$ is the variable referenced in the \texttt{goto} statement.
      - 5) $I$ has an input of $-I(k-1)$ at iteration $k$.
@@ -516,8 +515,9 @@ If the network is in the final state then execution halts.
 # #+ALTEX: This is pictured by the "Initial State" box on Figure~\ref{fig:turing-example}.
 # The "Initial State" box outputs 1 on the $0^{th}$ iteration and outputs 0 afterward.
 
-# We will show that the network is initialized so that the first iteration is a legal state, after which we will induct on the iteration number
-# to show that after a set number of iterations the network is either in a legal or final state and that the instruction was carried out and that
+We will show that the network is initialized so that the first iteration is a legal state, after which we will induct on the current instruction
+to show the instructions in the program are executed correctly and in order.
+# is either in a legal or final state and that the instruction was carried out and that
 # therefore the network properly implements the program.
 
 \begin{theorem}
@@ -526,6 +526,8 @@ Consequently recurrent neural networks are Turing-complete.
 \end{theorem}
 
 \begin{proof}
+Let $P$ be a program in $\mathbb{L}$. Let the network be constructed to implement $P$ according to the above procedure.
+
 ~\\\textit{Base Case:}\\
 By the definition of the initial state, the following are true: \\
 - 1) The network is in a legal state. \\
@@ -533,7 +535,7 @@ By the definition of the initial state, the following are true: \\
 Thus the initialized network meets the requirements for the induction step. \\
 
 ~\\\textit{Induction Step:}\\
-Let the network constructed according to the directions above be in a legal state at the $k^{th}$ iteration,
+Let the network be in a legal state at the $k^{th}$ iteration,
 with the activated instruction neuron $N_j$ having an input of 1.
 Then the following will be shown: \\
 - 1) The instruction at line $j$ in the program will be executed. \\
@@ -541,7 +543,7 @@ Then the following will be shown: \\
 - 3) The instruction neuron corresponding to the next instruction in the execution of the program will have an input of 1, or the network will be in the final state in which case execution halts. \\
 
 Let $V$ be the variable, if any, referenced by the instruction at line $j$.
-The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
+The input of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
 
 Note that the outputs of iteration $k$ are the inputs for iteration $k+1$.
 
@@ -550,10 +552,10 @@ Consider the following exhaustive list of cases for the instruction associated w
 \texttt{nop}: \\
 $\left\{ \begin{array}{l} N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state. \\
 Therefore: \\
-$\left\{ \begin{array}{l} N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ \\
-All other instruction neurons will output 0 at iteration $k+1$ \\
+$\left\{ \begin{array}{l} N_j(k+1) = 0 \textrm{ by equation (2a)} \\ N_{j+1}(k+1) = 1 \textrm{ by equation (2a)} \end{array} \right.$ \\
+All other instruction neurons will have an input of 0 at iteration $k+1$ \\
 All variable neurons will retain their respective values at iteration $k+1$. \\
-All transition neurons will output 0 at iteration $k+1$. \\
+All transition neurons will have an input of 0 at iteration $k+1$. \\
 Thus the network is in a legal state. \\
 The values of all variables have stayed the same, and the current instruction number was incremented; therefore \texttt{nop} executed correctly.
 
