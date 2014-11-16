@@ -358,7 +358,7 @@ While $\texttt{V0} \neq 0$ the program loops.
 
 *** Procedure for Creating Network
 Given an input program $P$, create the following neurons: \\
-Create a neuron called $I$ which will be used to fire the first instruction neuron when computation starts. \\
+# Create a neuron called $I$ which will be used to fire the first instruction neuron when computation starts. \\
 For each variable $i$ in $P$, create a variable neuron $V_i$. \\
 For each line $j$ in $P$, create a instruction neuron $N_j$. \\
 Replace any \texttt{goto} instruction neuron $N_j$ that references line $j+1$ with a \texttt{nop} instruction neuron.\footnote{This is valid because the execution will branch to the next instruction in both cases of the referenced variable $V > 0$ and $V=0$.}
@@ -366,8 +366,8 @@ For each \texttt{goto} in $P$, create two transition neurons $N'_j$ and $N''_j$,
 # \\ \texttt{ 0: if V0 != 0 goto 1 \\ 1: nop} and \\ \texttt{0: nop \\ 1: nop} \\ are equivalent. Such a \texttt{goto} will always branch to the next line.}
 
 Then connect the neurons as follows:
-   - Create a connection with a weight of  1 between $I$ and $N_0$.
-   - Create a connection with a weight of -1 between $I$ and itself.
+#    - Create a connection with a weight of  1 between $I$ and $N_0$.
+#    - Create a connection with a weight of -1 between $I$ and itself.
    - Create a connection with a weight of 1 between each variable neuron $V_i$ and itself.
      This feedback loop keeps the value of $V_i$ consistent between iterations unless otherwise modified.
    - Create a connection with a weight of  1 between each \texttt{inc} instruction neuron $N_j$ and the variable $V_i$ that is being incremented.
@@ -406,7 +406,7 @@ Let $N(k)$ be the input of the neuron $N$ at iteration $k$.
        - b) $N''_{j-1}(k-1)+ \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is a \texttt{goto}, where \textrm{goto} is the set of lines that are \texttt{goto}s referencing $N_j$.
      - 3) $N'_j$ has an input of $N_j(k-1)$ at iteration $k$.
      - 4) $N''_j$ has an input of $N_j(k-1) - V(k-1)$ at iteration $k$ where $V$ is the variable referenced in the \texttt{goto} statement.
-     - 5) $I$ has an input of $-I(k-1)$ at iteration $k$.
+#     - 5) $I$ has an input of $-I(k-1)$ at iteration $k$.
 # Also note that the box labeled "Initial State" outputs 1 during the calculation of the first iteration and outputs 0 afterward.
 
 # Thus the aggregate input to each neuron is as follows:
