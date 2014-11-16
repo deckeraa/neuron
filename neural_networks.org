@@ -527,7 +527,7 @@ Consequently, recurrent neural networks are Turing-complete.
 \end{theorem}
 
 \begin{proof}
-Let $P$ be a program in $\mathbb{L}$. Let the network be constructed to implement $P$ according to the above procedure.
+Let $P$ be a program in $\mathbb{L}$. Let the network be constructed to implement $P$ according to the above procedure and set to be in the initial state.
 
 Induction Hypothesis:
 Let the network be in a legal state at the $k^{th}$ iteration,
