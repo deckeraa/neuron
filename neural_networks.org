@@ -542,7 +542,6 @@ Then the following will be shown: \\
 - 2) The network will be in a legal state after execution of the instruction at line $j$. \\
 - 3) The instruction neuron corresponding to the next instruction in the execution of the program will have an input of 1, or the network will be in the final state in which case execution halts. \\
 
-Let $V$ be the variable, if any, referenced by the instruction at line $j$.
 The input of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
 
 Note that the outputs of iteration $k$ are the inputs for iteration $k+1$.
@@ -563,7 +562,7 @@ The values of all variables have stayed the same, and the current instruction nu
 Let $V$ be the variable neuron referenced by the \texttt{dec} instruction. \\
 $\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\ N_{j+1}(k) = 0 \end{array} \right.$ for $v \geq 0$ by the definition of a legal state. \\
 Therefore: \\
-$\left\{ \begin{array}{l} V(k+1) = \textrm{max}(0, v - 1) \\ N_j(k+1) = 0 \\ N_{j+1}(k+1) = 1 \end{array} \right.$ \\
+$\left\{ \begin{array}{l} V(k+1) = \textrm{max}(0, v - 1) \textrm{ by equation (1)} \\ N_j(k+1) = 0 \textrm{ by equation (2a)} \\ N_{j+1}(k+1) = 1 \textrm{ by equation (2a)} \end{array} \right.$ \\
 $V(k+1) = \textrm{max}(0, v - 1)$ because the input to $V$ at iteration $k+1$ is $v - 1$ and the neurons as we have defined them cannot output negative values. \\
 All other instruction neurons will have an input of 0 at iteration $k+1$ \\
 All other variable neurons will retain their respective inputs at iteration $k+1$. \\
@@ -582,26 +581,26 @@ Let $V$ be the variable neuron referenced by the \texttt{goto} instruction. \\
 First consider the case where $V(k) = 0$ \\
 $\left\{ \begin{array}{l} V(k) = 0 \\ N_j(k) = 1 \\  N'_j(k) = 0 \\ N''_j(k) = 0 \\ N_m(k) = 0 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state. \\
 Therefore: \\ 
-$\left\{ \begin{array}{l} V(k+1) = 0 \\ N_j(k+1) = 0 \\  N'_j(k+1) = 1 \\ N''_j(k+1) = 1 \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ \\
+$\left\{ \begin{array}{l} V(k+1) = 0 \textrm{ by equation (1)} \\ N_j(k+1) = 0 \textrm{ by equation (2a)} \\  N'_j(k+1) = 1 \textrm{ by equation (3)} \\ N''_j(k+1) = 1 \textrm{ by equation (4)} \\ N_m(k+1) = 0 \textrm{ by equations (2a) and (2b)} \\ N_{j+1}(k+1) = 0 \textrm{ by equation (2b)}\end{array} \right.$ \\
 Note that the network is now in a transition state.
 Then: \\
-$\left\{ \begin{array}{l} V(k+2) = 0 \\ N_j(k+2) = 0 \\  N'_j(k+2) = 0 \\ N''_j(k+2) = 0 \\ N_m(k+2) = 0 \\ N_{j+1}(k+2) = 1 \end{array} \right.$ \\
-All other instruction neurons will output 0 at iterations $k+1$ and $k+2$. \\
-All other variable neurons will retain their respective values at iterations $k+1$ and $k+2$. \\
+$\left\{ \begin{array}{l} V(k+2) = 0 \textrm{ by equation (1)} \\ N_j(k+2) = 0 \textrm{ by equation (2a)} \\  N'_j(k+2) = 0 \textrm{ by equation (3)} \\ N''_j(k+2) = 0 \textrm{ by equation (4)} \\ N_m(k+2) = 0 \textrm{ by equations (2a) and (2b)} \\ N_{j+1}(k+2) = 1 \textrm{ by equation (2b)}\end{array} \right.$ \\
+All other instruction neurons will have inputs of 0 at iterations $k+1$ and $k+2$. \\
+All other variable neurons will retain their respective inputs at iterations $k+1$ and $k+2$. \\
 The network is back in a legal state (or final state, if $N_{j+1}$ does not exist) at iteration $k+2$.\\
-Since the instruction neuron that now outputs 1 is $N_{j+1}$ the \texttt{goto} was correctly executed. \\ 
+Since the instruction neuron that now has an input of 1 is $N_{j+1}$ the \texttt{goto} was correctly executed. \\ 
 
 Next consider the case where $V(k) = v > 0$ (which implies that $v \geq 1$ because $V \in \mathbb{Z}$): \\
 $\left\{ \begin{array}{l} V(k) = v \\ N_j(k) = 1 \\  N'_j(k) = 0 \\ N''_j(k) = 0 \\ N_m(k) = 0 \\ N_{j+1}(k) = 0 \end{array} \right.$ by the definition of a legal state. \\
 Therefore: \\ 
-$\left\{ \begin{array}{l} V(k+1) = v \\ N_j(k+1) = 0 \\  N'_j(k+1) = 1 \\ N''_j(k+1) = 0 \\ N_m(k+1) = 0 \\ N_{j+1}(k+1) = 0 \end{array} \right.$ \\
+$\left\{ \begin{array}{l} V(k+1) = v \textrm{ by equation (1)} \\ N_j(k+1) = 0 \textrm{ by equation (2a)} \\  N'_j(k+1) = 1 \textrm{ by equation (3)} \\ N''_j(k+1) = 0 \textrm{ by equation (4)} \\ N_m(k+1) = 0 \textrm{ by equations (2a) and (2b)} \\ N_{j+1}(k+1) = 0 \textrm{ by equation (2b)} \end{array} \right.$ \\
 Note that the network is now in a transition state.
 Then: \\
-$\left\{ \begin{array}{l} V(k+2) = v \\ N_j(k+2) = 0 \\  N'_j(k+2) = 0 \\ N''_j(k+2) = 0 \\ N_m(k+2) = 1 \\ N_{j+1}(k+2) = 0 \end{array} \right.$ \\
-All other instruction neurons will output 0 at iterations $k+1$ and $k+2$. \\
-All other variable neurons will retain their respective values at iterations $k+1$ and $k+2$. \\
+$\left\{ \begin{array}{l} V(k+2) = v \textrm{ by equation (1)} \\ N_j(k+2) = 0 \textrm{ by equation (2a)} \\  N'_j(k+2) = 0 \textrm{ by equation (3)} \\ N''_j(k+2) = 0 \textrm{ by equation (4)} \\ N_m(k+2) = 1 \textrm{ by equations (2a) and (2b)} \\ N_{j+1}(k+2) = 0 \textrm{ by equation (2b)} \end{array} \right.$ \\
+All other instruction neurons will have inputs of 0 at iterations $k+1$ and $k+2$. \\
+All other variable neurons will retain their respective inputs at iterations $k+1$ and $k+2$. \\
 The network is back in a legal state (or final state, if $N_{j+1}$ does not exist) at iteration $k+2$.\\
-Since the instruction neuron that now outputs 1 is $N_{m}$ the \texttt{goto} was correctly executed. \\ 
+Since the instruction neuron that has an input of 1 is $N_{m}$ the \texttt{goto} was correctly executed. \\ 
 
 Thus all instructions are carried out.
 Since the network can implement any program in $\mathbb{L}$, it follows that recurrent neural networks are Turing-complete.
