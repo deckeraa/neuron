@@ -484,23 +484,23 @@ Position on bus & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\
 *** States of the Network
 \begin{defn}
 A neural network's state is \textit{initial} provided that: \\
-   - The input of $I$ is 1. \\
-   - The input of all variable neurons is  their initial value as given in the program in $\mathbb{L}$. \\
+   - The input of $N_0$ is 1. \\
+   - The input of all variable neurons is their initial value as given in the program in $\mathbb{L}$. \\
    - All other neurons have an input of 0.
 \end{defn}
 The inputs at the $0^{\textrm{th}}$ iteration must be set so that the network is in the /initial/ state.
 
 \begin{defn}
 A neural network's state is \textit{legal} provided that: \\
-- At most one instruction neuron $N_j$ has an output of 1, the others output 0. \\
-- All transition neuron $N'_j$ and $N''_j$ have an output of 0.
+- At most one instruction neuron $N_j$ has an input of 1, the others have an input of 0. \\
+- All transition neuron $N'_j$ and $N''_j$ have an input of 0.
 \end{defn}
 
 \begin{defn}
 A neural network's state is \textit{transitory} provided that: \\
-- All instruction neurons $N_j$ output 0. \\
-- There exists a unique $j$ such that at least one of the transition neurons $N'_j$ and $N''_j$ output 1. \\
-- All other transition neurons output zero.
+- All instruction neurons $N_j$ input 0. \\
+- There exists a unique $j$ such that at least one of the transition neurons $N'_j$ and $N''_j$ input 1. \\
+- All other transition neurons have an input of 0.
 \end{defn}
 
 \begin{defn}
@@ -516,9 +516,9 @@ If the network is in the final state then execution halts.
 # #+ALTEX: This is pictured by the "Initial State" box on Figure~\ref{fig:turing-example}.
 # The "Initial State" box outputs 1 on the $0^{th}$ iteration and outputs 0 afterward.
 
-We will show that the network is initialized so that the first iteration is a legal state, after which we will induct on the iteration number
-to show that after a set number of iterations the network is either in a legal or final state and that the instruction was carried out and that
-therefore the network properly implements the program.
+# We will show that the network is initialized so that the first iteration is a legal state, after which we will induct on the iteration number
+# to show that after a set number of iterations the network is either in a legal or final state and that the instruction was carried out and that
+# therefore the network properly implements the program.
 
 \begin{theorem}
 Using the procedure above a neural network can be constructed to implement any program in $\mathbb{L}$.
