@@ -315,7 +315,7 @@ Since $S_1$ is functionally complete this implies that $S_2$ is functionally com
 As was alluded to before, recurrent neural networks are Turing-complete.
 
 The Turing machine is a conceptual machine proposed by Alan Turing to provide a definition for the idea of computability.
-The description of a Turing machince is based on Turing's 1936 paper\cite{Turing1936}.
+The description of a Turing machine is based on Turing's 1936 paper\cite{Turing1936}.
 
 The Turing machine has a finite number of conditions called m-configurations that it can be in.
 It has a "tape" of infinite length which is divided into "squares" containing "symbols" which can be read one at a time by a "reader".
@@ -336,7 +336,7 @@ Consider the following language $\mathbb{L}$, which consists of the following fo
 #+LATEX: dec  & $V' \leftarrow \textrm{max}(0, V - 1)$  & decrement          \\
 #+LATEX: nop  & $V' \leftarrow V$              & no operation       \\
 #+LATEX: goto & if $V \neq 0$ goto $j$         & conditional branch \\
-#+LATEX:\end{tabular} \linebreak where $V, j \in \mathbb{Z}$ such that $V,j \geq 0$.
+#+LATEX:\end{tabular} \linebreak where $V, j \in \mathbb{Z}$ such that $V,j \geq 0$. $j$ is less than than the number of lines in the program.
 
 It is known that $\mathbb{L}$ is Turing-complete\cite{turing_machines_are}.
 Also note that the decrement operator precludes the possibility of negative variable values.
@@ -377,8 +377,8 @@ Then connect the neurons as follows:
    - Create a connection with a weight of  1 between each $N'_j$  transition neuron and the instruction neuron referenced by the $N_j$ \texttt{goto}.
    - Create a connection with a weight of -1 between each $N''_j$ transition neuron and the instruction neuron referenced by the $N_j$ \texttt{goto}.
    - Create a connection with a weight of  1 between each $N''_j$ transition neuron and the instruction neuron $N_{j+1}$.
-# TODO Create a connection with a weight of -1 between each $V_i$ variable neuron and the $N''_j$ transition neuron$.
-# TODO handle the j+1 is off of the program (sometimes it doesn't exist).
+   - Create a connection with a weight of -1 between each $V_i$ variable neuron and the $N''_j$ transition neuron.
+If line $j+1$ is not in the program then connections to $N_{j+1}$ will not exist because $N_{j+1}$ will not exist.
 
 #+LATEX: A realization of \texttt{example-prog} is given in Figure~\ref{fig:turing-example}.
 # The output of the network is run to the bus on the right side of the diagram, through the unit delay, and fed back into
@@ -523,7 +523,7 @@ to show the instructions in the program are executed correctly and in order.
 
 \begin{theorem}
 Using the procedure above a neural network can be constructed to implement any program in $\mathbb{L}$.
-Consequently recurrent neural networks are Turing-complete.
+Consequently, recurrent neural networks are Turing-complete.
 \end{theorem}
 
 \begin{proof}
@@ -605,7 +605,7 @@ Then: \\
 $\left\{ \begin{array}{l} V(k+2) = v \textrm{ by equation (1)} \\ N_j(k+2) = 0 \textrm{ by equation (2a)} \\  N'_j(k+2) = 0 \textrm{ by equation (3)} \\ N''_j(k+2) = 0 \textrm{ by equation (4)} \\ N_m(k+2) = 1 \textrm{ by equations (2a) and (2b)} \\ N_{j+1}(k+2) = 0 \textrm{ by equation (2b)} \end{array} \right.$ \\
 All other instruction neurons will have inputs of 0 at iterations $k+1$ and $k+2$. \\
 All other variable neurons will retain their respective inputs at iterations $k+1$ and $k+2$. \\
-The network is back in a legal state (or final state, if $N_{j+1}$ does not exist) at iteration $k+2$.\\
+The network is back in a legal state at iteration $k+2$.\\
 Since the instruction neuron that has an input of 1 is $N_{m}$ the \texttt{goto} was correctly executed. \\ 
 
 Thus all instructions are carried out.
