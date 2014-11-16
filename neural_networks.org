@@ -346,7 +346,7 @@ This is due to the following activation function used for the purposes of this p
 \end{equation}
 
 To elucidate the proof an example will be interspersed throughout the proof.
-The following program \texttt{example-prog} in $\mathbb{L}$ will be implemented using a neural network:
+The following program \texttt{example-prog} in $\mathbb{L}$ will be implemented using a recurrent neural network:
 #+begin_src L
 0: dec V0
 1: inc V1
@@ -397,7 +397,7 @@ These will be set according to the rules for creating an /initial state/, detail
 The inputs to a neuron at iteration $k, k \geq 1$ can be written as equations, which are given below.
 These equations reflect the nature of a network constructed according to the above procedure.
 Let $N(k)$ be the output of the neuron $N$ at iteration $k$.
-# TODO the seperators in the second nested spot look like minus signes
+# TODO the seperators in the second nested spot look like minus signs
      - $V_i$ has an input of
        V_i(k-1) + \Sigma_{a \in \textrm{inc}} N_a(k) - \Sigma_{b \in \textrm{dec}} N_b(k)
        at iteration $k$ where \textrm{inc} is the set of \texttt{inc} instructions referencing $V_i$ and \textrm{dec} is the set of \texttt{dec} instructions referencing $V_i$.
@@ -543,19 +543,17 @@ Then one of the following two cases is true by the definition of a legal state: 
 ~\\\textit{Case One:}\\
 No instruction neuron has an input of 1. In this case the network is in the final state and execution of the program has halted.
 ~\\\textit{Case Two:}\\
-Instruction neuron $N_j$ has an input of 1.
+A unique instruction neuron $N_j$ has an input of 1.
 In the induction step it will be shown that after iterating (once for \texttt{inc}, \texttt{dec}, and \texttt{nop}, twice for \texttt{goto}):\\
 - 1) the instruction at line $j$ in the program will be executed. \\
 - 2) the network will be in a legal state. \\
 - 3) the instruction neuron with an input of 1 will correspond to the next instruction in the execution of the program.
   If the last instruction has been exectuted then no instruction neuron will have an input of 1 and the network will be in the final state (see Case One).
 
-# and have $j$ such that the activated instruction neuron is $N_j$.
-# Let $V_i$ be any variable referenced by the instruction at line $j$.
-# The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
+Let $V$ be the variable, if any, referenced by the instruction at line $j$.
+The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
 
-Note that values for iteration $k+1$ are calculated from the values in iteration $k$.
-
+Note that the inputs for iteration $k+1$ are the outputs of iteration $k$.
 
 Consider the following exhaustive list of cases for the instruction associated with $N_j$:
 
