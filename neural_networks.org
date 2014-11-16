@@ -89,7 +89,7 @@ The perceptron can be defined as the function
 \label{eqn:perceptron}\phi_P(x) = \left\{ \begin{array}{lr} 0 & : x + b \leq 0 \\ 1 & : x + b > 0 \end{array} \right.
 \end{equation}
 where $b$ is a bias that is specific to the neuron.
-Notice that the bias $b$ of the perceptron is sometimes denoted by a number written inside neuron if displayed in an image.
+Notice that the bias $b$ of the perceptron is sometimes denoted by a number written inside the neuron if displayed in an image.
 # TODO add diagrams of the neurons
 
 The sigmoid function can be defined as
@@ -97,7 +97,7 @@ The sigmoid function can be defined as
 \label{eqn:sigmoid} \phi_S(x) = \sigma(x) = \frac{1}{1 + e^{-x}}
 \end{equation}
 Though bearing some resemblance to the perceptron, the sigmoid function has the advantage of being smooth and thus differentiable.
-These properties make training a neural network composed of sigmoid neurons much easier then a similar network composed of perceptron neurons.
+These properties make training a neural network composed of sigmoid neurons much easier than a similar network composed of perceptron neurons.
 
 \begin{figure}
 \includegraphics[width=4.5in]{example_neurons.png}
@@ -130,8 +130,8 @@ In the figure shown the output layer only contains one output neuron.
 It is possible to have more than one output from a neural network;
 for example, a binary number could be encoded in the outputs.
 
-If no neuron takes as input an output that the neuron affected (i.e. there are no cycles in the graph) then the network is called a /feed-forward/ network.
-If loops do exist then the network is referred to as /recurrent/.
+If no neuron takes as input an output that the neuron affected (i.e. there are no cycles in the graph), then the network is called a /feed-forward/ network.
+If loops do exist, then the network is referred to as /recurrent/.
 
 \begin{figure}
 \includegraphics{neural_network_diagram.png}
@@ -170,7 +170,7 @@ Compare the behavior of the network to that of the OR function: \\
 |     0 |     1 |                     1 |                         1 |      1 |               1 |
 |     1 |     0 |                     1 |                         1 |      1 |               1 |
 |     1 |     1 |                     2 |                         2 |      1 |               1 |
-Now, simply by changing the weights, the network output becomes equivalent to the OR function over the domain of OR.
+Now, simply by changing the bias, the network output becomes equivalent to the OR function over the domain of OR.
 
 Let's also consider NAND.
 Now let $\vec{w} = \left(\begin{smallmatrix} -1 \\ -1 \end{smallmatrix}\right)$ and $b=2$.
@@ -264,7 +264,7 @@ The third column contains the set of boolean functions that have been used so fa
 \begin{center}
 \begin{tabular}{r|l|l}
 Function & Equivalent Expression & Functions Used So Far \\ \hline
-$f_T$ & $x_1 \Leftrightarrow x_2$ & $\{\Leftrightarrow\}$ \\
+$f_T$ & $x_1 \Leftrightarrow x_1$ & $\{\Leftrightarrow\}$ \\
 $f_F$ & $x_1 \textrm{XOR} x_1$    & $\{\Leftrightarrow, \textrm{XOR}\}$ \\
 XOR   & $\lnot( x_1 \Leftrightarrow x_2 )$ & $\{\Leftrightarrow, \lnot\}$ \\
 $\Leftrightarrow$ & $(x_1 \Rightarrow x_2) \textrm{AND} (x_1 \Leftarrow x_2)$ & $\{\lnot, \textrm{AND}, \Rightarrow, \Leftarrow\}$ \\
@@ -531,7 +531,7 @@ Let $P$ be a program in $\mathbb{L}$. Let the network be constructed to implemen
 
 Induction Hypothesis:
 Let the network be in a legal state at the $k^{th}$ iteration,
-with the activated instruction neuron $N_j$ having an input of 1, with all instructions antecedent to instruction $j$ having been correctly executed.
+with the activated instruction neuron $N_j$ having an input of 1, with all instructions antecedent to instruction $j$ in the execution of the program having been correctly executed.
 Then the following will be shown: \\
 - 1) The instruction at line $j$ in the program will be executed. \\
 - 2) The network will be in a legal state after execution of the instruction at line $j$. \\
