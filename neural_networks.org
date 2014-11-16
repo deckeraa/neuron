@@ -398,17 +398,16 @@ The inputs to a neuron at iteration $k, k \geq 1$ can be written as equations, w
 These equations reflect the nature of a network constructed according to the above procedure.
 Let $N(k)$ be the output of the neuron $N$ at iteration $k$.
 # TODO the seperators in the second nested spot look like minus signs
-     - $V_i$ has an input of
+     - 1) $V_i$ has an input of
        V_i(k-1) + \Sigma_{a \in \textrm{inc}} N_a(k) - \Sigma_{b \in \textrm{dec}} N_b(k)
        at iteration $k$ where \textrm{inc} is the set of \texttt{inc} instructions referencing $V_i$ and \textrm{dec} is the set of \texttt{dec} instructions referencing $V_i$.
-     - $N_j$ has an input at iteration $k$ of 
-       - $I(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if $j=0$, 
-       - $N_{j-1}(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is an \texttt{inc}, \texttt{dec}, or \texttt{nop}
-       - $N''_{j-1}(k-1)+ \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is a \texttt{goto}. # TODO non-breaking line break
-       (\textrm{goto} is the set of lines that are \texttt{goto}s referencing $N_j$).
-     - $N'_j$ has an input of $N_j(k-1)$ at iteration $k$.
-     - $N''_j$ has an input of $N_j(k-1) - V(k-1)$ at iteration $k$ where $V$ is the variable referenced in the \texttt{goto} statement.
-     - $I$ has an input of $-I(k-1)$ at iteration $k$.
+     - 2) $N_j$ has an input at iteration $k$ of 
+       - a) $I(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if $j=0$, 
+       - b) $N_{j-1}(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is an \texttt{inc}, \texttt{dec}, or \texttt{nop}
+       - c) $N''_{j-1}(k-1)+ \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is a \texttt{goto}, where \textrm{goto} is the set of lines that are \texttt{goto}s referencing $N_j$.
+     - 3) $N'_j$ has an input of $N_j(k-1)$ at iteration $k$.
+     - 4) $N''_j$ has an input of $N_j(k-1) - V(k-1)$ at iteration $k$ where $V$ is the variable referenced in the \texttt{goto} statement.
+     - 5) $I$ has an input of $-I(k-1)$ at iteration $k$.
 # Also note that the box labeled "Initial State" outputs 1 during the calculation of the first iteration and outputs 0 afterward.
 
 # Thus the aggregate input to each neuron is as follows:
@@ -465,7 +464,7 @@ Position on bus & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\
 8 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
 \end{tabular}
 \end{center}
-\caption{Value of each position on bus at each iteration.}
+\caption{Inputs of each position on bus at each iteration.}
 \label{table:example-prog-iteration-table}
 \end{figure}
 # |                 | Iteration |   |   |   |   |   |   |   |   |   |
@@ -485,11 +484,11 @@ Position on bus & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\
 *** States of the Network
 \begin{defn}
 A neural network's state is \textit{initial} provided that: \\
-   - The output of $I$ is set to 1. \\
-   - The output of all variable neurons is set to their initial value as given in the program in $\mathbb{L}$. \\
-   - All other neurons have an output of 0.
+   - The input of $I$ is 1. \\
+   - The input of all variable neurons is  their initial value as given in the program in $\mathbb{L}$. \\
+   - All other neurons have an input of 0.
 \end{defn}
-The values at the $0^{\textrm{th}}$ iteration must be set so that the network is in the /initial/ state.
+The inputs at the $0^{\textrm{th}}$ iteration must be set so that the network is in the /initial/ state.
 
 \begin{defn}
 A neural network's state is \textit{legal} provided that: \\
@@ -506,7 +505,7 @@ A neural network's state is \textit{transitory} provided that: \\
 
 \begin{defn}
 A neural network's state is \textit{final} provided that: \\
-- All transition and instruction nodes have an output of 0.
+- All transition and instruction nodes have an input of 0.
 \end{defn}
 
 If the network is in the final state then execution halts.
@@ -528,32 +527,23 @@ Consequently recurrent neural networks are Turing-complete.
 
 \begin{proof}
 ~\\\textit{Base Case:}\\
-Assume that the network is in the initial state at the $k^{th}$ iteration then: \\
-$\left\{ \begin{array}{l} I(0) = 1 \\ N_0(0) = 0 \end{array} \right.$ \\
-Therefore: \\
-$\left\{ \begin{array}{l} I(1) = 0 \\ N_0(1) = 1 \end{array} \right.$ \\
-All variable neurons are set to the correct values by the definition of the initial state.
-All other neurons are set to zero.
-The network is in a legal state and the first instruction neuron, $N_0$, outputs 1, which indicates that
-the program is starting execution at the correct line.
+By the definition of the initial state, the following are true: \\
+- 1) The network is in a legal state. \\
+- 2) The instruction neuron corresponding to the first instruction in the program, $N_0$, has an input of 1. \\
+Thus the initialized network meets the requirements for the induction step. \\
 
 ~\\\textit{Induction Step:}\\
-Let the network constructed according to the directions above be in a legal state at the $k^{th}$ iteration. 
-Then one of the following two cases is true by the definition of a legal state: \\
-~\\\textit{Case One:}\\
-No instruction neuron has an input of 1. In this case the network is in the final state and execution of the program has halted.
-~\\\textit{Case Two:}\\
-A unique instruction neuron $N_j$ has an input of 1.
-In the induction step it will be shown that after iterating (once for \texttt{inc}, \texttt{dec}, and \texttt{nop}, twice for \texttt{goto}):\\
-- 1) the instruction at line $j$ in the program will be executed. \\
-- 2) the network will be in a legal state. \\
-- 3) the instruction neuron with an input of 1 will correspond to the next instruction in the execution of the program.
-  If the last instruction has been exectuted then no instruction neuron will have an input of 1 and the network will be in the final state (see Case One).
+Let the network constructed according to the directions above be in a legal state at the $k^{th}$ iteration,
+with the activated instruction neuron $N_j$ having an input of 1.
+Then the following will be shown: \\
+- 1) The instruction at line $j$ in the program will be executed. \\
+- 2) The network will be in a legal state after execution of the instruction at line $j$. \\
+- 3) The instruction neuron corresponding to the next instruction in the execution of the program will have an input of 1, or the network will be in the final state in which case execution halts. \\
 
 Let $V$ be the variable, if any, referenced by the instruction at line $j$.
 The output of a neuron $N$ at iteration $k$ will be denoted as $N(k)$.
 
-Note that the inputs for iteration $k+1$ are the outputs of iteration $k$.
+Note that the outputs of iteration $k$ are the inputs for iteration $k+1$.
 
 Consider the following exhaustive list of cases for the instruction associated with $N_j$:
 
