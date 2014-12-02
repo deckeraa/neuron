@@ -1,0 +1,120 @@
+#+TITLE:
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \usepackage{fullpage}
+#+LATEX_HEADER: \usepackage{amsthm}
+# #+LATEX_HEADER: \usepackage{indentfirst}
+#+OPTIONS: toc:nil
+#+BIND: org-export-latex-title-command ""
+#+LATEX: \setcounter{secnumdepth}{-1}
+#+LATEX: \setlength{\parindent}{0in}
+#+LATEX: \addtolength{\parskip}{\baselineskip}
+#+LATEX: \hypersetup{hidelinks=true}
+
+#+LATEX: \newcommand{\reals}{\mathbb{R}}
+#+LATEX: \newcommand{\ints}{\mathbb{Z}}
+#+LATEX: \newcommand{\rplus}{\mathbb{R^+}}
+#+LATEX: \newcommand{\zplus}{\mathbb{Z^+}}
+#+LATEX: \newcommand{\naturals}{\mathbb{N}}
+#+LATEX: \newcommand{\rats}{\mathbb{Q}}
+#+LATEX: \newcommand{\cees}{\mathbb{C}}
+#+LATEX: \newcommand{\ncol}[1]{\left(\begin{smallmatrix}#1\end{smallmatrix}\right) }
+
+#+LATEX: \widowpenalty=300
+#+LATEX: \clubpenalty=300
+#+LATEX: \setlength{\parskip}{3ex plus 2ex minus 2ex}
+
+#+LATEX: \newtheorem*{example}{Example}
+#+LATEX: \theoremstyle{definition}
+#+LATEX: \newtheorem{defn}{Definition}
+#+LATEX: \newtheorem{theorem}{Theorem}
+
+# Setting up SLIME:
+# Open up the org file.
+# M-x slime-mode
+# Go to sbcl and eval (swank:create-server)
+# M-x slime
+# Use C-x C-e to eval, as Org takes most of the keybindings
+
+* 
+#+LATEX: \pagestyle{fancy}
+#+LATEX: \fancyhead{}
+#+LATEX: \rhead{\textit{Aaron Decker, \today}}
+#+LATEX: \lhead{\textit{Math Seminar}}
+#+LATEX: \small
+
+The following program \texttt{example-prog} in $\mathbb{L}$ will be implemented using a recurrent neural network:
+#+begin_src L
+0: dec V0
+1: inc V1
+2: if V0 != 0 goto 0
+3: nop
+#+end_src
+
+*** Equations
+Let $N(k)$ be the input of the neuron $N$ at iteration $k$.
+# TODO the seperators in the second nested spot look like minus signs
+     - 1) $V_i$ has an input of
+       V_i(k-1) + \Sigma_{a \in \textrm{inc}} N_a(k) - \Sigma_{b \in \textrm{dec}} N_b(k)
+       at iteration $k$ where \textrm{inc} is the set of \texttt{inc} instructions referencing $V_i$ and \textrm{dec} is the set of \texttt{dec} instructions referencing $V_i$.
+     - 2) $N_j$ has an input at iteration $k$ of 
+       - a) $N_{j-1}(k-1) + \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is an \texttt{inc}, \texttt{dec}, or \texttt{nop}
+       - b) $N''_{j-1}(k-1)+ \Sigma_{g \in goto}(N'_g(k-1) - N''_g(k-1))$ if line $j-1$ is a \texttt{goto}, where \textrm{goto} is the set of lines that are \texttt{goto}s referencing $N_j$.
+     - 3) $N'_j$ has an input of $N_j(k-1)$ at iteration $k$.
+     - 4) $N''_j$ has an input of $N_j(k-1) - V(k-1)$ at iteration $k$ where $V$ is the variable referenced in the \texttt{goto} statement.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=2.5in]{turing_example.png}
+\caption{The neural network for \texttt{example-prog}.}
+\label{fig:turing-example}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\begin{tabular}{r|rrrrrrrrrrr}
+ & Iteration &  &  &  &  &  &  &  &  & \\
+Position on bus & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+2 & 2 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+3 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+4 & 0 & 0 & 1 & 1 & 1 & 1 & 2 & 2 & 2 & 2 & 2\\
+5 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+6 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0\\
+7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+8 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+\end{tabular}
+\end{center}
+\caption{Inputs of each position on bus at each iteration.}
+\label{table:example-prog-iteration-table}
+\end{figure}
+
+*** States of the Network
+\begin{defn}
+A neural network's state is \textit{initial} provided that: \\
+   - The input of $N_0$ is 1. \\
+   - The input of all variable neurons is their initial value as given in the program in $\mathbb{L}$. \\
+   - All other neurons have an input of 0.
+\end{defn}
+The inputs at the $0^{\textrm{th}}$ iteration must be set so that the network is in the /initial/ state.
+
+\begin{defn}
+A neural network's state is \textit{legal} provided that: \\
+- At most one instruction neuron $N_j$ has an input of 1, the others have an input of 0. \\
+- All transition neuron $N'_j$ and $N''_j$ have an input of 0.
+\end{defn}
+
+\begin{defn}
+A neural network's state is \textit{transitory} provided that: \\
+- All instruction neurons $N_j$ input 0. \\
+- There exists a unique $j$ such that at least one of the transition neurons $N'_j$ and $N''_j$ input 1. \\
+- All other transition neurons have an input of 0.
+\end{defn}
+
+\begin{defn}
+A neural network's state is \textit{final} provided that: \\
+- All transition and instruction nodes have an input of 0.
+\end{defn}
+
